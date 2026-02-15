@@ -337,9 +337,9 @@ export const THEME_ID_VALUES = Object.values(THEME_IDS);
 ```typescript
 // localStorage キー定数
 export const STORAGE_KEYS = {
-  STATS: 'symbol-hab-stats',
-  SETTINGS: 'symbol-hab-settings',
-  DAILY_PLAYED: 'symbol-hab-daily-played'
+  STATS: 'tile-hab-stats',
+  SETTINGS: 'tile-hab-settings',
+  DAILY_PLAYED: 'tile-hab-daily-played'
 } as const;
 ```
 
