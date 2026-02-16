@@ -102,6 +102,19 @@
             transform: translateY(0);
         }
 
+        /* 言語切替ボタン（控えめ） */
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.5rem 0.75rem;
+        }
+
+        .lang-btn .arrow {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            margin-left: 0.25rem;
+        }
+
         /* ===== メインコンテンツ ===== */
         main {
             max-width: 1200px;
@@ -240,6 +253,61 @@
             font-size: 0.95rem;
             position: relative;
             z-index: 1;
+        }
+
+        /* 遊んだ記録カード */
+        .stats-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stats-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .stats-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 0.75rem;
+        }
+
+        .stats-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.25rem;
+        }
+
+        .stats-label {
+            font-size: 0.85rem;
+            color: #888;
         }
 
         /* モード選択グリッド */
@@ -563,7 +631,7 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* ===== フリープレイ画面 ===== */
+        /* ===== フリープレイ・デイリーチャレンジ画面 ===== */
         .game-container {
             max-width: 600px;
             margin: 0 auto;
@@ -578,7 +646,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .info-item {
@@ -595,6 +663,63 @@
             font-size: 1.5rem;
             font-weight: bold;
             color: #ffffff;
+        }
+
+        /* 円形プログレスバー */
+        .progress-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .circular-progress {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .circular-progress svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 8;
+        }
+
+        .progress-bar {
+            fill: none;
+            stroke: #4caf50;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;
+        }
+
+        .progress-bar.warning {
+            stroke: #ffc107;
+        }
+
+        .progress-bar.danger {
+            stroke: #f44336;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .progress-label {
+            font-size: 0.75rem;
+            color: #888;
         }
 
         .game-board {
@@ -709,6 +834,557 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
+        /* ===== ゲーム結果画面 ===== */
+        .result-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .result-hero {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-hero.win {
+            border-color: rgba(255, 215, 0, 0.5);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.1) 100%);
+        }
+
+        .result-hero.lose {
+            border-color: rgba(33, 150, 243, 0.5);
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(25, 118, 210, 0.1) 100%);
+        }
+
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: resultPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes resultPop {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .result-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-message {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .result-stat {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+        }
+
+        .result-stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .result-stat-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 0.25rem;
+        }
+
+        /* 試行履歴 */
+        .history-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .history-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .history-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .history-content.open {
+            max-height: 1000px;
+        }
+
+        .answer-reveal {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .answer-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+
+        /* シェアボタン */
+        .share-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .share-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            flex: 1;
+            min-width: 140px;
+            max-width: 180px;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .share-btn.x {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        .share-btn.x:hover {
+            background: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .share-btn.line {
+            background: #00B900;
+            color: #ffffff;
+        }
+
+        .share-btn.line:hover {
+            background: #00a000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 185, 0, 0.5);
+        }
+
+        .share-btn.threads {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            color: #ffffff;
+        }
+
+        .share-btn.threads:hover {
+            background: linear-gradient(135deg, #1a1a1a 0%, #444444 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== 設定モーダル ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: #ffffff;
+        }
+
+        .settings-group {
+            margin-bottom: 2rem;
+        }
+
+        .settings-group-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+        }
+
+        .setting-label {
+            font-size: 1rem;
+            color: #ffffff;
+        }
+
+        .setting-description {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 0.25rem;
+        }
+
+        /* トグルスイッチ */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #4caf50;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(24px);
+        }
+
+        /* ラジオボタン */
+        .radio-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 100px;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .radio-option.active {
+            background: rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .settings-links {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-link {
+            display: block;
+            padding: 0.75rem;
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            text-align: center;
+        }
+
+        .settings-link:hover {
+            color: #ffffff;
+        }
+
+        /* ===== 統計画面 ===== */
+        .stats-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stats-overview {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .stat-box-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-box-label {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* モード別統計 */
+        .mode-stats {
+            margin-bottom: 2rem;
+        }
+
+        .mode-stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .mode-stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .mode-stat-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mode-stat-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .mode-stat-item {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 0.75rem;
+        }
+
+        .mode-stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .mode-stat-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 0.25rem;
+        }
+
+        .win-rate-bar {
+            margin-top: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .win-rate-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50 0%, #45a049 100%);
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+
+        /* デイリー履歴 */
+        .daily-history {
+            margin-bottom: 2rem;
+        }
+
+        .daily-history-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .daily-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .daily-cell {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .daily-cell:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .daily-cell.win {
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+
+        .daily-cell.lose {
+            background: rgba(244, 67, 54, 0.3);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+        }
+
+        .daily-cell.empty {
+            opacity: 0.3;
+        }
+
         /* ===== レスポンシブ ===== */
         @media (max-width: 640px) {
             .game-title {
@@ -743,6 +1419,26 @@
                 flex-direction: column;
                 gap: 0.75rem;
             }
+
+            .stats-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .share-buttons {
+                flex-direction: column;
+            }
+
+            .share-btn {
+                max-width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .daily-calendar {
+                grid-template-columns: repeat(5, 1fr);
+            }
         }
 
         @media (min-width: 641px) and (max-width: 1024px) {
@@ -761,8 +1457,8 @@
             <h1 class="header-title" id="headerTitle"></h1>
         </div>
         <div class="header-right">
-            <button class="icon-btn" id="langBtn" aria-label="言語切替">
-                🌐 JA ▼
+            <button class="icon-btn lang-btn" id="langBtn" aria-label="言語切替">
+                🌐 JA<span class="arrow">▼</span>
             </button>
             <button class="icon-btn" id="settingsBtn" aria-label="設定">
                 ⚙️
@@ -784,7 +1480,7 @@
             </div>
 
             <!-- デイリーチャレンジ -->
-            <article class="daily-challenge" onclick="showScreen('freeplay')">
+            <article class="daily-challenge" onclick="showScreen('daily')">
                 <div class="daily-header">
                     <div class="daily-title">
                         📅 今日の問題
@@ -795,6 +1491,28 @@
                     ノーマルモード｜4桁・重複なし・8回まで<br>
                     1日1回のチャレンジ！
                 </p>
+            </article>
+
+            <!-- 遊んだ記録カード -->
+            <article class="stats-card" onclick="showScreen('stats')">
+                <div class="stats-header">
+                    <div class="stats-title">遊んだ記録</div>
+                    <div style="color: #667eea;">→</div>
+                </div>
+                <div class="stats-summary">
+                    <div class="stats-item">
+                        <div class="stats-value">42</div>
+                        <div class="stats-label">プレイ数</div>
+                    </div>
+                    <div class="stats-item">
+                        <div class="stats-value">28</div>
+                        <div class="stats-label">勝利数</div>
+                    </div>
+                    <div class="stats-item">
+                        <div class="stats-value">66.7%</div>
+                        <div class="stats-label">勝率</div>
+                    </div>
+                </div>
             </article>
 
             <!-- モード選択 -->
@@ -894,7 +1612,7 @@
                     </article>
 
                     <article class="tutorial-step">
-                        <h3 class="step-title">💡 ヒント・ブローの仕組み</h3>
+                        <h3 class="step-title">💡 ヒット・ブローの仕組み</h3>
                         <p class="step-description">
                             推測するたびに、2種類のヒントが表示されます：
                         </p>
@@ -971,9 +1689,92 @@
                 <!-- ゲーム情報 -->
                 <div class="game-info">
                     <div class="info-item">
-                        <div class="info-label">残り回数</div>
-                        <div class="info-value">8/8</div>
+                        <div class="info-label">モード</div>
+                        <div class="info-value">ノーマル</div>
                     </div>
+                    <div class="info-item">
+                        <div class="info-label">桁数</div>
+                        <div class="info-value">4桁</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">重複</div>
+                        <div class="info-value">なし</div>
+                    </div>
+
+                    <!-- 円形プログレスバー -->
+                    <div class="progress-container" style="grid-column: 1 / -1;">
+                        <div class="circular-progress">
+                            <svg width="100" height="100">
+                                <circle class="progress-bg" cx="50" cy="50" r="42" />
+                                <circle class="progress-bar" cx="50" cy="50" r="42"
+                                    stroke-dasharray="264"
+                                    stroke-dashoffset="33" />
+                            </svg>
+                            <div class="progress-text">
+                                <div class="progress-value">7/8</div>
+                                <div class="progress-label">回</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ゲームボード -->
+                <div class="game-board">
+                    <!-- 推測履歴 -->
+                    <div class="guess-history">
+                        <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">これまでの推測</h3>
+                        
+                        <div class="guess-row">
+                            <div class="guess-tiles">
+                                <div class="tile star">★</div>
+                                <div class="tile heart">♥</div>
+                                <div class="tile circle">●</div>
+                                <div class="tile square">■</div>
+                            </div>
+                            <div class="guess-result">
+                                <span class="hit-count">ヒット: 2</span>
+                                <span class="blow-count">ブロー: 1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 現在の推測 -->
+                    <div class="current-guess">
+                        <div class="current-guess-label">タイルを選んで並べてください</div>
+                        <div class="tiles-row">
+                            <div class="tile star">★</div>
+                            <div class="tile diamond">◆</div>
+                            <div class="tile circle">●</div>
+                            <div class="tile square">■</div>
+                        </div>
+                    </div>
+
+                    <!-- タイルパレット -->
+                    <div class="tile-palette">
+                        <div class="tile star">★</div>
+                        <div class="tile circle">●</div>
+                        <div class="tile triangle">▲</div>
+                        <div class="tile square">■</div>
+                        <div class="tile diamond">◆</div>
+                        <div class="tile spade">♠</div>
+                        <div class="tile heart">♥</div>
+                        <div class="tile club">♣</div>
+                    </div>
+
+                    <!-- アクション -->
+                    <div class="game-actions">
+                        <button class="btn-clear">クリア</button>
+                        <button class="btn-submit" onclick="showScreen('result-win')">推測する</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== デイリーチャレンジ画面 ========== -->
+        <section class="screen" id="dailyScreen">
+            <div class="game-container">
+                <!-- ゲーム情報 -->
+                <div class="game-info">
                     <div class="info-item">
                         <div class="info-label">モード</div>
                         <div class="info-value">ノーマル</div>
@@ -981,6 +1782,26 @@
                     <div class="info-item">
                         <div class="info-label">桁数</div>
                         <div class="info-value">4桁</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">重複</div>
+                        <div class="info-value">なし</div>
+                    </div>
+
+                    <!-- 円形プログレスバー -->
+                    <div class="progress-container" style="grid-column: 1 / -1;">
+                        <div class="circular-progress">
+                            <svg width="100" height="100">
+                                <circle class="progress-bg" cx="50" cy="50" r="42" />
+                                <circle class="progress-bar warning" cx="50" cy="50" r="42"
+                                    stroke-dasharray="264"
+                                    stroke-dashoffset="132" />
+                            </svg>
+                            <div class="progress-text">
+                                <div class="progress-value">4/8</div>
+                                <div class="progress-label">回</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1015,6 +1836,32 @@
                                 <span class="blow-count">ブロー: 0</span>
                             </div>
                         </div>
+
+                        <div class="guess-row">
+                            <div class="guess-tiles">
+                                <div class="tile star">★</div>
+                                <div class="tile spade">♠</div>
+                                <div class="tile club">♣</div>
+                                <div class="tile square">■</div>
+                            </div>
+                            <div class="guess-result">
+                                <span class="hit-count">ヒット: 2</span>
+                                <span class="blow-count">ブロー: 1</span>
+                            </div>
+                        </div>
+
+                        <div class="guess-row">
+                            <div class="guess-tiles">
+                                <div class="tile star">★</div>
+                                <div class="tile club">♣</div>
+                                <div class="tile spade">♠</div>
+                                <div class="tile square">■</div>
+                            </div>
+                            <div class="guess-result">
+                                <span class="hit-count">ヒット: 3</span>
+                                <span class="blow-count">ブロー: 0</span>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 現在の推測 -->
@@ -1022,7 +1869,7 @@
                         <div class="current-guess-label">タイルを選んで並べてください</div>
                         <div class="tiles-row">
                             <div class="tile star">★</div>
-                            <div class="tile diamond">◆</div>
+                            <div class="tile club">♣</div>
                             <div class="tile circle">●</div>
                             <div class="tile square">■</div>
                         </div>
@@ -1043,9 +1890,357 @@
                     <!-- アクション -->
                     <div class="game-actions">
                         <button class="btn-clear">クリア</button>
-                        <button class="btn-submit">推測する</button>
+                        <button class="btn-submit" onclick="showScreen('result-win')">推測する</button>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- ========== ゲーム結果画面（勝利） ========== -->
+        <section class="screen" id="resultWinScreen">
+            <div class="result-container">
+                <!-- 結果ヒーロー -->
+                <div class="result-hero win">
+                    <div class="result-icon">🏆</div>
+                    <h2 class="result-title">クリア！</h2>
+                    <p class="result-message">素晴らしい推理力です！</p>
+                    <div class="result-stats">
+                        <div class="result-stat">
+                            <div class="result-stat-value">5回</div>
+                            <div class="result-stat-label">試行回数</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-stat-value">ノーマル</div>
+                            <div class="result-stat-label">モード</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 試行履歴 -->
+                <div class="history-section">
+                    <div class="history-header" onclick="toggleHistory()">
+                        <h3 class="history-title">試行履歴を見る</h3>
+                        <span class="toggle-icon" id="historyToggle">▼</span>
+                    </div>
+                    <div class="history-content" id="historyContent">
+                        <div class="answer-reveal">
+                            <div class="answer-label">正解</div>
+                            <div class="tiles-row">
+                                <div class="tile star">★</div>
+                                <div class="tile club">♣</div>
+                                <div class="tile circle">●</div>
+                                <div class="tile square">■</div>
+                            </div>
+                        </div>
+
+                        <div class="guess-history">
+                            <div class="guess-row">
+                                <div class="guess-tiles">
+                                    <div class="tile star">★</div>
+                                    <div class="tile heart">♥</div>
+                                    <div class="tile circle">●</div>
+                                    <div class="tile square">■</div>
+                                </div>
+                                <div class="guess-result">
+                                    <span class="hit-count">ヒット: 3</span>
+                                    <span class="blow-count">ブロー: 0</span>
+                                </div>
+                            </div>
+
+                            <div class="guess-row">
+                                <div class="guess-tiles">
+                                    <div class="tile star">★</div>
+                                    <div class="tile diamond">◆</div>
+                                    <div class="tile circle">●</div>
+                                    <div class="tile square">■</div>
+                                </div>
+                                <div class="guess-result">
+                                    <span class="hit-count">ヒット: 3</span>
+                                    <span class="blow-count">ブロー: 0</span>
+                                </div>
+                            </div>
+
+                            <div class="guess-row">
+                                <div class="guess-tiles">
+                                    <div class="tile star">★</div>
+                                    <div class="tile spade">♠</div>
+                                    <div class="tile circle">●</div>
+                                    <div class="tile square">■</div>
+                                </div>
+                                <div class="guess-result">
+                                    <span class="hit-count">ヒット: 3</span>
+                                    <span class="blow-count">ブロー: 0</span>
+                                </div>
+                            </div>
+
+                            <div class="guess-row">
+                                <div class="guess-tiles">
+                                    <div class="tile star">★</div>
+                                    <div class="tile club">♣</div>
+                                    <div class="tile triangle">▲</div>
+                                    <div class="tile square">■</div>
+                                </div>
+                                <div class="guess-result">
+                                    <span class="hit-count">ヒット: 3</span>
+                                    <span class="blow-count">ブロー: 0</span>
+                                </div>
+                            </div>
+
+                            <div class="guess-row">
+                                <div class="guess-tiles">
+                                    <div class="tile star">★</div>
+                                    <div class="tile club">♣</div>
+                                    <div class="tile circle">●</div>
+                                    <div class="tile square">■</div>
+                                </div>
+                                <div class="guess-result">
+                                    <span class="hit-count">ヒット: 4</span>
+                                    <span class="blow-count">ブロー: 0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- シェアセクション -->
+                <div class="share-section">
+                    <h3 class="share-title">結果をシェア</h3>
+                    <div class="share-buttons">
+                        <button class="share-btn x" onclick="alert('Xでシェア')">
+                            𝕏 X
+                        </button>
+                        <button class="share-btn line" onclick="alert('LINEでシェア')">
+                            LINE
+                        </button>
+                        <button class="share-btn threads" onclick="alert('Threadsでシェア')">
+                            Threads
+                        </button>
+                    </div>
+                </div>
+
+                <!-- アクション -->
+                <div class="result-actions">
+                    <button class="btn btn-primary" onclick="showScreen('home')">
+                        ホームに戻る
+                    </button>
+                    <button class="btn btn-secondary" onclick="showScreen('freeplay')">
+                        もう一度プレイ
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== ゲーム結果画面（敗北） ========== -->
+        <section class="screen" id="resultLoseScreen">
+            <div class="result-container">
+                <!-- 結果ヒーロー -->
+                <div class="result-hero lose">
+                    <div class="result-icon">💧</div>
+                    <h2 class="result-title">残念...</h2>
+                    <p class="result-message">次は成功できますよ！</p>
+                    <div class="result-stats">
+                        <div class="result-stat">
+                            <div class="result-stat-value">8回</div>
+                            <div class="result-stat-label">試行回数</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-stat-value">ノーマル</div>
+                            <div class="result-stat-label">モード</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 試行履歴 -->
+                <div class="history-section">
+                    <div class="history-header" onclick="toggleHistoryLose()">
+                        <h3 class="history-title">試行履歴を見る</h3>
+                        <span class="toggle-icon" id="historyToggleLose">▼</span>
+                    </div>
+                    <div class="history-content" id="historyContentLose">
+                        <div class="answer-reveal">
+                            <div class="answer-label">正解は...</div>
+                            <div class="tiles-row">
+                                <div class="tile star">★</div>
+                                <div class="tile club">♣</div>
+                                <div class="tile spade">♠</div>
+                                <div class="tile square">■</div>
+                            </div>
+                        </div>
+
+                        <div class="guess-history">
+                            <div class="guess-row">
+                                <div class="guess-tiles">
+                                    <div class="tile star">★</div>
+                                    <div class="tile heart">♥</div>
+                                    <div class="tile circle">●</div>
+                                    <div class="tile square">■</div>
+                                </div>
+                                <div class="guess-result">
+                                    <span class="hit-count">ヒット: 2</span>
+                                    <span class="blow-count">ブロー: 0</span>
+                                </div>
+                            </div>
+                            <!-- 他の履歴も同様に... -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- アクション -->
+                <div class="result-actions">
+                    <button class="btn btn-primary" onclick="showScreen('home')">
+                        ホームに戻る
+                    </button>
+                    <button class="btn btn-secondary" onclick="showScreen('freeplay')">
+                        もう一度プレイ
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 統計画面 ========== -->
+        <section class="screen" id="statsScreen">
+            <div class="stats-container">
+                <!-- 全体統計 -->
+                <div class="stats-overview">
+                    <h3 class="section-title">全体統計</h3>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-box-value">42</div>
+                            <div class="stat-box-label">総プレイ数</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">28</div>
+                            <div class="stat-box-label">勝利数</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">66.7%</div>
+                            <div class="stat-box-label">勝率</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">5.2回</div>
+                            <div class="stat-box-label">平均試行回数</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- モード別統計 -->
+                <section class="mode-stats">
+                    <h3 class="section-title">モード別統計</h3>
+                    
+                    <!-- ビギナー -->
+                    <article class="mode-stat-card">
+                        <div class="mode-stat-header">
+                            <div class="mode-stat-name">
+                                <span>🎯</span>
+                                ビギナー
+                            </div>
+                        </div>
+                        <div class="mode-stat-details">
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">15</div>
+                                <div class="mode-stat-label">プレイ数</div>
+                            </div>
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">12</div>
+                                <div class="mode-stat-label">勝利数</div>
+                            </div>
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">80%</div>
+                                <div class="mode-stat-label">勝率</div>
+                            </div>
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">4.2回</div>
+                                <div class="mode-stat-label">平均試行</div>
+                            </div>
+                        </div>
+                        <div class="win-rate-bar">
+                            <div class="win-rate-fill" style="width: 80%;"></div>
+                        </div>
+                    </article>
+
+                    <!-- ノーマル -->
+                    <article class="mode-stat-card">
+                        <div class="mode-stat-header">
+                            <div class="mode-stat-name">
+                                <span>⚡</span>
+                                ノーマル
+                            </div>
+                        </div>
+                        <div class="mode-stat-details">
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">20</div>
+                                <div class="mode-stat-label">プレイ数</div>
+                            </div>
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">13</div>
+                                <div class="mode-stat-label">勝利数</div>
+                            </div>
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">65%</div>
+                                <div class="mode-stat-label">勝率</div>
+                            </div>
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">5.8回</div>
+                                <div class="mode-stat-label">平均試行</div>
+                            </div>
+                        </div>
+                        <div class="win-rate-bar">
+                            <div class="win-rate-fill" style="width: 65%;"></div>
+                        </div>
+                    </article>
+
+                    <!-- ハード -->
+                    <article class="mode-stat-card">
+                        <div class="mode-stat-header">
+                            <div class="mode-stat-name">
+                                <span>🔥</span>
+                                ハード
+                            </div>
+                        </div>
+                        <div class="mode-stat-details">
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">7</div>
+                                <div class="mode-stat-label">プレイ数</div>
+                            </div>
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">3</div>
+                                <div class="mode-stat-label">勝利数</div>
+                            </div>
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">42.9%</div>
+                                <div class="mode-stat-label">勝率</div>
+                            </div>
+                            <div class="mode-stat-item">
+                                <div class="mode-stat-value">7.5回</div>
+                                <div class="mode-stat-label">平均試行</div>
+                            </div>
+                        </div>
+                        <div class="win-rate-bar">
+                            <div class="win-rate-fill" style="width: 42.9%;"></div>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- デイリーチャレンジ履歴 -->
+                <section class="daily-history">
+                    <h3 class="daily-history-title">デイリーチャレンジ履歴</h3>
+                    <div class="daily-calendar">
+                        <div class="daily-cell win" title="2024-01-15: 勝利">15</div>
+                        <div class="daily-cell lose" title="2024-01-16: 敗北">16</div>
+                        <div class="daily-cell win" title="2024-01-17: 勝利">17</div>
+                        <div class="daily-cell win" title="2024-01-18: 勝利">18</div>
+                        <div class="daily-cell empty">19</div>
+                        <div class="daily-cell win" title="2024-01-20: 勝利">20</div>
+                        <div class="daily-cell lose" title="2024-01-21: 敗北">21</div>
+                        <div class="daily-cell win" title="2024-01-22: 勝利">22</div>
+                        <div class="daily-cell win" title="2024-01-23: 勝利">23</div>
+                        <div class="daily-cell win" title="2024-01-24: 勝利">24</div>
+                        <div class="daily-cell empty">25</div>
+                        <div class="daily-cell empty">26</div>
+                        <div class="daily-cell empty">27</div>
+                        <div class="daily-cell empty">28</div>
+                    </div>
+                </section>
             </div>
         </section>
     </main>
@@ -1053,13 +2248,84 @@
     <!-- フッター（ホーム画面のみ） -->
     <footer id="footer">
         <div class="footer-links">
-            <button class="footer-btn" onclick="alert('統計ページへ')">📊 統計</button>
-            <button class="footer-btn" onclick="showScreen('tutorial')">❓ 遊び方</button>
+            <button class="footer-btn" onclick="showScreen('tutorial')">遊び方</button>
             <a href="#" class="footer-btn">利用規約</a>
             <a href="#" class="footer-btn">プライバシーポリシー</a>
         </div>
         <p class="footer-text">© 2024 Tile Hit and Blow</p>
     </footer>
+
+    <!-- ========== 設定モーダル ========== -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">設定</h2>
+                <button class="modal-close" onclick="closeSettings()" aria-label="閉じる">✕</button>
+            </div>
+
+            <!-- 表示設定 -->
+            <div class="settings-group">
+                <h3 class="settings-group-title">表示設定</h3>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">テーマ</div>
+                    </div>
+                </div>
+                <div class="radio-group" style="margin-top: 0.5rem;">
+                    <div class="radio-option active">ライト</div>
+                    <div class="radio-option">ダーク</div>
+                    <div class="radio-option">システム</div>
+                </div>
+
+                <div class="setting-item" style="margin-top: 1rem;">
+                    <div>
+                        <div class="setting-label">言語 / Language</div>
+                    </div>
+                </div>
+                <div class="radio-group" style="margin-top: 0.5rem;">
+                    <div class="radio-option active">日本語</div>
+                    <div class="radio-option">English</div>
+                </div>
+            </div>
+
+            <!-- サウンド設定 -->
+            <div class="settings-group">
+                <h3 class="settings-group-title">サウンド</h3>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">効果音</div>
+                        <div class="setting-description">タイル選択時の音など</div>
+                    </div>
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 通知設定 -->
+            <div class="settings-group">
+                <h3 class="settings-group-title">通知</h3>
+                
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">デイリーチャレンジ通知</div>
+                        <div class="setting-description">毎日リマインド（Phase 2で実装予定）</div>
+                    </div>
+                    <div class="toggle-switch" onclick="toggleSwitch(this)">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- リンク -->
+            <div class="settings-links">
+                <a href="#" class="settings-link">利用規約</a>
+                <a href="#" class="settings-link">プライバシーポリシー</a>
+            </div>
+        </div>
+    </div>
 
     <script>
         // 画面切り替え
@@ -1071,7 +2337,11 @@
             const screenMap = {
                 'home': 'homeScreen',
                 'tutorial': 'tutorialScreen',
-                'freeplay': 'freeplayScreen'
+                'freeplay': 'freeplayScreen',
+                'daily': 'dailyScreen',
+                'result-win': 'resultWinScreen',
+                'result-lose': 'resultLoseScreen',
+                'stats': 'statsScreen'
             };
             
             document.getElementById(screenMap[screenName]).classList.add('active');
@@ -1092,11 +2362,15 @@
                 logoText.style.display = 'none';
                 footer.style.display = 'none';
                 
-                if (screenName === 'tutorial') {
-                    headerTitle.textContent = 'チュートリアル';
-                } else if (screenName === 'freeplay') {
-                    headerTitle.textContent = 'フリープレイ - ノーマル';
-                }
+                const titles = {
+                    'tutorial': 'チュートリアル',
+                    'freeplay': 'フリープレイ - ノーマル',
+                    'daily': '今日の問題',
+                    'result-win': 'ゲーム結果',
+                    'result-lose': 'ゲーム結果',
+                    'stats': '遊んだ記録'
+                };
+                headerTitle.textContent = titles[screenName] || '';
             }
             
             // トップへスクロール
@@ -1108,9 +2382,33 @@
             showScreen('home');
         });
         
-        // 設定ボタン
+        // 設定モーダル
         document.getElementById('settingsBtn').addEventListener('click', () => {
-            alert('設定モーダルを表示（未実装）');
+            document.getElementById('settingsModal').classList.add('active');
+        });
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        // モーダル外クリックで閉じる
+        document.getElementById('settingsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'settingsModal') {
+                closeSettings();
+            }
+        });
+        
+        // トグルスイッチ
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+
+        // ラジオオプション
+        document.querySelectorAll('.radio-option').forEach(option => {
+            option.addEventListener('click', function() {
+                this.parentElement.querySelectorAll('.radio-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+            });
         });
         
         // 言語切替ボタン
@@ -1118,10 +2416,29 @@
             alert('言語切替（未実装）');
         });
         
-        // ESCキーでホームに戻る
+        // 試行履歴の開閉
+        function toggleHistory() {
+            const content = document.getElementById('historyContent');
+            const toggle = document.getElementById('historyToggle');
+            content.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+
+        function toggleHistoryLose() {
+            const content = document.getElementById('historyContentLose');
+            const toggle = document.getElementById('historyToggleLose');
+            content.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+        
+        // ESCキーでモーダルを閉じる、またはホームに戻る
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                showScreen('home');
+                if (document.getElementById('settingsModal').classList.contains('active')) {
+                    closeSettings();
+                } else {
+                    showScreen('home');
+                }
             }
         });
     </script>
