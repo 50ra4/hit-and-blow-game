@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タイルヒットアンドブロー - Tile Hit and Blow</title>
+    <style>
+        /* ===== リセット & ベーススタイル ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== ヘッダー ===== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(26, 26, 46, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ===== メインコンテンツ ===== */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== 画面切り替え ===== */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* ===== ホーム画面 ===== */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .game-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .game-subtitle {
+            font-size: 1rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+        }
+
+        /* チュートリアルボタン（初回専用） */
+        .tutorial-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: #ffffff;
+            padding: 1.25rem 2rem;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .tutorial-highlight:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.6);
+        }
+
+        /* デイリーチャレンジ */
+        .daily-challenge {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 165, 0, 0.2) 100%);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .daily-challenge::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .daily-challenge:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
+            border-color: rgba(255, 215, 0, 0.8);
+        }
+
+        .daily-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .daily-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .daily-badge {
+            background: rgba(255, 215, 0, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+        }
+
+        .daily-description {
+            color: #d0d0d0;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* モード選択グリッド */
+        .modes-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .mode-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .mode-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+
+        .mode-card.locked:hover {
+            transform: none;
+        }
+
+        .mode-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .mode-icon {
+            font-size: 2.5rem;
+        }
+
+        .mode-lock {
+            font-size: 1.5rem;
+        }
+
+        .mode-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-details {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .mode-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-top: 0.75rem;
+            font-weight: 600;
+        }
+
+        .mode-card.beginner { border-color: rgba(76, 175, 80, 0.5); }
+        .mode-card.beginner .mode-badge { background: rgba(76, 175, 80, 0.3); color: #4caf50; }
+
+        .mode-card.normal { border-color: rgba(33, 150, 243, 0.5); }
+        .mode-card.normal .mode-badge { background: rgba(33, 150, 243, 0.3); color: #2196f3; }
+
+        .mode-card.hard { border-color: rgba(255, 152, 0, 0.5); }
+        .mode-card.hard .mode-badge { background: rgba(255, 152, 0, 0.3); color: #ff9800; }
+
+        .mode-card.expert { border-color: rgba(156, 39, 176, 0.5); }
+        .mode-card.expert .mode-badge { background: rgba(156, 39, 176, 0.3); color: #9c27b0; }
+
+        .mode-card.master { border-color: rgba(244, 67, 54, 0.5); }
+        .mode-card.master .mode-badge { background: rgba(244, 67, 54, 0.3); color: #f44336; }
+
+        /* ===== フッター ===== */
+        footer {
+            max-width: 1200px;
+            margin: 4rem auto 2rem;
+            padding: 2rem 1.5rem 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .footer-btn:hover {
+            color: #ffffff;
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* ===== タイル ===== */
+        .tile {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tile:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .tile:hover::before {
+            opacity: 1;
+        }
+
+        .tile:active {
+            transform: scale(0.95);
+        }
+
+        .tile.selected {
+            animation: tileSelect 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        @keyframes tileSelect {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.9); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* 各タイルの配色 */
+        .tile.star { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #8B4513; }
+        .tile.circle { background: linear-gradient(135deg, #4FC3F7 0%, #0288D1 100%); color: #ffffff; }
+        .tile.triangle { background: linear-gradient(135deg, #FF5252 0%, #D32F2F 100%); color: #ffffff; }
+        .tile.square { background: linear-gradient(135deg, #66BB6A 0%, #388E3C 100%); color: #ffffff; }
+        .tile.diamond { background: linear-gradient(135deg, #BA68C8 0%, #7B1FA2 100%); color: #ffffff; }
+        .tile.spade { background: linear-gradient(135deg, #78909C 0%, #455A64 100%); color: #ffffff; }
+        .tile.heart { background: linear-gradient(135deg, #F06292 0%, #C2185B 100%); color: #ffffff; }
+        .tile.club { background: linear-gradient(135deg, #26A69A 0%, #00796B 100%); color: #ffffff; }
+
+        /* ===== チュートリアル画面 ===== */
+        .tutorial-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tutorial-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .tutorial-step {
+            margin-bottom: 2rem;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #f093fb;
+        }
+
+        .step-description {
+            color: #d0d0d0;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-visual {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .tiles-row {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .result-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin: 0.5rem;
+        }
+
+        .result-indicator.hit {
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+
+        .result-indicator.blow {
+            background: rgba(255, 193, 7, 0.3);
+            border: 1px solid rgba(255, 193, 7, 0.5);
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            background: #667eea;
+            width: 32px;
+            border-radius: 6px;
+        }
+
+        .tutorial-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ===== フリープレイ画面 ===== */
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .game-board {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .guess-history {
+            margin-bottom: 2rem;
+        }
+
+        .guess-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+        }
+
+        .guess-tiles {
+            display: flex;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .guess-result {
+            display: flex;
+            gap: 1rem;
+            font-weight: bold;
+        }
+
+        .hit-count {
+            color: #4caf50;
+        }
+
+        .blow-count {
+            color: #ffc107;
+        }
+
+        .current-guess {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .current-guess-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .tile-palette {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .game-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-submit {
+            flex: 1;
+            max-width: 200px;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: #ffffff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.6);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-clear {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-clear:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ===== レスポンシブ ===== */
+        @media (max-width: 640px) {
+            .game-title {
+                font-size: 2rem;
+            }
+
+            .modes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tile {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .tile-palette {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.75rem;
+            }
+
+            .game-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header-title {
+                font-size: 1rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .modes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <div class="header-left">
+            <button class="back-btn" id="backBtn" aria-label="戻る">←</button>
+            <div class="logo" id="logoText">🎯 Tile H&B</div>
+            <h1 class="header-title" id="headerTitle"></h1>
+        </div>
+        <div class="header-right">
+            <button class="icon-btn" id="langBtn" aria-label="言語切替">
+                🌐 JA ▼
+            </button>
+            <button class="icon-btn" id="settingsBtn" aria-label="設定">
+                ⚙️
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- ========== ホーム画面 ========== -->
+        <section class="screen active" id="homeScreen">
+            <div class="hero">
+                <h2 class="game-title">タイルヒットアンドブロー</h2>
+                <p class="game-subtitle">シンボルを使った推理ゲーム</p>
+                
+                <!-- 初回専用チュートリアル -->
+                <button class="tutorial-highlight" onclick="showScreen('tutorial')">
+                    ❓ 初めての方へ - 遊び方を見る
+                </button>
+            </div>
+
+            <!-- デイリーチャレンジ -->
+            <article class="daily-challenge" onclick="showScreen('freeplay')">
+                <div class="daily-header">
+                    <div class="daily-title">
+                        📅 今日の問題
+                        <span class="daily-badge">全員共通</span>
+                    </div>
+                </div>
+                <p class="daily-description">
+                    ノーマルモード｜4桁・重複なし・8回まで<br>
+                    1日1回のチャレンジ！
+                </p>
+            </article>
+
+            <!-- モード選択 -->
+            <section class="modes-section">
+                <h3 class="section-title">フリープレイ - モード選択</h3>
+                <div class="modes-grid">
+                    <!-- ビギナー -->
+                    <article class="mode-card beginner" onclick="showScreen('freeplay')">
+                        <div class="mode-header">
+                            <div class="mode-icon">🎯</div>
+                        </div>
+                        <h4 class="mode-name">ビギナー</h4>
+                        <p class="mode-details">
+                            3桁・重複なし・6回まで<br>
+                            初心者におすすめ
+                        </p>
+                        <span class="mode-badge">EASY</span>
+                    </article>
+
+                    <!-- ノーマル -->
+                    <article class="mode-card normal" onclick="showScreen('freeplay')">
+                        <div class="mode-header">
+                            <div class="mode-icon">⚡</div>
+                        </div>
+                        <h4 class="mode-name">ノーマル</h4>
+                        <p class="mode-details">
+                            4桁・重複なし・8回まで<br>
+                            標準的な難易度
+                        </p>
+                        <span class="mode-badge">NORMAL</span>
+                    </article>
+
+                    <!-- ハード -->
+                    <article class="mode-card hard" onclick="showScreen('freeplay')">
+                        <div class="mode-header">
+                            <div class="mode-icon">🔥</div>
+                        </div>
+                        <h4 class="mode-name">ハード</h4>
+                        <p class="mode-details">
+                            4桁・重複あり・10回まで<br>
+                            推理力が試される
+                        </p>
+                        <span class="mode-badge">HARD</span>
+                    </article>
+
+                    <!-- エキスパート（未解放） -->
+                    <article class="mode-card expert locked">
+                        <div class="mode-header">
+                            <div class="mode-icon">💎</div>
+                            <div class="mode-lock">🔒</div>
+                        </div>
+                        <h4 class="mode-name">エキスパート</h4>
+                        <p class="mode-details">
+                            8桁・重複なし・12回まで<br>
+                            ノーマルクリアで解放
+                        </p>
+                        <span class="mode-badge">EXPERT</span>
+                    </article>
+
+                    <!-- マスター（未解放） -->
+                    <article class="mode-card master locked">
+                        <div class="mode-header">
+                            <div class="mode-icon">👑</div>
+                            <div class="mode-lock">🔒</div>
+                        </div>
+                        <h4 class="mode-name">マスター</h4>
+                        <p class="mode-details">
+                            8桁・重複あり・15回まで<br>
+                            エキスパートクリアで解放
+                        </p>
+                        <span class="mode-badge">MASTER</span>
+                    </article>
+                </div>
+            </section>
+        </section>
+
+        <!-- ========== チュートリアル画面 ========== -->
+        <section class="screen" id="tutorialScreen">
+            <div class="tutorial-container">
+                <div class="tutorial-card">
+                    <article class="tutorial-step">
+                        <h3 class="step-title">🎯 ゲームの目的</h3>
+                        <p class="step-description">
+                            コンピュータが選んだタイルの並びを推理して当てましょう！<br>
+                            制限回数以内に正解できればクリアです。
+                        </p>
+                        
+                        <div class="step-visual">
+                            <p style="text-align: center; margin-bottom: 1rem; color: #888;">正解の例（あなたには見えません）</p>
+                            <div class="tiles-row">
+                                <div class="tile star">★</div>
+                                <div class="tile circle">●</div>
+                                <div class="tile triangle">▲</div>
+                                <div class="tile square">■</div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="tutorial-step">
+                        <h3 class="step-title">💡 ヒント・ブローの仕組み</h3>
+                        <p class="step-description">
+                            推測するたびに、2種類のヒントが表示されます：
+                        </p>
+                        
+                        <div class="step-visual">
+                            <p style="margin-bottom: 1rem;"><strong>あなたの推測：</strong></p>
+                            <div class="tiles-row">
+                                <div class="tile star">★</div>
+                                <div class="tile heart">♥</div>
+                                <div class="tile circle">●</div>
+                                <div class="tile square">■</div>
+                            </div>
+                            
+                            <p style="margin: 1.5rem 0 1rem; text-align: center;">↓ 結果 ↓</p>
+                            
+                            <div style="text-align: center;">
+                                <div class="result-indicator hit">
+                                    <strong>ヒット: 2</strong>
+                                    <span>（タイルと位置が両方正解）</span>
+                                </div>
+                                <div class="result-indicator blow">
+                                    <strong>ブロー: 1</strong>
+                                    <span>（タイルは正解だが位置が違う）</span>
+                                </div>
+                            </div>
+                            
+                            <p style="margin-top: 1.5rem; color: #888; font-size: 0.9rem;">
+                                ★と■が位置も正解（ヒット2）<br>
+                                ●は含まれているが位置が違う（ブロー1）<br>
+                                ♥は含まれていない
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="tutorial-step">
+                        <h3 class="step-title">🎨 使えるタイル</h3>
+                        <p class="step-description">
+                            以下の8種類のタイルから選べます。それぞれ色が違うので見分けやすくなっています。
+                        </p>
+                        
+                        <div class="tiles-row">
+                            <div class="tile star">★</div>
+                            <div class="tile circle">●</div>
+                            <div class="tile triangle">▲</div>
+                            <div class="tile square">■</div>
+                            <div class="tile diamond">◆</div>
+                            <div class="tile spade">♠</div>
+                            <div class="tile heart">♥</div>
+                            <div class="tile club">♣</div>
+                        </div>
+                    </article>
+
+                    <div class="step-indicator">
+                        <div class="step-dot active"></div>
+                        <div class="step-dot"></div>
+                        <div class="step-dot"></div>
+                    </div>
+
+                    <div class="tutorial-actions">
+                        <button class="btn btn-secondary" onclick="showScreen('home')">
+                            スキップ
+                        </button>
+                        <button class="btn btn-primary" onclick="showScreen('home')">
+                            次へ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== フリープレイ画面 ========== -->
+        <section class="screen" id="freeplayScreen">
+            <div class="game-container">
+                <!-- ゲーム情報 -->
+                <div class="game-info">
+                    <div class="info-item">
+                        <div class="info-label">残り回数</div>
+                        <div class="info-value">8/8</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">モード</div>
+                        <div class="info-value">ノーマル</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">桁数</div>
+                        <div class="info-value">4桁</div>
+                    </div>
+                </div>
+
+                <!-- ゲームボード -->
+                <div class="game-board">
+                    <!-- 推測履歴 -->
+                    <div class="guess-history">
+                        <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">これまでの推測</h3>
+                        
+                        <div class="guess-row">
+                            <div class="guess-tiles">
+                                <div class="tile star">★</div>
+                                <div class="tile heart">♥</div>
+                                <div class="tile circle">●</div>
+                                <div class="tile square">■</div>
+                            </div>
+                            <div class="guess-result">
+                                <span class="hit-count">ヒット: 2</span>
+                                <span class="blow-count">ブロー: 1</span>
+                            </div>
+                        </div>
+
+                        <div class="guess-row">
+                            <div class="guess-tiles">
+                                <div class="tile star">★</div>
+                                <div class="tile diamond">◆</div>
+                                <div class="tile triangle">▲</div>
+                                <div class="tile square">■</div>
+                            </div>
+                            <div class="guess-result">
+                                <span class="hit-count">ヒット: 2</span>
+                                <span class="blow-count">ブロー: 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 現在の推測 -->
+                    <div class="current-guess">
+                        <div class="current-guess-label">タイルを選んで並べてください</div>
+                        <div class="tiles-row">
+                            <div class="tile star">★</div>
+                            <div class="tile diamond">◆</div>
+                            <div class="tile circle">●</div>
+                            <div class="tile square">■</div>
+                        </div>
+                    </div>
+
+                    <!-- タイルパレット -->
+                    <div class="tile-palette">
+                        <div class="tile star">★</div>
+                        <div class="tile circle">●</div>
+                        <div class="tile triangle">▲</div>
+                        <div class="tile square">■</div>
+                        <div class="tile diamond">◆</div>
+                        <div class="tile spade">♠</div>
+                        <div class="tile heart">♥</div>
+                        <div class="tile club">♣</div>
+                    </div>
+
+                    <!-- アクション -->
+                    <div class="game-actions">
+                        <button class="btn-clear">クリア</button>
+                        <button class="btn-submit">推測する</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター（ホーム画面のみ） -->
+    <footer id="footer">
+        <div class="footer-links">
+            <button class="footer-btn" onclick="alert('統計ページへ')">📊 統計</button>
+            <button class="footer-btn" onclick="showScreen('tutorial')">❓ 遊び方</button>
+            <a href="#" class="footer-btn">利用規約</a>
+            <a href="#" class="footer-btn">プライバシーポリシー</a>
+        </div>
+        <p class="footer-text">© 2024 Tile Hit and Blow</p>
+    </footer>
+
+    <script>
+        // 画面切り替え
+        function showScreen(screenName) {
+            // 全画面を非表示
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            
+            // 指定画面を表示
+            const screenMap = {
+                'home': 'homeScreen',
+                'tutorial': 'tutorialScreen',
+                'freeplay': 'freeplayScreen'
+            };
+            
+            document.getElementById(screenMap[screenName]).classList.add('active');
+            
+            // ヘッダー・フッター制御
+            const backBtn = document.getElementById('backBtn');
+            const logoText = document.getElementById('logoText');
+            const headerTitle = document.getElementById('headerTitle');
+            const footer = document.getElementById('footer');
+            
+            if (screenName === 'home') {
+                backBtn.style.display = 'none';
+                logoText.style.display = 'block';
+                headerTitle.textContent = '';
+                footer.style.display = 'block';
+            } else {
+                backBtn.style.display = 'block';
+                logoText.style.display = 'none';
+                footer.style.display = 'none';
+                
+                if (screenName === 'tutorial') {
+                    headerTitle.textContent = 'チュートリアル';
+                } else if (screenName === 'freeplay') {
+                    headerTitle.textContent = 'フリープレイ - ノーマル';
+                }
+            }
+            
+            // トップへスクロール
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 戻るボタン
+        document.getElementById('backBtn').addEventListener('click', () => {
+            showScreen('home');
+        });
+        
+        // 設定ボタン
+        document.getElementById('settingsBtn').addEventListener('click', () => {
+            alert('設定モーダルを表示（未実装）');
+        });
+        
+        // 言語切替ボタン
+        document.getElementById('langBtn').addEventListener('click', () => {
+            alert('言語切替（未実装）');
+        });
+        
+        // ESCキーでホームに戻る
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                showScreen('home');
+            }
+        });
+    </script>
+</body>
+</html>
