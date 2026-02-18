@@ -307,7 +307,7 @@
 
         .stats-label {
             font-size: 0.85rem;
-            color: #888;
+            color: #aaa;
         }
 
         /* モード選択グリッド */
@@ -439,7 +439,7 @@
         }
 
         .footer-text {
-            color: #666;
+            color: #999;
             font-size: 0.85rem;
         }
 
@@ -505,6 +505,56 @@
         .tile.heart { background: linear-gradient(135deg, #F06292 0%, #C2185B 100%); color: #ffffff; }
         .tile.club { background: linear-gradient(135deg, #26A69A 0%, #00796B 100%); color: #ffffff; }
 
+        /* タイルボタン化のリセット */
+        button.tile {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        button.tile:focus-visible {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* 空スロットスタイル */
+        .tile-slot {
+            width: 60px;
+            height: 60px;
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 無効化されたタイル */
+        .tile.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* デイリーカレンダーセル */
+        .daily-cell {
+            flex-direction: column;
+            gap: 2px;
+            font-size: 0.8rem;
+        }
+
+        .daily-cell.win::after {
+            content: '○';
+            font-size: 0.65rem;
+            color: #4caf50;
+        }
+
+        .daily-cell.lose::after {
+            content: '✕';
+            font-size: 0.65rem;
+            color: #f44336;
+        }
+
         /* ===== チュートリアル画面 ===== */
         .tutorial-container {
             max-width: 800px;
@@ -522,6 +572,11 @@
 
         .tutorial-step {
             margin-bottom: 2rem;
+            display: none;
+        }
+
+        .tutorial-step.active {
+            display: block;
         }
 
         .step-title {
@@ -1453,7 +1508,7 @@
     <header>
         <div class="header-left">
             <button class="back-btn" id="backBtn" aria-label="戻る">←</button>
-            <div class="logo" id="logoText">🎯 Tile H&B</div>
+            <div class="logo" id="logoText">🎯 Tile H&amp;B</div>
             <h1 class="header-title" id="headerTitle"></h1>
         </div>
         <div class="header-right">
@@ -1489,7 +1544,8 @@
                 </div>
                 <p class="daily-description">
                     ノーマルモード｜4桁・重複なし・8回まで<br>
-                    1日1回のチャレンジ！
+                    1日1回のチャレンジ！<br>
+                    <span id="dailyCountdown" style="font-size:0.85rem;opacity:0.8;">読み込み中...</span>
                 </p>
             </article>
 
@@ -1675,7 +1731,7 @@
                         <button class="btn btn-secondary" onclick="showScreen('home')">
                             スキップ
                         </button>
-                        <button class="btn btn-primary" onclick="showScreen('home')">
+                        <button class="btn btn-primary" id="tutorialNextBtn" onclick="goToTutorialStep(1)">
                             次へ
                         </button>
                     </div>
@@ -1741,24 +1797,24 @@
                     <!-- 現在の推測 -->
                     <div class="current-guess">
                         <div class="current-guess-label">タイルを選んで並べてください</div>
-                        <div class="tiles-row">
-                            <div class="tile star">★</div>
-                            <div class="tile diamond">◆</div>
-                            <div class="tile circle">●</div>
-                            <div class="tile square">■</div>
+                        <div class="tiles-row" id="currentGuessTiles">
+                            <button class="tile star" aria-label="スター（クリックで削除）" onclick="removeFromGuess(this)">★</button>
+                            <button class="tile diamond" aria-label="ダイヤ（クリックで削除）" onclick="removeFromGuess(this)">◆</button>
+                            <div class="tile-slot" aria-label="空のスロット"></div>
+                            <div class="tile-slot" aria-label="空のスロット"></div>
                         </div>
                     </div>
 
                     <!-- タイルパレット -->
                     <div class="tile-palette">
-                        <div class="tile star">★</div>
-                        <div class="tile circle">●</div>
-                        <div class="tile triangle">▲</div>
-                        <div class="tile square">■</div>
-                        <div class="tile diamond">◆</div>
-                        <div class="tile spade">♠</div>
-                        <div class="tile heart">♥</div>
-                        <div class="tile club">♣</div>
+                        <button class="tile star disabled" aria-label="スター（選択済み）" disabled>★</button>
+                        <button class="tile circle" aria-label="サークル" onclick="addToGuess(this)">●</button>
+                        <button class="tile triangle" aria-label="トライアングル" onclick="addToGuess(this)">▲</button>
+                        <button class="tile square" aria-label="スクエア" onclick="addToGuess(this)">■</button>
+                        <button class="tile diamond disabled" aria-label="ダイヤ（選択済み）" disabled>◆</button>
+                        <button class="tile spade" aria-label="スペード" onclick="addToGuess(this)">♠</button>
+                        <button class="tile heart" aria-label="ハート" onclick="addToGuess(this)">♥</button>
+                        <button class="tile club" aria-label="クラブ" onclick="addToGuess(this)">♣</button>
                     </div>
 
                     <!-- アクション -->
@@ -1867,24 +1923,24 @@
                     <!-- 現在の推測 -->
                     <div class="current-guess">
                         <div class="current-guess-label">タイルを選んで並べてください</div>
-                        <div class="tiles-row">
-                            <div class="tile star">★</div>
-                            <div class="tile club">♣</div>
-                            <div class="tile circle">●</div>
-                            <div class="tile square">■</div>
+                        <div class="tiles-row" id="currentGuessTiles">
+                            <button class="tile star" aria-label="スター（クリックで削除）" onclick="removeFromGuess(this)">★</button>
+                            <button class="tile club" aria-label="クラブ（クリックで削除）" onclick="removeFromGuess(this)">♣</button>
+                            <div class="tile-slot" aria-label="空のスロット"></div>
+                            <div class="tile-slot" aria-label="空のスロット"></div>
                         </div>
                     </div>
 
                     <!-- タイルパレット -->
                     <div class="tile-palette">
-                        <div class="tile star">★</div>
-                        <div class="tile circle">●</div>
-                        <div class="tile triangle">▲</div>
-                        <div class="tile square">■</div>
-                        <div class="tile diamond">◆</div>
-                        <div class="tile spade">♠</div>
-                        <div class="tile heart">♥</div>
-                        <div class="tile club">♣</div>
+                        <button class="tile star disabled" aria-label="スター（選択済み）" disabled>★</button>
+                        <button class="tile circle" aria-label="サークル" onclick="addToGuess(this)">●</button>
+                        <button class="tile triangle" aria-label="トライアングル" onclick="addToGuess(this)">▲</button>
+                        <button class="tile square" aria-label="スクエア" onclick="addToGuess(this)">■</button>
+                        <button class="tile diamond" aria-label="ダイヤ" onclick="addToGuess(this)">◆</button>
+                        <button class="tile spade" aria-label="スペード" onclick="addToGuess(this)">♠</button>
+                        <button class="tile heart" aria-label="ハート" onclick="addToGuess(this)">♥</button>
+                        <button class="tile club disabled" aria-label="クラブ（選択済み）" disabled>♣</button>
                     </div>
 
                     <!-- アクション -->
@@ -2023,7 +2079,7 @@
                     <button class="btn btn-primary" onclick="showScreen('home')">
                         ホームに戻る
                     </button>
-                    <button class="btn btn-secondary" onclick="showScreen('freeplay')">
+                    <button class="btn btn-secondary" id="replayBtnWin" onclick="showScreen('freeplay')">
                         もう一度プレイ
                     </button>
                 </div>
@@ -2085,12 +2141,22 @@
                     </div>
                 </div>
 
+                <!-- シェアセクション -->
+                <div class="share-section">
+                    <h3 class="share-title">結果をシェア</h3>
+                    <div class="share-buttons">
+                        <button class="share-btn x" onclick="alert('Xでシェア')">𝕏 X</button>
+                        <button class="share-btn line" onclick="alert('LINEでシェア')">LINE</button>
+                        <button class="share-btn threads" onclick="alert('Threadsでシェア')">Threads</button>
+                    </div>
+                </div>
+
                 <!-- アクション -->
                 <div class="result-actions">
                     <button class="btn btn-primary" onclick="showScreen('home')">
                         ホームに戻る
                     </button>
-                    <button class="btn btn-secondary" onclick="showScreen('freeplay')">
+                    <button class="btn btn-secondary" id="replayBtnLose" onclick="showScreen('freeplay')">
                         もう一度プレイ
                     </button>
                 </div>
@@ -2298,7 +2364,13 @@
                         <div class="setting-label">効果音</div>
                         <div class="setting-description">タイル選択時の音など</div>
                     </div>
-                    <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                    <div class="toggle-switch active"
+                         role="switch"
+                         aria-checked="true"
+                         aria-label="効果音"
+                         tabindex="0"
+                         onclick="toggleSwitch(this)"
+                         onkeydown="if(event.key==='Enter'||event.key===' '){toggleSwitch(this);event.preventDefault()}">
                         <div class="toggle-slider"></div>
                     </div>
                 </div>
@@ -2307,13 +2379,19 @@
             <!-- 通知設定 -->
             <div class="settings-group">
                 <h3 class="settings-group-title">通知</h3>
-                
+
                 <div class="setting-item">
                     <div>
                         <div class="setting-label">デイリーチャレンジ通知</div>
                         <div class="setting-description">毎日リマインド（Phase 2で実装予定）</div>
                     </div>
-                    <div class="toggle-switch" onclick="toggleSwitch(this)">
+                    <div class="toggle-switch"
+                         role="switch"
+                         aria-checked="false"
+                         aria-label="デイリーチャレンジ通知"
+                         tabindex="0"
+                         onclick="toggleSwitch(this)"
+                         onkeydown="if(event.key==='Enter'||event.key===' '){toggleSwitch(this);event.preventDefault()}">
                         <div class="toggle-slider"></div>
                     </div>
                 </div>
@@ -2372,7 +2450,31 @@
                 };
                 headerTitle.textContent = titles[screenName] || '';
             }
-            
+
+            // ゲームモード追跡
+            if (screenName === 'daily') lastGameMode = 'daily';
+            if (screenName === 'freeplay') lastGameMode = 'freeplay';
+
+            // result画面へ遷移するとき、「もう一度プレイ」ボタンを更新
+            if (screenName === 'result-win' || screenName === 'result-lose') {
+                const suffix = screenName === 'result-win' ? 'Win' : 'Lose';
+                const replayBtn = document.getElementById(`replayBtn${suffix}`);
+                if (replayBtn) {
+                    if (lastGameMode === 'daily') {
+                        replayBtn.textContent = 'フリープレイで遊ぶ';
+                        replayBtn.setAttribute('onclick', "showScreen('freeplay')");
+                    } else {
+                        replayBtn.textContent = 'もう一度プレイ';
+                        replayBtn.setAttribute('onclick', "showScreen('freeplay')");
+                    }
+                }
+            }
+
+            // チュートリアル画面の初期化
+            if (screenName === 'tutorial') {
+                goToTutorialStep(0);
+            }
+
             // トップへスクロール
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -2382,13 +2484,11 @@
             showScreen('home');
         });
         
-        // 設定モーダル
-        document.getElementById('settingsBtn').addEventListener('click', () => {
-            document.getElementById('settingsModal').classList.add('active');
-        });
+        // 設定モーダル - openSettings関数で置き換え
+        document.getElementById('settingsBtn').addEventListener('click', openSettings);
 
         function closeSettings() {
-            document.getElementById('settingsModal').classList.remove('active');
+            closeSettingsWithFocus();
         }
 
         // モーダル外クリックで閉じる
@@ -2401,6 +2501,7 @@
         // トグルスイッチ
         function toggleSwitch(element) {
             element.classList.toggle('active');
+            element.setAttribute('aria-checked', element.classList.contains('active') ? 'true' : 'false');
         }
 
         // ラジオオプション
@@ -2410,12 +2511,97 @@
                 this.classList.add('active');
             });
         });
-        
+
         // 言語切替ボタン
         document.getElementById('langBtn').addEventListener('click', () => {
             alert('言語切替（未実装）');
         });
-        
+
+        // チュートリアルステップペジング
+        let currentTutorialStep = 0;
+
+        function goToTutorialStep(step) {
+            const steps = document.querySelectorAll('.tutorial-step');
+            const dots = document.querySelectorAll('.step-dot');
+            const nextBtn = document.getElementById('tutorialNextBtn');
+
+            if (!steps.length) return;
+
+            steps.forEach((s, i) => s.classList.toggle('active', i === step));
+            dots.forEach((d, i) => d.classList.toggle('active', i === step));
+
+            currentTutorialStep = step;
+            // 最終ステップでは「ゲームを始める」に変更
+            if (step === steps.length - 1) {
+                nextBtn.textContent = 'ゲームを始める';
+                nextBtn.setAttribute('onclick', "showScreen('home')");
+            } else {
+                nextBtn.textContent = '次へ';
+                nextBtn.setAttribute('onclick', `goToTutorialStep(${step + 1})`);
+            }
+        }
+
+        // デイリーカウントダウン
+        function updateDailyCountdown() {
+            const now = new Date();
+            const midnight = new Date(now);
+            midnight.setHours(24, 0, 0, 0);
+            const diff = midnight - now;
+            const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+            const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+            const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+            const el = document.getElementById('dailyCountdown');
+            if (el) el.textContent = `${h}:${m}:${s} 後にリセット`;
+        }
+
+        setInterval(updateDailyCountdown, 1000);
+        updateDailyCountdown();
+
+        // ゲームモード追跡
+        let lastGameMode = 'freeplay'; // 'freeplay' | 'daily'
+
+        // タイル操作関数
+        function removeFromGuess(tile) {
+            const slot = document.createElement('div');
+            slot.className = 'tile-slot';
+            slot.setAttribute('aria-label', '空のスロット');
+            tile.parentNode.replaceChild(slot, tile);
+        }
+
+        function addToGuess(tile) {
+            alert('タイル追加機能（未実装）');
+        }
+
+        // 設定モーダルのフォーカストラップ
+        function openSettings() {
+            document.getElementById('settingsModal').classList.add('active');
+            // 最初のフォーカス可能要素にフォーカス
+            const modal = document.getElementById('settingsModal').querySelector('.modal-content');
+            const focusable = modal.querySelectorAll('button, [tabindex="0"]');
+            if (focusable.length) focusable[0].focus();
+        }
+
+        function closeSettingsWithFocus() {
+            document.getElementById('settingsModal').classList.remove('active');
+            document.getElementById('settingsBtn').focus(); // フォーカスを戻す
+        }
+
+        // フォーカストラップのkeydownリスナー
+        document.getElementById('settingsModal').addEventListener('keydown', (e) => {
+            if (e.key !== 'Tab') return;
+            const modal = document.querySelector('#settingsModal .modal-content');
+            if (!modal) return;
+            const focusable = Array.from(modal.querySelectorAll('button, [tabindex="0"]'));
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (e.shiftKey) {
+                if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+            } else {
+                if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+            }
+        });
+
         // 試行履歴の開閉
         function toggleHistory() {
             const content = document.getElementById('historyContent');
