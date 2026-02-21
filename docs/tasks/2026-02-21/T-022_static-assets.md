@@ -1,5 +1,9 @@
 # T-022: 静的アセット（SVG・PWAマニフェスト・OGP）
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/27
+
 ## 目的
 
 ゲームで使用するSVGタイルアイコン、PWAマニフェスト、OGP設定などの静的アセットを作成する。

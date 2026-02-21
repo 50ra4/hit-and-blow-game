@@ -1,5 +1,9 @@
 # T-007: ゲームコアロジック
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/12
+
 ## 目的
 
 ゲームの核となるロジック（答え生成、ヒット・ブロー判定、ゲーム終了判定）を純粋関数として実装する。

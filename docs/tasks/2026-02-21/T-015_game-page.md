@@ -1,5 +1,9 @@
 # T-015: ゲームページ
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/20
+
 ## 目的
 
 フリープレイおよびデイリーチャレンジのゲームプレイ画面を実装する。モード選択に応じたゲーム進行を提供する。

@@ -1,5 +1,9 @@
 # T-001: プロジェクト初期セットアップ
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/6
+
 ## 目的
 
 Vite + React 19 + TypeScript + Tailwind CSS の開発環境を構築し、ビルド・開発サーバーが動作する状態にする。

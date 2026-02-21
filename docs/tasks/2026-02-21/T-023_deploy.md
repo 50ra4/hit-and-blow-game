@@ -1,5 +1,9 @@
 # T-023: GitHub Actionsデプロイ設定
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/28
+
 ## 目的
 
 GitHub Actionsを使用してGitHub Pagesへの自動デプロイパイプラインを構築する。

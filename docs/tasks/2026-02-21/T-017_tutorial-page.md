@@ -1,5 +1,9 @@
 # T-017: チュートリアルページ
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/22
+
 ## 目的
 
 ゲームルール・操作方法を説明するインタラクティブチュートリアルページを実装する。

@@ -1,5 +1,9 @@
 # T-021: LINE Liff連携
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/26
+
 ## 目的
 
 LINE Liff SDKを導入し、LINE内ブラウザでの動作とLINEへのシェア機能を実装する。

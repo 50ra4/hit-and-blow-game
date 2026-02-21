@@ -1,5 +1,9 @@
 # T-010: 汎用カスタムフック
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/15
+
 ## 目的
 
 テーマ切替（ダークモード）やメディアクエリなど、アプリ全体で再利用される汎用的なカスタムフックを実装する。

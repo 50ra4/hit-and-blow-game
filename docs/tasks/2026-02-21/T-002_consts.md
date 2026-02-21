@@ -1,5 +1,9 @@
 # T-002: 定数定義（consts/）
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/7
+
 ## 目的
 
 アプリケーション全体で使用する定数を `src/consts/` 配下に定義する。Zodスキーマや各機能が参照する基盤となる定数群。

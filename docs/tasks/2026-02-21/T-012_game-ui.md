@@ -1,5 +1,9 @@
 # T-012: ゲームUIコンポーネント
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/17
+
 ## 目的
 
 ゲーム画面を構成する機能固有のUIコンポーネント（TilePicker, GuessHistory, GameHeader, GameBoard, ResultDisplay）を実装する。

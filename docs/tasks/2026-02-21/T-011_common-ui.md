@@ -1,5 +1,9 @@
 # T-011: 共通UIコンポーネント
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/16
+
 ## 目的
 
 アプリ全体で再利用される汎用UIコンポーネント（Button, Modal, Loading, Card）を実装する。

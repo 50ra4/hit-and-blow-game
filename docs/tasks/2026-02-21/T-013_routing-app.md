@@ -1,5 +1,9 @@
 # T-013: ルーティング・App統合
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/18
+
 ## 目的
 
 React Routerによるルーティング設定とAppコンポーネントの統合を行い、全ページへの導線を構築する。

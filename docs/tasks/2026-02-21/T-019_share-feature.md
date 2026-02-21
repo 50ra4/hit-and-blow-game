@@ -1,5 +1,9 @@
 # T-019: シェア機能
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/24
+
 ## 目的
 
 ゲーム結果をSNS（X, LINE, Threads）やWeb Share APIを通じてシェアする機能を実装する。

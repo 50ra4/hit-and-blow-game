@@ -1,5 +1,9 @@
 # T-008: ゲーム状態管理フック（useGame）
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/13
+
 ## 目的
 
 ゲームの状態管理（答え生成、推測の追加・判定、ゲーム終了処理）を行うカスタムフック `useGame` を実装する。

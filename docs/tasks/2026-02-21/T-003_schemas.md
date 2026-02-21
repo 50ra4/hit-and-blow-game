@@ -1,5 +1,9 @@
 # T-003: Zodスキーマ定義
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/8
+
 ## 目的
 
 Zodによるスキーマ定義と型推論を行い、アプリ全体で使用する型の基盤を構築する。

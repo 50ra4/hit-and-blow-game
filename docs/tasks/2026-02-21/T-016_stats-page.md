@@ -1,5 +1,9 @@
 # T-016: 統計ページ
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/21
+
 ## 目的
 
 プレイ記録・統計情報を表示するページを実装する。

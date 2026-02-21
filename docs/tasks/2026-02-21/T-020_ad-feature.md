@@ -1,5 +1,9 @@
 # T-020: 広告機能（AdBanner）
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/25
+
 ## 目的
 
 Google AdSenseのバナー広告をゲーム終了後に表示する機能を実装する。

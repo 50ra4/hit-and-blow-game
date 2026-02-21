@@ -1,5 +1,9 @@
 # T-006: localStorageサービス
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/11
+
 ## 目的
 
 localStorageの読み書き・Zodバリデーション・マイグレーション・エラーハンドリングを担う汎用サービス層を実装する。

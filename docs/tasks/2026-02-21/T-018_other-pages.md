@@ -1,5 +1,9 @@
 # T-018: その他ページ（利用規約・プライバシーポリシー・404）
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/23
+
 ## 目的
 
 利用規約、プライバシーポリシー、404（Not Found）の3ページを実装する。

@@ -1,5 +1,9 @@
 # T-009: 統計・設定フック
 
+## GitHub Issue
+
+https://github.com/50ra4/hit-and-blow-game/issues/14
+
 ## 目的
 
 ゲーム統計（useStats）、ユーザー設定（useSettings）、デイリープレイ記録（useDailyPlayed）の状態管理フックを実装する。
