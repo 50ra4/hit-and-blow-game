@@ -20,12 +20,12 @@ Vite + React 19 + TypeScript + Tailwind CSS の開発環境を構築し、ビル
 
 | ファイル | 内容 |
 |---------|------|
+| ファイル | 内容 |
+|---------|------|
 | `package.json` | プロジェクト設定・依存パッケージ定義 |
-| `vite.config.ts` | Viteビルド設定（`@`エイリアス、GitHub Pagesベースパス、コード分割） |
+| `vite.config.ts` | Viteビルド設定（`@`エイリアス、GitHub Pagesベースパス、コード分割、@tailwindcss/viteプラグイン） |
 | `tsconfig.json` | TypeScript設定（strict: true、パスエイリアス） |
 | `tsconfig.node.json` | Node用TypeScript設定 |
-| `tailwind.config.js` | Tailwind CSS設定 |
-| `postcss.config.js` | PostCSS設定（Tailwind用） |
 | `eslint.config.js` | ESLint設定 |
 | `.prettierrc` | Prettier設定 |
 | `.nvmrc` | Node.jsバージョン指定 |
@@ -35,11 +35,20 @@ Vite + React 19 + TypeScript + Tailwind CSS の開発環境を構築し、ビル
 | `src/main.tsx` | Reactエントリーポイント（空のApp描画のみ） |
 | `src/App.tsx` | ルートコンポーネント（プレースホルダー） |
 | `src/vite-env.d.ts` | Vite型定義参照 |
-| `src/styles/index.css` | Tailwindディレクティブ |
+| `src/styles/index.css` | Tailwind CSS v4 CSS-First設定 |
 
 ### 変更ファイル
 
 なし（新規プロジェクト）
+
+### 削除ファイル
+
+Tailwind CSS v4 は CSS-First approach を採用するため、以下のファイルは不要：
+
+| ファイル | 理由 |
+|---------|------|
+| `tailwind.config.js` | CSS `@theme` ブロックで置き換え |
+| `postcss.config.js` | `@tailwindcss/vite` プラグイン使用により不要 |
 
 ### 実装詳細
 
@@ -64,34 +73,36 @@ Vite + React 19 + TypeScript + Tailwind CSS の開発環境を構築し、ビル
 
 | パッケージ | バージョン | 用途 |
 |-----------|-----------|------|
-| `react` | `^19.0.0` | UIフレームワーク |
-| `react-dom` | `^19.0.0` | React DOM描画 |
-| `react-router-dom` | `^7.0.0` | ルーティング |
-| `react-i18next` | `^15.0.0` | 多言語対応 |
-| `i18next` | `^24.0.0` | i18nコア |
-| `zod` | `^3.24.0` | スキーマバリデーション |
+| `react` | `19.2.4` | UIフレームワーク |
+| `react-dom` | `19.2.4` | React DOM描画 |
+| `react-router-dom` | `7.13.0` | ルーティング |
+| `react-i18next` | `15.7.4` | 多言語対応 |
+| `i18next` | `24.2.3` | i18nコア |
+| `zod` | `4.3.6` | スキーマバリデーション |
 
 **依存パッケージ（devDependencies）:**
 
 | パッケージ | バージョン | 用途 |
 |-----------|-----------|------|
-| `vite` | `^6.0.0` | ビルドツール |
-| `@vitejs/plugin-react` | `^4.0.0` | React用Viteプラグイン |
-| `typescript` | `^5.7.0` | TypeScript |
-| `@types/react` | `^19.0.0` | React型定義 |
-| `@types/react-dom` | `^19.0.0` | ReactDOM型定義 |
-| `tailwindcss` | `^3.4.0` | CSSフレームワーク |
-| `postcss` | `^8.0.0` | PostCSS |
-| `autoprefixer` | `^10.0.0` | ベンダープレフィックス自動付与 |
-| `eslint` | `^9.0.0` | リンター |
-| `@eslint/js` | `latest` | ESLint基本設定 |
-| `typescript-eslint` | `latest` | TypeScript用ESLint |
-| `eslint-plugin-react-hooks` | `latest` | React Hooks用ESLintルール |
+| `vite` | `7.3.1` | ビルドツール |
+| `@vitejs/plugin-react` | `4.7.0` | React用Viteプラグイン |
+| `typescript` | `5.9.3` | TypeScript |
+| `@types/react` | `19.2.14` | React型定義 |
+| `@types/react-dom` | `19.2.3` | ReactDOM型定義 |
+| `tailwindcss` | `4.2.0` | CSSフレームワーク（CSS-First approach） |
+| `@tailwindcss/vite` | `4.2.0` | Tailwind CSS v4用Viteプラグイン |
+| `eslint` | `9.39.2` | リンター |
+| `@eslint/js` | `9.39.2` | ESLint基本設定 |
+| `typescript-eslint` | `8.56.0` | TypeScript用ESLint |
+| `eslint-plugin-react-hooks` | `7.0.1` | React Hooks用ESLintルール |
+
+> **注記**: postcss と autoprefixer は Tailwind CSS v4 の @tailwindcss/vite プラグイン使用により不要となった。
 
 > **注意**: html2canvas, @liff/liff-sdk, @playwright/test は該当タスク（T-019, T-021等）で追加する。
 
 #### vite.config.ts
 
+- `@tailwindcss/vite` プラグインを追加
 - `@`エイリアスを`./src`に設定
 - `base`を`/tile-hit-and-blow/`に設定（GitHub Pages用）
 - `build.outDir`を`dist`に設定
@@ -108,19 +119,22 @@ Vite + React 19 + TypeScript + Tailwind CSS の開発環境を構築し、ビル
 - `strict`: `true`
 - `paths`: `{ "@/*": ["./src/*"] }`
 
-#### tailwind.config.js
-
-- `content`: `["./index.html", "./src/**/*.{ts,tsx}"]`
-- ダークモード: `class`
-- カスタムカラー: `mock_design.html` のグラデーション背景色（`#1a1a2e`, `#16213e`, `#0f3460`）をカスタムカラーとして追加
-
 #### src/styles/index.css
 
+Tailwind CSS v4 CSS-First approach:
+
 ```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-gradient-dark-1: #1a1a2e;
+  --color-gradient-dark-2: #16213e;
+  --color-gradient-dark-3: #0f3460;
+}
 ```
+
+上記の CSS 変数定義により、以下のクラスが利用可能：
+- `bg-gradient-dark-1`, `bg-gradient-dark-2`, `bg-gradient-dark-3`
 
 #### index.html
 
@@ -146,14 +160,14 @@ VITE_ADSENSE_SLOT_ID=xxxxxxxxxx
 
 ## 受け入れ条件（Definition of Done）
 
-- [ ] `pnpm install` が正常完了する
-- [ ] `pnpm dev` で開発サーバーが起動し、ブラウザに表示される
-- [ ] `pnpm build` でビルドが成功する（`dist/`に出力される）
-- [ ] `pnpm type-check` でTypeScriptの型チェックが通る
-- [ ] `pnpm lint` でESLintが実行される
-- [ ] `@`エイリアスが正しく解決される（`import xxx from '@/App'` が動作する）
-- [ ] Tailwind CSSのクラスが適用される
-- [ ] `.env.example` が存在する
+- [x] `pnpm install` が正常完了する
+- [x] `pnpm dev` で開発サーバーが起動し、ブラウザに表示される
+- [x] `pnpm build` でビルドが成功する（`dist/`に出力される）
+- [x] `pnpm type-check` でTypeScriptの型チェックが通る
+- [x] `pnpm lint` でESLintが実行される（エラーなし）
+- [x] `@`エイリアスが正しく解決される（`import xxx from '@/App'` が動作する）
+- [x] Tailwind CSSのクラスが適用される（カスタムカラー含む）
+- [x] `.env.example` が存在する
 
 ## テスト観点
 

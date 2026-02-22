@@ -137,4 +137,9 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# User settings
 .DS_Store
+/tmp
+.vscode/settings.json
+!.vscode/settings.sample.json
