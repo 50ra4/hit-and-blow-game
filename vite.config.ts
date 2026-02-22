@@ -10,7 +10,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  base: '/hit-and-blow/',
+  base: '/hit-and-blow-game/',
   build: {
     outDir: 'dist',
     sourcemap: true,
