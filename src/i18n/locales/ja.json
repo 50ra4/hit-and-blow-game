@@ -1,0 +1,56 @@
+{
+  "common": {
+    "title": "タイルヒットアンドブロー",
+    "start": "スタート",
+    "restart": "もう一度",
+    "back": "戻る"
+  },
+  "mode": {
+    "beginner": "ビギナー",
+    "normal": "ノーマル",
+    "hard": "ハード",
+    "expert": "エキスパート",
+    "master": "マスター",
+    "locked": "🔒 {{condition}}をクリアで解放"
+  },
+  "game": {
+    "submit": "回答する",
+    "attempts": "{{current}} / {{max}}回目",
+    "hit": "ヒット",
+    "blow": "ブロー"
+  },
+  "result": {
+    "win": "クリア！",
+    "lose": "ゲームオーバー",
+    "attempts": "{{count}}回でクリア",
+    "share": "シェアする",
+    "restart": "もう一度プレイ"
+  },
+  "stats": {
+    "title": "統計",
+    "totalPlays": "総プレイ回数",
+    "winRate": "クリア率",
+    "avgAttempts": "平均クリア回数",
+    "bestAttempts": "最短クリア回数",
+    "clear": "統計をクリア"
+  },
+  "error": {
+    "storage": {
+      "title": "データ読み込みエラー",
+      "message": "保存されたデータ（{{key}}）の読み込みに失敗しました。",
+      "description": "データが破損している可能性があります。データを削除して再起動しますか？",
+      "clearAndReload": "データを削除して再起動"
+    },
+    "network": {
+      "offline": "オフラインです。一部機能が制限されます。",
+      "shareUnavailable": "シェア機能はオンライン時のみ利用可能です。"
+    },
+    "share": {
+      "failed": "シェアに失敗しました。",
+      "imageGenerationFailed": "画像の生成に失敗しました。"
+    },
+    "liff": {
+      "initFailed": "LINE連携の初期化に失敗しました。"
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "common": {
+    "title": "Tile Hit & Blow",
+    "start": "Start",
+    "restart": "Restart",
+    "back": "Back"
+  },
+  "mode": {
+    "beginner": "Beginner",
+    "normal": "Normal",
+    "hard": "Hard",
+    "expert": "Expert",
+    "master": "Master",
+    "locked": "🔒 Clear {{condition}} to unlock"
+  },
+  "game": {
+    "submit": "Submit",
+    "attempts": "Attempt {{current}} / {{max}}",
+    "hit": "Hit",
+    "blow": "Blow"
+  },
+  "result": {
+    "win": "You Win!",
+    "lose": "Game Over",
+    "attempts": "Cleared in {{count}} attempts",
+    "share": "Share",
+    "restart": "Play Again"
+  },
+  "stats": {
+    "title": "Statistics",
+    "totalPlays": "Total Plays",
+    "winRate": "Win Rate",
+    "avgAttempts": "Avg. Attempts",
+    "bestAttempts": "Best Attempts",
+    "clear": "Clear Statistics"
+  },
+  "error": {
+    "storage": {
+      "title": "Data Loading Error",
+      "message": "Failed to load saved data ({{key}}).",
+      "description": "The data may be corrupted. Do you want to clear the data and reload?",
+      "clearAndReload": "Clear Data and Reload"
+    },
+    "network": {
+      "offline": "You are offline. Some features may be unavailable.",
+      "shareUnavailable": "Share feature is only available when online."
+    },
+    "share": {
+      "failed": "Failed to share.",
+      "imageGenerationFailed": "Failed to generate image."
+    },
+    "liff": {
+      "initFailed": "Failed to initialize LINE integration."
+    }
+  }
+}
