@@ -54,14 +54,14 @@ src/
 
 詳細な仕様は `docs/` 配下のファイルを参照:
 
-| ファイル | 内容 |
-|---------|------|
-| `01_requirements.md` | 要件定義（ゲームルール、モード仕様、機能要件） |
+| ファイル             | 内容                                                                |
+| -------------------- | ------------------------------------------------------------------- |
+| `01_requirements.md` | 要件定義（ゲームルール、モード仕様、機能要件）                      |
 | `02_architecture.md` | アーキテクチャ設計（レイヤー構成、Zodスキーマ、コンポーネント設計） |
-| `03_database.md` | LocalStorageデータ設計 |
-| `04_api.md` | 外部API連携（SNS/AdSense/LIFF） |
-| `05_sitemap.md` | サイトマップ・ルーティング設計 |
-| `mock_design.html` | ワイヤーフレーム |
+| `03_database.md`     | LocalStorageデータ設計                                              |
+| `04_api.md`          | 外部API連携（SNS/AdSense/LIFF）                                     |
+| `05_sitemap.md`      | サイトマップ・ルーティング設計                                      |
+| `mock_design.html`   | ワイヤーフレーム                                                    |
 
 ## 開発フロー
 
@@ -76,8 +76,5 @@ src/
 
 ## コーディング規約
 
-- パスエイリアス `@/` を使用（`src/` にマッピング）
-- Zodスキーマから型を推論（`z.output<typeof Schema>` パターン）
-- 定数は `consts/` に集約し、Zod enum用の配列も同ファイルで定義
-- コンポーネントは `function` 宣言（アロー関数ではなく）
-- 翻訳キーは `i18n/locales/` のJSONファイルで管理
+`.claude/skills/coding-conventions/SKILL.md` を参照。
+または `/coding-conventions` で呼び出す。
