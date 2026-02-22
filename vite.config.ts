@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'node:path';
@@ -11,6 +11,22 @@ export default defineConfig({
     },
   },
   base: '/hit-and-blow-game/',
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov'],
+      include: [
+        'src/utils/**',
+        'src/features/**',
+        'src/hooks/**',
+        'src/services/**',
+      ],
+      exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+    },
+  },
   build: {
     outDir: 'dist',
     sourcemap: true,
