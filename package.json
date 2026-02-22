@@ -1,0 +1,37 @@
+{
+  "name": "tile-hit-and-blow",
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.30.1",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-router-dom": "7.13.0",
+    "react-i18next": "15.7.4",
+    "i18next": "24.2.3",
+    "zod": "4.3.6"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
+  "devDependencies": {
+    "vite": "7.3.1",
+    "@vitejs/plugin-react": "4.7.0",
+    "typescript": "5.9.3",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "tailwindcss": "4.2.0",
+    "@tailwindcss/vite": "4.2.0",
+    "eslint": "9.39.2",
+    "@eslint/js": "9.39.2",
+    "typescript-eslint": "8.56.0",
+    "eslint-plugin-react-hooks": "7.0.1"
+  }
+}
