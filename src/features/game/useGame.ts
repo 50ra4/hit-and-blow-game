@@ -21,7 +21,8 @@ type UseGameReturn = {
 
 export const useGame = (mode: GameMode, playType: PlayType): UseGameReturn => {
   // デイリーチャレンジはノーマルモード固定
-  const effectiveMode = playType === 'daily' ? GAME_MODE_IDS.NORMAL : mode;
+  const effectiveMode: GameMode =
+    playType === 'daily' ? GAME_MODE_IDS.NORMAL : mode;
   const modeConfig = GAME_MODES[effectiveMode];
   const { length, allowDuplicates, maxAttempts } = modeConfig;
 
