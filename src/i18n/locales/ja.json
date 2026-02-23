@@ -43,13 +43,75 @@
     "heart": "ハート",
     "club": "クラブ"
   },
+  "nav": {
+    "home": "ホーム",
+    "stats": "統計",
+    "tutorial": "遊び方",
+    "terms": "利用規約",
+    "privacy": "プライバシー"
+  },
+  "settings": {
+    "title": "設定",
+    "theme": "テーマ",
+    "language": "言語",
+    "sound": "サウンド"
+  },
+  "theme": {
+    "light": "ライト",
+    "dark": "ダーク",
+    "system": "システム"
+  },
+  "home": {
+    "dailyChallenge": "デイリーチャレンジ",
+    "selectMode": "モードを選んでプレイ",
+    "dailyDesc": "今日の問題に挑戦！",
+    "tutorial": "チュートリアルを見る"
+  },
   "stats": {
     "title": "統計",
     "totalPlays": "総プレイ回数",
+    "totalWins": "クリア回数",
     "winRate": "クリア率",
     "avgAttempts": "平均クリア回数",
     "bestAttempts": "最短クリア回数",
-    "clear": "統計をクリア"
+    "clear": "統計をクリア",
+    "noData": "データなし",
+    "dailyHistory": "デイリー履歴",
+    "confirmClear": "統計をリセットしますか？この操作は取り消せません。",
+    "modeStats": "モード別統計"
+  },
+  "tutorial": {
+    "title": "遊び方",
+    "step": "{{current}} / {{total}}",
+    "next": "次へ",
+    "prev": "前へ",
+    "skip": "スキップしてホームへ",
+    "complete": "ゲームを始める",
+    "step0Title": "ゲームの目的",
+    "step0Desc": "隠されたタイルの並びを推理しよう！",
+    "step1Title": "ヒットとブロー",
+    "step1HitDesc": "ヒット: 位置も種類も正解！",
+    "step1BlowDesc": "ブロー: 種類は合ってるけど位置が違う！",
+    "step2Title": "タイルの種類",
+    "step2Desc": "8種類のタイルを使います",
+    "step3Title": "モードとプレイタイプ",
+    "step3FreeDesc": "フリープレイ: 好きなモードで何度でも",
+    "step3DailyDesc": "デイリーチャレンジ: 毎日1回だけ挑戦できる問題",
+    "step4Title": "実際に試してみよう！",
+    "step4Desc": "3桁・6回まで。やってみよう！",
+    "step4HintHit": "ヒット = 位置も種類も正解",
+    "step4HintBlow": "ブロー = 種類は合っているが位置が違う"
+  },
+  "notFound": {
+    "title": "ページが見つかりません",
+    "desc": "お探しのページは存在しません。",
+    "backToHome": "ホームに戻る"
+  },
+  "terms": {
+    "title": "利用規約"
+  },
+  "privacy": {
+    "title": "プライバシーポリシー"
   },
   "error": {
     "storage": {

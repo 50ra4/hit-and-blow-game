@@ -43,13 +43,75 @@
     "heart": "Heart",
     "club": "Club"
   },
+  "nav": {
+    "home": "Home",
+    "stats": "Stats",
+    "tutorial": "How to Play",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "language": "Language",
+    "sound": "Sound"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "home": {
+    "dailyChallenge": "Daily Challenge",
+    "selectMode": "Select a Mode",
+    "dailyDesc": "Today's Challenge!",
+    "tutorial": "View Tutorial"
+  },
   "stats": {
     "title": "Statistics",
     "totalPlays": "Total Plays",
+    "totalWins": "Total Wins",
     "winRate": "Win Rate",
     "avgAttempts": "Avg. Attempts",
     "bestAttempts": "Best Attempts",
-    "clear": "Clear Statistics"
+    "clear": "Clear Statistics",
+    "noData": "No Data",
+    "dailyHistory": "Daily History",
+    "confirmClear": "Reset statistics? This action cannot be undone.",
+    "modeStats": "Mode Stats"
+  },
+  "tutorial": {
+    "title": "How to Play",
+    "step": "{{current}} / {{total}}",
+    "next": "Next",
+    "prev": "Back",
+    "skip": "Skip to Home",
+    "complete": "Start Playing",
+    "step0Title": "Goal",
+    "step0Desc": "Guess the hidden tile sequence!",
+    "step1Title": "Hit & Blow",
+    "step1HitDesc": "Hit: Correct tile AND position!",
+    "step1BlowDesc": "Blow: Correct tile but wrong position!",
+    "step2Title": "Tile Types",
+    "step2Desc": "8 types of tiles are used",
+    "step3Title": "Modes & Play Types",
+    "step3FreeDesc": "Free Play: Play any mode as many times as you like",
+    "step3DailyDesc": "Daily Challenge: One puzzle per day",
+    "step4Title": "Try it out!",
+    "step4Desc": "3 tiles, 6 attempts. Give it a try!",
+    "step4HintHit": "Hit = Correct tile AND position",
+    "step4HintBlow": "Blow = Correct tile but wrong position"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "desc": "The page you are looking for does not exist.",
+    "backToHome": "Back to Home"
+  },
+  "terms": {
+    "title": "Terms of Service"
+  },
+  "privacy": {
+    "title": "Privacy Policy"
   },
   "error": {
     "storage": {
