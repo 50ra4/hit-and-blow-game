@@ -4,8 +4,8 @@ import { THEME_ID_VALUES } from '@/consts/themes';
 
 // Settings スキーマ
 export const SettingsSchema = z.object({
-  language: z.enum(LANGUAGE_ID_VALUES as [string, ...string[]]).default('ja'),
-  theme: z.enum(THEME_ID_VALUES as [string, ...string[]]).default('system'),
+  language: z.enum(LANGUAGE_ID_VALUES).default('ja'),
+  theme: z.enum(THEME_ID_VALUES).default('system'),
   soundEnabled: z.boolean().default(true),
   tutorialCompleted: z.boolean().default(false),
 });

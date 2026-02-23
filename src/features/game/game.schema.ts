@@ -5,20 +5,16 @@ import { PLAY_TYPE_ID_VALUES } from '@/consts/playTypes';
 
 // Tile スキーマ
 export const TileSchema = z.object({
-  id: z.enum(TILE_ID_VALUES as [string, ...string[]]),
+  id: z.enum(TILE_ID_VALUES),
   color: z.string(),
   svgPath: z.string(),
 });
 
 // GameMode スキーマ
-export const GameModeSchema = z.enum(
-  GAME_MODE_ID_VALUES as [string, ...string[]],
-);
+export const GameModeSchema = z.enum(GAME_MODE_ID_VALUES);
 
 // PlayType スキーマ
-export const PlayTypeSchema = z.enum(
-  PLAY_TYPE_ID_VALUES as [string, ...string[]],
-);
+export const PlayTypeSchema = z.enum(PLAY_TYPE_ID_VALUES);
 
 // Guess スキーマ
 export const GuessSchema = z.object({
