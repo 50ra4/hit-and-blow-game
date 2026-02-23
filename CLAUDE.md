@@ -25,6 +25,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 <!-- ## コンテンツワークフロー -->
 
+## 作業ルール
+
+- ドキュメントは、DRYの原則を遵守。情報を書くべきファイルに集約し、そのファイルを参照先を記載。
+
 ## Plan Mode
 
 プランファイルには、**意図**(なぜ必要か)と**選択理由**を含める。
