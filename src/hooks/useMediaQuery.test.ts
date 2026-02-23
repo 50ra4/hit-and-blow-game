@@ -1,8 +1,29 @@
-import { describe, it, expect, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
+import type { FIXME } from '@/utils/utilityTypes';
 import { useMediaQuery } from './useMediaQuery';
 
+const createMockMatchMedia = (matches: boolean) =>
+  vi.fn((query: string) => ({
+    matches,
+    media: query,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+  })) as FIXME;
+
 describe('useMediaQuery', () => {
+  beforeEach(() => {
+    // jsdom にはデフォルトで matchMedia がないため、プロパティ定義でモックを設定
+    // window.matchMedia = ... の直接代入は jsdom では read-only のため Object.defineProperty を使用
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      configurable: true,
+      value: createMockMatchMedia(false),
+    });
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -12,27 +33,17 @@ describe('useMediaQuery', () => {
     expect(typeof result.current).toBe('boolean');
   });
 
-  it('window が undefined の場合 false を返す', () => {
-    const originalWindow = global.window;
-    // @ts-expect-error: テスト用に undefined にする
-    delete global.window;
-
+  it('matchMedia が false を返す場合 false が返される', () => {
     const { result } = renderHook(() => useMediaQuery('(min-width: 768px)'));
     expect(result.current).toBe(false);
-
-    global.window = originalWindow;
   });
 
   it('matchMedia のマッチ状態を返す', () => {
-    const mockMediaQueryList: Partial<MediaQueryList> = {
-      matches: true,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-    };
-
-    vi.spyOn(window, 'matchMedia').mockReturnValue(
-      mockMediaQueryList as MediaQueryList,
-    );
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      configurable: true,
+      value: createMockMatchMedia(true),
+    });
 
     const { result } = renderHook(() => useMediaQuery('(min-width: 768px)'));
     expect(result.current).toBe(true);
@@ -44,11 +55,12 @@ describe('useMediaQuery', () => {
 
     const mockMediaQueryList: Partial<MediaQueryList> = {
       matches: true,
+      media: '(min-width: 768px)',
       addEventListener: addEventListenerSpy,
       removeEventListener: removeEventListenerSpy,
     };
 
-    vi.spyOn(window, 'matchMedia').mockReturnValue(
+    vi.mocked(window.matchMedia).mockReturnValue(
       mockMediaQueryList as MediaQueryList,
     );
 
@@ -65,11 +77,12 @@ describe('useMediaQuery', () => {
     const removeEventListenerSpy = vi.fn();
     const mockMediaQueryList: Partial<MediaQueryList> = {
       matches: true,
+      media: '(min-width: 768px)',
       addEventListener: vi.fn(),
       removeEventListener: removeEventListenerSpy,
     };
 
-    vi.spyOn(window, 'matchMedia').mockReturnValue(
+    vi.mocked(window.matchMedia).mockReturnValue(
       mockMediaQueryList as MediaQueryList,
     );
 

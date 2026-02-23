@@ -1,10 +1,30 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
+import type { FIXME } from '@/utils/utilityTypes';
 import { useDarkMode } from './useDarkMode';
+
+const createMockMatchMedia = (matches: boolean) =>
+  vi.fn((query: string) => ({
+    matches,
+    media: query,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+  })) as FIXME;
 
 describe('useDarkMode', () => {
   beforeEach(() => {
     document.documentElement.classList.remove('dark');
+    // jsdom にはデフォルトで matchMedia がないため、プロパティ定義でモックを設定
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      configurable: true,
+      value: createMockMatchMedia(false),
+    });
+  });
+
+  afterEach(() => {
     vi.clearAllMocks();
   });
 
@@ -19,15 +39,11 @@ describe('useDarkMode', () => {
   });
 
   it('theme が "system" の場合 OS 設定に追従', () => {
-    const mockMediaQueryList: Partial<MediaQueryList> = {
-      matches: true,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-    };
-
-    vi.spyOn(window, 'matchMedia').mockReturnValue(
-      mockMediaQueryList as MediaQueryList,
-    );
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      configurable: true,
+      value: createMockMatchMedia(true),
+    });
 
     const { result } = renderHook(() => useDarkMode('system'));
     expect(result.current.isDark).toBe(true);
@@ -45,13 +61,16 @@ describe('useDarkMode', () => {
   });
 
   it('theme が変更されたときにクラスを更新', () => {
-    const { rerender } = renderHook(({ theme }) => useDarkMode(theme), {
-      initialProps: { theme: 'dark' as const },
-    });
+    const { rerender } = renderHook(
+      ({ theme }: { theme: 'light' | 'dark' | 'system' }) => useDarkMode(theme),
+      {
+        initialProps: { theme: 'dark' as 'light' | 'dark' | 'system' },
+      },
+    );
 
     expect(document.documentElement.classList.contains('dark')).toBe(true);
 
-    rerender({ theme: 'light' as const });
+    rerender({ theme: 'light' as 'light' | 'dark' | 'system' });
     expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
 });
