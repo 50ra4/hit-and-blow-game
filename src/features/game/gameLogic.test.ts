@@ -25,6 +25,17 @@ describe('generateAnswer', () => {
     // 重複がないことが保証されないため、単に長さが4であることを確認
   });
 
+  it('長さ8、重複を許容', () => {
+    const answer = generateAnswer(8, true);
+
+    expect(answer).toHaveLength(8);
+    // AVAILABLE_TILES から選択したタイルのみを使用
+    answer.forEach((tile) => {
+      const found = AVAILABLE_TILES.find((t) => t.id === tile.id);
+      expect(found).toBeDefined();
+    });
+  });
+
   it('長さ8、重複なし（全8種類）', () => {
     const answer = generateAnswer(8, false);
 
@@ -131,7 +142,7 @@ describe('checkGuess', () => {
     const result = checkGuess(guess, answer);
 
     expect(result.hits).toBe(2); // pos 0 and 3
-    expect(result.blows).toBe(2); // A at pos 1 in guess, B at pos 2 in guess
+    expect(result.blows).toBe(2); // B at pos 1 in guess, A at pos 2 in guess
   });
 });
 
