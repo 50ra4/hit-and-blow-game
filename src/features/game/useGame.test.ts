@@ -148,4 +148,45 @@ describe('useGame', () => {
 
     expect(answer1).toBe(answer2);
   });
+
+  it('全ヒットの推測を送信 → isGameOver: true, isWon: true', () => {
+    const { result } = renderHook(() => useGame('normal', 'free'));
+    const answer = result.current.answer;
+
+    act(() => {
+      answer.forEach((tile) => result.current.addTile(tile));
+    });
+
+    act(() => {
+      result.current.submitGuess();
+    });
+
+    expect(result.current.isGameOver).toBe(true);
+    expect(result.current.isWon).toBe(true);
+  });
+
+  it('最大試行回数まで推測送信 → isGameOver: true, isWon: false', () => {
+    // beginner モード: length=3, maxAttempts=6, allowDuplicates=false
+    const { result } = renderHook(() => useGame('beginner', 'free'));
+    const answer = result.current.answer;
+
+    // 答えに含まれないタイルで外れ推測を作成（0ヒット保証）
+    const wrongTiles = AVAILABLE_TILES.filter(
+      (t) => !answer.some((a) => a.id === t.id),
+    );
+    const wrongGuess = wrongTiles.slice(0, 3);
+
+    for (let i = 0; i < 6; i++) {
+      act(() => {
+        wrongGuess.forEach((tile) => result.current.addTile(tile));
+      });
+      act(() => {
+        result.current.submitGuess();
+      });
+    }
+
+    expect(result.current.isGameOver).toBe(true);
+    expect(result.current.isWon).toBe(false);
+    expect(result.current.guesses).toHaveLength(6);
+  });
 });

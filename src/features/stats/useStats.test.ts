@@ -156,6 +156,98 @@ describe('useStats', () => {
     expect(result.current.stats.totalWins).toBe(0);
   });
 
+  it('recordGame でモード別統計が正しく更新される', () => {
+    const { result } = renderHook(() => useStats());
+
+    act(() => {
+      result.current.recordGame({
+        mode: 'beginner',
+        playType: 'free',
+        isWon: true,
+        attempts: 3,
+        timestamp: Date.now(),
+      });
+      result.current.recordGame({
+        mode: 'normal',
+        playType: 'free',
+        isWon: false,
+        attempts: 8,
+        timestamp: Date.now(),
+      });
+    });
+
+    expect(result.current.stats.modeStats['beginner']?.plays).toBe(1);
+    expect(result.current.stats.modeStats['beginner']?.wins).toBe(1);
+    expect(result.current.stats.modeStats['normal']?.plays).toBe(1);
+    expect(result.current.stats.modeStats['normal']?.wins).toBe(0);
+  });
+
+  it('averageAttempts が正しく計算される', () => {
+    const { result } = renderHook(() => useStats());
+
+    act(() => {
+      result.current.recordGame({
+        mode: 'normal',
+        playType: 'free',
+        isWon: true,
+        attempts: 6,
+        timestamp: Date.now(),
+      });
+    });
+
+    expect(result.current.stats.averageAttempts).toBe(6);
+
+    act(() => {
+      result.current.recordGame({
+        mode: 'normal',
+        playType: 'free',
+        isWon: true,
+        attempts: 4,
+        timestamp: Date.now(),
+      });
+    });
+
+    expect(result.current.stats.averageAttempts).toBe(5);
+  });
+
+  it('recordGame でデイリー履歴が正しく追加される（最大30件）', () => {
+    const { result } = renderHook(() => useStats());
+
+    act(() => {
+      for (let i = 0; i < 31; i++) {
+        result.current.recordGame({
+          mode: 'normal',
+          playType: 'daily',
+          isWon: true,
+          attempts: 5,
+          timestamp: Date.now() + i,
+        });
+      }
+    });
+
+    expect(result.current.stats.dailyHistory).toHaveLength(30);
+  });
+
+  it('エキスパートモードクリア後にマスターが解放される', () => {
+    const { result } = renderHook(() => useStats());
+
+    act(() => {
+      result.current.unlockMode('expert');
+    });
+
+    act(() => {
+      result.current.recordGame({
+        mode: 'expert',
+        playType: 'free',
+        isWon: true,
+        attempts: 8,
+        timestamp: Date.now(),
+      });
+    });
+
+    expect(result.current.stats.unlockedModes).toContain('master');
+  });
+
   it('isModeUnlocked でモード解放状態を判定', () => {
     const { result } = renderHook(() => useStats());
 
