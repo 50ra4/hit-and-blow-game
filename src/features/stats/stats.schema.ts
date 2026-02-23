@@ -7,7 +7,7 @@ export const ModeStatsSchema = z.object({
   wins: z.number().int().min(0).default(0),
   winRate: z.number().min(0).max(100).default(0),
   averageAttempts: z.number().min(0).default(0),
-  bestAttempts: z.number().int().min(0).default(0),
+  bestAttempts: z.number().int().min(0).nullable().default(null),
 });
 
 // DailyRecord スキーマ
@@ -25,7 +25,7 @@ export const StatsSchema = z.object({
   totalWins: z.number().int().min(0).default(0),
   winRate: z.number().min(0).max(100).default(0),
   averageAttempts: z.number().min(0).default(0),
-  bestAttempts: z.number().int().min(0).default(0),
+  bestAttempts: z.number().int().min(0).nullable().default(null),
   modeStats: z.record(GameModeSchema, ModeStatsSchema).default({}),
   unlockedModes: z
     .array(GameModeSchema)
