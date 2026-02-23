@@ -17,14 +17,31 @@
     "submit": "Submit",
     "attempts": "Attempt {{current}} / {{max}}",
     "hit": "Hit",
-    "blow": "Blow"
+    "blow": "Blow",
+    "reset": "Reset",
+    "backToHome": "← Home",
+    "dailyTitle": "📅 Daily ({{mode}})",
+    "currentGuessLabel": "Current Input",
+    "removeTile": "Remove {{tile}}"
   },
   "result": {
     "win": "You Win!",
     "lose": "Game Over",
     "attempts": "Cleared in {{count}} attempts",
     "share": "Share",
-    "restart": "Play Again"
+    "restart": "Play Again",
+    "backToHome": "Back to Home",
+    "answer": "Answer:"
+  },
+  "tile": {
+    "star": "Star",
+    "circle": "Circle",
+    "triangle": "Triangle",
+    "square": "Square",
+    "diamond": "Diamond",
+    "spade": "Spade",
+    "heart": "Heart",
+    "club": "Club"
   },
   "stats": {
     "title": "Statistics",
