@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
-import type { Stats, DailyRecord } from '@/features/stats/stats.schema';
+import type { Stats } from '@/features/stats/stats.schema';
 import type { GameMode } from '@/features/game/game.schema';
 
 type StatsPanelProps = {
@@ -31,8 +31,7 @@ export function StatsPanel({ stats }: StatsPanelProps) {
       ? t('stats.noData')
       : String(stats.bestAttempts);
 
-  // toReversed は ES2023 以降のため、スプレッド + reverse で代替
-  const sortedDailyHistory = [...stats.dailyHistory].reverse();
+  const sortedDailyHistory = stats.dailyHistory.toReversed();
 
   return (
     <div className="space-y-8">
@@ -127,7 +126,7 @@ export function StatsPanel({ stats }: StatsPanelProps) {
             {t('stats.dailyHistory')}
           </h2>
           <div className="space-y-2">
-            {sortedDailyHistory.map((record: DailyRecord, index: number) => (
+            {sortedDailyHistory.map((record, index) => (
               <div
                 key={`${record.date}-${index}`}
                 className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3"
