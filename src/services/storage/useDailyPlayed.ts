@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { format } from 'date-fns';
 import { useLocalStorage } from './useLocalStorage';
 import { STORAGE_KEYS } from '@/consts/storageKeys';
 
@@ -7,6 +8,8 @@ type UseDailyPlayedReturn = {
   markPlayedToday: () => void;
 };
 
+const getTodayString = (): string => format(new Date(), 'yyyy-MM-dd');
+
 export const useDailyPlayed = (): UseDailyPlayedReturn => {
   const [dailyPlayed, setDailyPlayed] = useLocalStorage<string>(
     STORAGE_KEYS.DAILY_PLAYED,
@@ -14,13 +17,11 @@ export const useDailyPlayed = (): UseDailyPlayedReturn => {
   );
 
   const hasPlayedToday = useCallback((): boolean => {
-    const today = new Date().toISOString().split('T')[0];
-    return dailyPlayed === today;
+    return dailyPlayed === getTodayString();
   }, [dailyPlayed]);
 
   const markPlayedToday = useCallback((): void => {
-    const today = new Date().toISOString().split('T')[0];
-    setDailyPlayed(today);
+    setDailyPlayed(getTodayString());
   }, [setDailyPlayed]);
 
   return { hasPlayedToday, markPlayedToday };

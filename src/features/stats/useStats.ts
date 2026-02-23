@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { format, formatISO } from 'date-fns';
 import { useLocalStorage } from '@/services/storage/useLocalStorage';
 import { STORAGE_KEYS } from '@/consts/storageKeys';
 import { GAME_MODES } from '@/consts/modes';
@@ -25,7 +26,6 @@ export const useStats = (): UseStatsReturn => {
   );
 
   const recordGame = useCallback((result: GameResult): void => {
-     
     setStats((prev) => {
       const { mode, playType, isWon, attempts, timestamp } = result;
 
@@ -79,20 +79,21 @@ export const useStats = (): UseStatsReturn => {
       };
 
       // 7. デイリーチャレンジ履歴の追加（最大30件）
-      const date = new Date(timestamp).toISOString().split('T')[0];
+      const date = format(new Date(timestamp), 'yyyy-MM-dd');
       const newDailyHistory =
         playType === 'daily'
           ? [...prev.dailyHistory, { date, mode, isWon, attempts }].slice(-30)
           : prev.dailyHistory;
 
       // 8. lastPlayed を更新
-      const newLastPlayed = new Date(timestamp).toISOString();
+      const newLastPlayed = formatISO(new Date(timestamp));
 
       // 9. モード解放条件チェック
       let newUnlockedModes = [...prev.unlockedModes];
       if (isWon) {
         Object.values(GAME_MODES).forEach((modeConfig) => {
           if (
+            'unlockCondition' in modeConfig &&
             modeConfig.unlockCondition === mode &&
             !newUnlockedModes.includes(modeConfig.id)
           ) {
@@ -117,7 +118,6 @@ export const useStats = (): UseStatsReturn => {
   }, []);
 
   const unlockMode = useCallback((mode: GameMode): void => {
-     
     setStats((prev) => {
       if (prev.unlockedModes.includes(mode)) {
         return prev;
