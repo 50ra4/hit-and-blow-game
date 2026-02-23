@@ -16,7 +16,7 @@ export const TILE_SYMBOLS = {
   club: '♣',
 } as const satisfies Record<Tile['id'], string>;
 
-// タイルごとの背景グラデーション（mock_design.htmlに基づく）
+// タイルごとの背景グラデーション（06_mock_design.htmlに基づく）
 export const TILE_GRADIENT_STYLES = {
   star: {
     background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',

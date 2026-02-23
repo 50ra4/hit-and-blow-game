@@ -13,22 +13,22 @@ https://github.com/50ra4/hit-and-blow-game/issues/22
 - `docs/05_sitemap.md` セクション「5. チュートリアル（`/tutorial`）」
 - `docs/01_requirements.md` セクション2.4「チュートリアル機能」
 - `docs/02_architecture.md` セクション2「features/tutorial/」
-- `docs/mock_design.html` — チュートリアル画面デザイン
+- `docs/06_mock_design.html` — チュートリアル画面デザイン
 
 ## 実装内容
 
 ### 追加ファイル
 
-| ファイル | 内容 |
-|---------|------|
-| `src/pages/TutorialPage.tsx` | チュートリアルページコンポーネント |
-| `src/features/tutorial/useTutorial.ts` | チュートリアル状態管理フック |
-| `src/features/tutorial/TutorialStep/TutorialStep.tsx` | 各ステップのコンポーネント |
+| ファイル                                              | 内容                               |
+| ----------------------------------------------------- | ---------------------------------- |
+| `src/pages/TutorialPage.tsx`                          | チュートリアルページコンポーネント |
+| `src/features/tutorial/useTutorial.ts`                | チュートリアル状態管理フック       |
+| `src/features/tutorial/TutorialStep/TutorialStep.tsx` | 各ステップのコンポーネント         |
 
 ### 変更ファイル
 
-| ファイル | 変更内容 |
-|---------|---------|
+| ファイル                   | 変更内容                     |
+| -------------------------- | ---------------------------- |
 | `src/i18n/locales/ja.json` | チュートリアル用翻訳キー追加 |
 | `src/i18n/locales/en.json` | チュートリアル用翻訳キー追加 |
 
@@ -38,7 +38,8 @@ https://github.com/50ra4/hit-and-blow-game/issues/22
 
 ```typescript
 export default function TutorialPage() {
-  const { currentStep, totalSteps, nextStep, prevStep, isLastStep } = useTutorial();
+  const { currentStep, totalSteps, nextStep, prevStep, isLastStep } =
+    useTutorial();
   const { completeTutorial } = useSettings();
   const navigate = useNavigate();
 
@@ -66,18 +67,18 @@ export function useTutorial(): {
   prevStep: () => void;
   isFirstStep: boolean;
   isLastStep: boolean;
-}
+};
 ```
 
 **ステップ構成（`docs/05_sitemap.md` + `docs/01_requirements.md` セクション2.4）:**
 
-| Step | 内容 | 表示 |
-|------|------|------|
-| 1 | ゲームの目的（タイルの並びを推理） | テキスト + イラスト |
-| 2 | ヒット・ブローの説明（図解付き） | テキスト + 具体例 |
-| 3 | タイルの種類紹介（8種類のアイコン） | タイル一覧 |
-| 4 | モード・プレイタイプの説明 | テキスト + モード一覧 |
-| 5 | 実際に試してみよう（簡易ゲーム体験） | インタラクティブ |
+| Step | 内容                                 | 表示                  |
+| ---- | ------------------------------------ | --------------------- |
+| 1    | ゲームの目的（タイルの並びを推理）   | テキスト + イラスト   |
+| 2    | ヒット・ブローの説明（図解付き）     | テキスト + 具体例     |
+| 3    | タイルの種類紹介（8種類のアイコン）  | タイル一覧            |
+| 4    | モード・プレイタイプの説明           | テキスト + モード一覧 |
+| 5    | 実際に試してみよう（簡易ゲーム体験） | インタラクティブ      |
 
 #### TutorialStep.tsx
 
@@ -92,11 +93,13 @@ export function TutorialStep({ step }: TutorialStepProps) {
 ```
 
 **ステップ5（簡易ゲーム体験）の仕様（`docs/01_requirements.md` セクション2.4）:**
+
 - 3桁・3回の簡易版ゲーム
 - ヒントあり: ゲームボードの上部に「タイルを3つ選んで「回答する」を押してみましょう！ヒット＝正解タイルが正しい位置、ブロー＝正解タイルが別の位置にある、です。」のようなガイドテキストを表示
 - `useGame` フックを `mode='beginner'` 相当で使用（ただし maxAttempts=3）
 
 **UI要素:**
+
 - 「次へ」ボタン（最後のステップでは「完了」）
 - 「前へ」ボタン（最初のステップでは非表示）
 - 「スキップしてホームへ」ボタン

@@ -12,19 +12,19 @@ https://github.com/50ra4/hit-and-blow-game/issues/17
 
 - `docs/02_architecture.md` セクション6.2「Features Layer」— GameBoard, TilePicker, GuessHistory, GameHeader, ResultDisplay
 - `docs/05_sitemap.md` セクション「フリープレイ」「デイリーチャレンジ」— 表示要素の仕様
-- `docs/mock_design.html` — ビジュアルデザイン
+- `docs/06_mock_design.html` — ビジュアルデザイン
 
 ## 実装内容
 
 ### 追加ファイル
 
-| ファイル | 内容 |
-|---------|------|
-| `src/features/game/TilePicker/TilePicker.tsx` | タイル選択パレット |
-| `src/features/game/GuessHistory/GuessHistory.tsx` | 推測履歴表示 |
-| `src/features/game/GameHeader/GameHeader.tsx` | ゲームヘッダー |
-| `src/features/game/GameBoard/GameBoard.tsx` | ゲームボード（統合コンポーネント） |
-| `src/features/game/ResultDisplay/ResultDisplay.tsx` | ゲーム結果表示 |
+| ファイル                                            | 内容                               |
+| --------------------------------------------------- | ---------------------------------- |
+| `src/features/game/TilePicker/TilePicker.tsx`       | タイル選択パレット                 |
+| `src/features/game/GuessHistory/GuessHistory.tsx`   | 推測履歴表示                       |
+| `src/features/game/GameHeader/GameHeader.tsx`       | ゲームヘッダー                     |
+| `src/features/game/GameBoard/GameBoard.tsx`         | ゲームボード（統合コンポーネント） |
+| `src/features/game/ResultDisplay/ResultDisplay.tsx` | ゲーム結果表示                     |
 
 ### 変更ファイル
 
@@ -49,6 +49,7 @@ export const TilePicker = memo(function TilePicker(props: TilePickerProps) {
 ```
 
 **表示内容:**
+
 - 8種類のタイルを横並びで表示
 - 各タイルはSVGアイコン + 背景色
 - `selected` に含まれるタイルは選択済み表示
@@ -58,6 +59,7 @@ export const TilePicker = memo(function TilePicker(props: TilePickerProps) {
 - タイルクリックで `onSelect` 呼び出し
 
 **アクセシビリティ（`docs/tasks/20260219-01.md` #8, #9）:**
+
 - 各タイルに `role="button"`, `aria-label`（タイル名）, `aria-pressed`（選択状態）を設定
 - キーボード操作対応（Enter/Spaceで選択、矢印キーでフォーカス移動）
 
@@ -76,6 +78,7 @@ export function GuessHistory(props: GuessHistoryProps) {
 ```
 
 **表示内容:**
+
 - 推測履歴を上から順に表示
 - 各行: タイル配列 + ヒット数 + ブロー数
 - 空のスロットを表示（`docs/tasks/20260219-01.md` #1 — 未入力のスロットは空のプレースホルダーで表示）
@@ -98,6 +101,7 @@ export function GameHeader(props: GameHeaderProps) {
 ```
 
 **表示内容:**
+
 - 左: 戻るボタン（`← ホーム`）
 - 中央: モード名（デイリーの場合: `📅 今日の問題（ノーマル）`）
 - 右: 残り回数表示（`3 / 8回目`）
@@ -124,6 +128,7 @@ export function GameBoard(props: GameBoardProps) {
 ```
 
 **表示内容:**
+
 - 現在の入力エリア（選択されたタイル + 空スロット）
 - 各タイルは個別に削除可能（`docs/tasks/20260219-01.md` #2）
 - TilePicker（タイル選択パレット）
@@ -150,6 +155,7 @@ export function ResultDisplay(props: ResultDisplayProps) {
 ```
 
 **表示内容:**
+
 - 勝利時: 「クリア！」 + クリア回数
 - 敗北時: 「ゲームオーバー」 + 正解のタイル表示
 - 「もう一度プレイ」ボタン（フリープレイのみ）
@@ -194,4 +200,4 @@ export function ResultDisplay(props: ResultDisplayProps) {
 ## 要確認事項
 
 - ~~SVGタイル未作成~~ → **確定: 各タイルの色付き円（`consts/tiles.ts` の `color` 値を使用）でプレースホルダーを実装する。T-022のSVG作成後に `<img src="/assets/tiles/{id}.svg">` に差し替える構造にすること。**
-- ~~デザイン再現度~~ → **確定: mock_design.html を忠実に再現する（T-011参照）**
+- ~~デザイン再現度~~ → **確定: 06_mock_design.html を忠実に再現する（T-011参照）**

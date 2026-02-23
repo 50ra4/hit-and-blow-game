@@ -11,18 +11,18 @@ https://github.com/50ra4/hit-and-blow-game/issues/16
 ## 背景
 
 - `docs/02_architecture.md` セクション6.4「Components Layer（Pure UI）」
-- `docs/mock_design.html` — 各コンポーネントのビジュアルデザイン
+- `docs/06_mock_design.html` — 各コンポーネントのビジュアルデザイン
 
 ## 実装内容
 
 ### 追加ファイル
 
-| ファイル | 内容 |
-|---------|------|
-| `src/components/Button/Button.tsx` | 汎用ボタンコンポーネント |
-| `src/components/Modal/Modal.tsx` | モーダルコンポーネント |
+| ファイル                             | 内容                           |
+| ------------------------------------ | ------------------------------ |
+| `src/components/Button/Button.tsx`   | 汎用ボタンコンポーネント       |
+| `src/components/Modal/Modal.tsx`     | モーダルコンポーネント         |
 | `src/components/Loading/Loading.tsx` | ローディング表示コンポーネント |
-| `src/components/Card/Card.tsx` | カードコンポーネント |
+| `src/components/Card/Card.tsx`       | カードコンポーネント           |
 
 ### 変更ファイル
 
@@ -41,10 +41,13 @@ type ButtonProps = {
   className?: string;
 };
 
-export function Button(props: ButtonProps) { /* ... */ }
+export function Button(props: ButtonProps) {
+  /* ... */
+}
 ```
 
-**デザイン要件（mock_design.html参照）:**
+**デザイン要件（06_mock_design.html参照）:**
+
 - `primary`: 青系グラデーション背景、白文字
 - `secondary`: グレー系背景、白文字
 - `danger`: 赤系背景、白文字
@@ -63,10 +66,13 @@ type ModalProps = {
   title?: string;
 };
 
-export function Modal(props: ModalProps) { /* ... */ }
+export function Modal(props: ModalProps) {
+  /* ... */
+}
 ```
 
 **デザイン要件:**
+
 - `isOpen === false` のとき非表示
 - オーバーレイ（半透明黒背景）
 - 中央配置のモーダルコンテンツ
@@ -79,10 +85,13 @@ export function Modal(props: ModalProps) { /* ... */ }
 #### Loading.tsx
 
 ```typescript
-export function Loading() { /* ... */ }
+export function Loading() {
+  /* ... */
+}
 ```
 
 **デザイン要件:**
+
 - 中央配置のスピナー
 - アニメーション（CSSアニメーション）
 - `Suspense` の `fallback` として使用
@@ -95,10 +104,13 @@ type CardProps = {
   className?: string;
 };
 
-export function Card(props: CardProps) { /* ... */ }
+export function Card(props: CardProps) {
+  /* ... */
+}
 ```
 
 **デザイン要件:**
+
 - 角丸、シャドウ
 - パディング付き
 - 背景色はテーマに応じて変化（ダークモード対応）
@@ -136,4 +148,4 @@ export function Card(props: CardProps) { /* ... */ }
 
 ## 要確認事項
 
-- ~~デザイン再現度~~ → **確定: mock_design.html を忠実に再現する。ダークグラデーション背景（#1a1a2e〜#0f3460）等はTailwindのカスタムカラーとして `tailwind.config.js` に追加すること。**
+- ~~デザイン再現度~~ → **確定: 06_mock_design.html を忠実に再現する。ダークグラデーション背景（#1a1a2e〜#0f3460）等はTailwindのカスタムカラーとして `tailwind.config.js` に追加すること。**

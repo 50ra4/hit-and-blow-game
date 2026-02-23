@@ -13,15 +13,15 @@ https://github.com/50ra4/hit-and-blow-game/issues/21
 - `docs/05_sitemap.md` セクション「4. 統計（`/stats`）」
 - `docs/01_requirements.md` セクション2.5「統計・記録機能」
 - `docs/02_architecture.md` セクション6.2「features/stats/StatsPanel」
-- `docs/mock_design.html` — 統計画面デザイン
+- `docs/06_mock_design.html` — 統計画面デザイン
 
 ## 実装内容
 
 ### 追加ファイル
 
-| ファイル | 内容 |
-|---------|------|
-| `src/pages/StatsPage.tsx` | 統計ページコンポーネント |
+| ファイル                                       | 内容                     |
+| ---------------------------------------------- | ------------------------ |
+| `src/pages/StatsPage.tsx`                      | 統計ページコンポーネント |
 | `src/features/stats/StatsPanel/StatsPanel.tsx` | 統計パネルコンポーネント |
 
 ### 変更ファイル
@@ -58,23 +58,26 @@ export function StatsPanel({ stats, onClear }: StatsPanelProps) {
 
 **全体統計セクション:**
 
-| 項目 | 値 | 翻訳キー |
-|------|------|---------|
-| 総プレイ回数 | `stats.totalPlays` | `stats.totalPlays` |
-| 総勝利数 | `stats.totalWins` | — |
-| 勝率 | `stats.winRate` % | `stats.winRate` |
-| 平均クリア回数 | `stats.averageAttempts` | `stats.avgAttempts` |
-| 最短クリア回数 | `stats.bestAttempts` | `stats.bestAttempts` |
+| 項目           | 値                      | 翻訳キー             |
+| -------------- | ----------------------- | -------------------- |
+| 総プレイ回数   | `stats.totalPlays`      | `stats.totalPlays`   |
+| 総勝利数       | `stats.totalWins`       | —                    |
+| 勝率           | `stats.winRate` %       | `stats.winRate`      |
+| 平均クリア回数 | `stats.averageAttempts` | `stats.avgAttempts`  |
+| 最短クリア回数 | `stats.bestAttempts`    | `stats.bestAttempts` |
 
 **モード別統計セクション:**
-- 各モードをカード形式で表示（mock_design.html に従い、枠線付きカード）
+
+- 各モードをカード形式で表示（06_mock_design.html に従い、枠線付きカード）
 - 各モード: プレイ回数、勝率、平均試行回数、最短試行回数
 
 **デイリー履歴セクション:**
+
 - 最大30日分のクリア状況をリスト表示
 - 日付・結果（成功/失敗）・試行回数
 
 **フッター:**
+
 - 「統計をクリア」ボタン（確認ダイアログ付き）
   - 確認: 「統計データをすべて削除しますか？この操作は取り消せません。」
 
@@ -110,4 +113,4 @@ export function StatsPanel({ stats, onClear }: StatsPanelProps) {
 ## 要確認事項
 
 - ~~デイリー履歴の表示形式~~ → **確定: リスト表示**
-- ~~モード別統計の表示形式~~ → **確定: カード表示（mock_design.htmlに従う）。ホーム画面のモード選択カードと同様に枠線（border）を付けること。**
+- ~~モード別統計の表示形式~~ → **確定: カード表示（06_mock_design.htmlに従う）。ホーム画面のモード選択カードと同様に枠線（border）を付けること。**

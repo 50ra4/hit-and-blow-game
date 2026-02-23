@@ -13,14 +13,14 @@ https://github.com/50ra4/hit-and-blow-game/issues/20
 - `docs/05_sitemap.md` セクション「2. フリープレイ」「3. デイリーチャレンジ」
 - `docs/02_architecture.md` セクション6.1「GamePage.tsx」
 - `docs/01_requirements.md` セクション2.1〜2.3
-- `docs/mock_design.html` — ゲーム画面デザイン
+- `docs/06_mock_design.html` — ゲーム画面デザイン
 
 ## 実装内容
 
 ### 追加ファイル
 
-| ファイル | 内容 |
-|---------|------|
+| ファイル                 | 内容                       |
+| ------------------------ | -------------------------- |
 | `src/pages/GamePage.tsx` | ゲームページコンポーネント |
 
 ### 変更ファイル
@@ -43,7 +43,8 @@ export default function GamePage() {
 
   // mode取得（フリープレイのみ）
   const modeParam = searchParams.get('mode') || 'normal';
-  const mode: GameMode = playType === 'daily' ? 'normal' : modeParam as GameMode;
+  const mode: GameMode =
+    playType === 'daily' ? 'normal' : (modeParam as GameMode);
 
   // ゲーム状態
   const game = useGame(mode, playType);
