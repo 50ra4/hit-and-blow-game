@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { useGame } from '@/features/game/useGame';
@@ -16,7 +16,6 @@ const DAILY_MODE = 'normal' as const;
 
 export default function DailyGamePage() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { stats, recordGame } = useStats();
   const { hasPlayedToday, markPlayedToday } = useDailyPlayed();
   const isRecordedRef = useRef(false);
@@ -51,10 +50,6 @@ export default function DailyGamePage() {
     markPlayedToday();
   }
 
-  const handleGoHome = () => {
-    navigate('/');
-  };
-
   const handleRestart = () => {
     isRecordedRef.current = false;
     resetGame();
@@ -72,7 +67,6 @@ export default function DailyGamePage() {
           attempts={attempts}
           maxAttempts={maxAttempts}
           playType={PLAY_TYPE_IDS.DAILY}
-          onBack={handleGoHome}
         />
         <div className="flex flex-1 items-center justify-center px-4 py-8 text-center">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
@@ -100,12 +94,12 @@ export default function DailyGamePage() {
                 {t('home.dailyDesc')}
               </p>
             )}
-            <button
-              onClick={handleGoHome}
-              className="mt-6 rounded-xl border border-white/20 bg-white/10 px-6 py-3 font-medium text-white transition-all hover:bg-white/20"
+            <Link
+              to="/"
+              className="mt-6 inline-block rounded-xl border border-white/20 bg-white/10 px-6 py-3 font-medium text-white transition-all hover:bg-white/20"
             >
               {t('result.backToHome')}
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -122,7 +116,6 @@ export default function DailyGamePage() {
         attempts={attempts}
         maxAttempts={maxAttempts}
         playType={PLAY_TYPE_IDS.DAILY}
-        onBack={handleGoHome}
       />
 
       <div className="flex-1 overflow-y-auto px-4 py-6">
@@ -135,7 +128,6 @@ export default function DailyGamePage() {
               mode={DAILY_MODE}
               playType={PLAY_TYPE_IDS.DAILY}
               onRestart={handleRestart}
-              onGoHome={handleGoHome}
             />
           ) : (
             <GameBoard

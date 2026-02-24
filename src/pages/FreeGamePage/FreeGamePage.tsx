@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useNavigate, useSearchParams, Navigate } from 'react-router-dom';
+import { useSearchParams, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGame } from '@/features/game/useGame';
 import { useStats } from '@/features/stats/useStats';
@@ -16,7 +16,6 @@ const resolveMode = (rawMode: string): GameMode =>
 
 export default function FreeGamePage() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { recordGame, isModeUnlocked } = useStats();
   const isRecordedRef = useRef(false);
@@ -56,10 +55,6 @@ export default function FreeGamePage() {
     });
   }
 
-  const handleGoHome = () => {
-    navigate('/');
-  };
-
   const handleRestart = () => {
     isRecordedRef.current = false;
     resetGame();
@@ -72,7 +67,6 @@ export default function FreeGamePage() {
         attempts={attempts}
         maxAttempts={maxAttempts}
         playType={PLAY_TYPE_IDS.FREE}
-        onBack={handleGoHome}
       />
 
       <div className="flex-1 overflow-y-auto px-4 py-6">
@@ -85,7 +79,6 @@ export default function FreeGamePage() {
               mode={mode}
               playType={PLAY_TYPE_IDS.FREE}
               onRestart={handleRestart}
-              onGoHome={handleGoHome}
             />
           ) : (
             <GameBoard

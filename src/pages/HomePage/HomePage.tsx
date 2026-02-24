@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
-import { useNavigate, Navigate, Link } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { useSettings } from '@/i18n/useSettings';
 import { useStats } from '@/features/stats/useStats';
 import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import type { GameMode } from '@/features/game/game.schema';
-import { Button } from '@/components/Button/Button';
+import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 
 const FREE_MODE_IDS: GameMode[] = [
   GAME_MODE_IDS.BEGINNER,
@@ -16,21 +16,12 @@ const FREE_MODE_IDS: GameMode[] = [
 
 export default function HomePage() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { settings } = useSettings();
   const { isModeUnlocked } = useStats();
 
   if (!settings.tutorialCompleted) {
     return <Navigate to="/tutorial" replace />;
   }
-
-  const handleDailyChallenge = () => {
-    navigate('/games/daily');
-  };
-
-  const handleModeSelect = (mode: GameMode) => {
-    navigate(`/games/free?mode=${mode}`);
-  };
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
@@ -44,9 +35,9 @@ export default function HomePage() {
       {/* デイリーチャレンジ */}
       <div className="mb-8 rounded-2xl border border-yellow-400/30 bg-yellow-400/10 p-6 text-center">
         <p className="mb-3 text-sm text-white/70">{t('home.dailyDesc')}</p>
-        <Button onClick={handleDailyChallenge} className="w-full py-4 text-lg">
+        <ButtonLink to="/games/daily" className="w-full py-4 text-lg">
           📅 {t('home.dailyChallenge')}
-        </Button>
+        </ButtonLink>
       </div>
 
       {/* チュートリアルリンク（常時表示） */}
@@ -73,19 +64,8 @@ export default function HomePage() {
                 ? modeConfig.unlockCondition
                 : undefined;
 
-            return (
-              <button
-                key={modeId}
-                onClick={() => {
-                  if (unlocked) handleModeSelect(modeId);
-                }}
-                disabled={!unlocked}
-                className={`rounded-xl border p-4 text-left transition-all duration-200 ${
-                  unlocked
-                    ? 'cursor-pointer border-white/20 bg-white/10 hover:border-indigo-400/50 hover:bg-white/15'
-                    : 'cursor-not-allowed border-white/10 bg-white/5 opacity-60'
-                } `}
-              >
+            const cardContent = (
+              <>
                 <div className="font-semibold text-white">
                   {t(modeConfig.nameKey)}
                 </div>
@@ -101,6 +81,24 @@ export default function HomePage() {
                     })
                   )}
                 </div>
+              </>
+            );
+
+            return unlocked ? (
+              <Link
+                key={modeId}
+                to={`/games/free?mode=${modeId}`}
+                className="rounded-xl border border-white/20 bg-white/10 p-4 text-left transition-all duration-200 hover:border-indigo-400/50 hover:bg-white/15"
+              >
+                {cardContent}
+              </Link>
+            ) : (
+              <button
+                key={modeId}
+                disabled
+                className="cursor-not-allowed rounded-xl border border-white/10 bg-white/5 p-4 text-left opacity-60 transition-all duration-200"
+              >
+                {cardContent}
               </button>
             );
           })}

@@ -1,14 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/Button/Button';
+import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 
 export default function NotFoundPage() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-
-  const handleGoHome = () => {
-    navigate('/');
-  };
 
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
@@ -17,7 +11,7 @@ export default function NotFoundPage() {
         {t('notFound.title')}
       </h1>
       <p className="mb-8 text-white/60">{t('notFound.desc')}</p>
-      <Button onClick={handleGoHome}>{t('notFound.backToHome')}</Button>
+      <ButtonLink to="/">{t('notFound.backToHome')}</ButtonLink>
     </div>
   );
 }
