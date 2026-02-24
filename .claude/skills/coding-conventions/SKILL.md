@@ -162,6 +162,18 @@ export const Button = ({ label, onClick }: ButtonProps) => {
 
 ### 型定義
 
+#### 配列型の記法
+
+```typescript
+// ✅ 良い例: [] 記法
+type Scores = number[];
+const THEME_OPTIONS: { value: string; labelKey: string }[] = [];
+
+// ❌ 悪い例: Array<T> 記法
+type Scores = Array<number>;
+const THEME_OPTIONS: Array<{ value: string; labelKey: string }> = [];
+```
+
 #### 型インポート（`consistent-type-imports` ルール対応）
 
 ```typescript
