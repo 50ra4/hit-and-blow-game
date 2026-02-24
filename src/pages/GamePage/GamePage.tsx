@@ -20,14 +20,10 @@ type GamePageProps = {
   playType: PlayType;
 };
 
+// 存在しないモードはノーマルにフォールバック（設計書仕様）
 const resolveMode = (playType: PlayType, rawMode: string): GameMode => {
   if (playType === PLAY_TYPE_IDS.DAILY) return 'normal';
   return GAME_MODE_ID_VALUES.find((id) => id === rawMode) ?? 'normal';
-};
-
-const isValidFreeMode = (playType: PlayType, rawMode: string): boolean => {
-  if (playType !== PLAY_TYPE_IDS.FREE) return true;
-  return GAME_MODE_ID_VALUES.includes(rawMode as GameMode);
 };
 
 export default function GamePage({ playType }: GamePageProps) {
@@ -59,10 +55,7 @@ export default function GamePage({ playType }: GamePageProps) {
     resetGame,
   } = useGame(mode, playType);
 
-  // フリープレイ: モードが不正または未解放
-  if (!isValidFreeMode(playType, rawMode)) {
-    return <Navigate to="/" replace />;
-  }
+  // フリープレイ: 未解放モードはホームにリダイレクト
   if (playType === PLAY_TYPE_IDS.FREE && !isModeUnlocked(mode)) {
     return <Navigate to="/" replace />;
   }
