@@ -8,7 +8,7 @@ import { Button } from '@/components/Button/Button';
 import { THEME_IDS } from '@/consts/themes';
 import type { Settings } from '@/i18n/i18n.schema';
 
-const THEME_OPTIONS: Array<{ value: Settings['theme']; labelKey: string }> = [
+const THEME_OPTIONS: { value: Settings['theme']; labelKey: string }[] = [
   { value: THEME_IDS.LIGHT, labelKey: 'theme.light' },
   { value: THEME_IDS.DARK, labelKey: 'theme.dark' },
   { value: THEME_IDS.SYSTEM, labelKey: 'theme.system' },
