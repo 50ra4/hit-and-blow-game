@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { useGame } from '@/features/game/useGame';
@@ -17,7 +17,6 @@ const DAILY_MODE = 'normal' as const;
 export default function DailyGamePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
   const { stats, recordGame } = useStats();
   const { hasPlayedToday, markPlayedToday } = useDailyPlayed();
   const isRecordedRef = useRef(false);

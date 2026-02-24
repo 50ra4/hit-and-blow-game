@@ -1,10 +1,5 @@
 import { useRef } from 'react';
-import {
-  useNavigate,
-  useSearchParams,
-  Navigate,
-  useLocation,
-} from 'react-router-dom';
+import { useNavigate, useSearchParams, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGame } from '@/features/game/useGame';
 import { useStats } from '@/features/stats/useStats';
@@ -22,7 +17,6 @@ const resolveMode = (rawMode: string): GameMode =>
 export default function FreeGamePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
   const [searchParams] = useSearchParams();
   const { recordGame, isModeUnlocked } = useStats();
   const isRecordedRef = useRef(false);
@@ -72,11 +66,7 @@ export default function FreeGamePage() {
   };
 
   return (
-    // キー: 同じルートでもmodeが変わったら再マウント
-    <div
-      key={`free-${mode}-${location.search}`}
-      className="bg-gradient-dark-1 flex min-h-screen flex-col"
-    >
+    <div className="bg-gradient-dark-1 flex min-h-screen flex-col">
       <GameHeader
         modeName={modeName}
         attempts={attempts}

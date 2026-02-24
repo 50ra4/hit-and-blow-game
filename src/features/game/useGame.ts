@@ -31,11 +31,22 @@ export const useGame = (mode: GameMode, playType: PlayType): UseGameReturn => {
     return generateAnswer(length, allowDuplicates, seed);
   }, [length, allowDuplicates, playType]);
 
+  const [prevMode, setPrevMode] = useState<GameMode>(effectiveMode);
   const [answer, setAnswer] = useState<Tile[]>(() => createInitialAnswer());
   const [guesses, setGuesses] = useState<Guess[]>([]);
   const [currentGuess, setCurrentGuess] = useState<Tile[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
   const [isWon, setIsWon] = useState(false);
+
+  // modeが変わったらレンダー中に即時リセット（useEffectを使わないReact公式パターン）
+  if (prevMode !== effectiveMode) {
+    setPrevMode(effectiveMode);
+    setAnswer(generateAnswer(length, allowDuplicates));
+    setGuesses([]);
+    setCurrentGuess([]);
+    setIsGameOver(false);
+    setIsWon(false);
+  }
 
   const addTile = useCallback(
     (tile: Tile): void => {
