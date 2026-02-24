@@ -134,10 +134,7 @@ export function StatsPanel({ stats }: StatsPanelProps) {
                 <span className="text-sm text-white/70">{record.date}</span>
                 <div className="flex items-center gap-3 text-sm">
                   <span className="text-white/60">
-                    {record.attempts}
-                    {t('game.attempts', { current: record.attempts, max: '' })
-                      .replace(' / ', '')
-                      .replace('回目', '回')}
+                    {t('stats.attempts', { count: record.attempts })}
                   </span>
                   <span
                     className={record.isWon ? 'text-green-400' : 'text-red-400'}

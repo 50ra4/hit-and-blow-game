@@ -76,6 +76,7 @@
     "bestAttempts": "最短クリア回数",
     "clear": "統計をクリア",
     "noData": "データなし",
+    "attempts": "{{count}}回",
     "dailyHistory": "デイリー履歴",
     "confirmClear": "統計をリセットしますか？この操作は取り消せません。",
     "modeStats": "モード別統計"
@@ -100,7 +101,9 @@
     "step4Title": "実際に試してみよう！",
     "step4Desc": "3桁・6回まで。やってみよう！",
     "step4HintHit": "ヒット = 位置も種類も正解",
-    "step4HintBlow": "ブロー = 種類は合っているが位置が違う"
+    "step4HintHitDesc": "位置も種類も正解",
+    "step4HintBlow": "ブロー = 種類は合っているが位置が違う",
+    "step4HintBlowDesc": "種類は合っているが位置が違う"
   },
   "notFound": {
     "title": "ページが見つかりません",

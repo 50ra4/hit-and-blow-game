@@ -76,6 +76,7 @@
     "bestAttempts": "Best Attempts",
     "clear": "Clear Statistics",
     "noData": "No Data",
+    "attempts": "{{count}} attempts",
     "dailyHistory": "Daily History",
     "confirmClear": "Reset statistics? This action cannot be undone.",
     "modeStats": "Mode Stats"
@@ -100,7 +101,9 @@
     "step4Title": "Try it out!",
     "step4Desc": "3 tiles, 6 attempts. Give it a try!",
     "step4HintHit": "Hit = Correct tile AND position",
-    "step4HintBlow": "Blow = Correct tile but wrong position"
+    "step4HintHitDesc": "Correct tile AND position",
+    "step4HintBlow": "Blow = Correct tile but wrong position",
+    "step4HintBlowDesc": "Correct tile but wrong position"
   },
   "notFound": {
     "title": "Page Not Found",

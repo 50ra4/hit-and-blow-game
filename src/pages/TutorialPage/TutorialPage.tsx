@@ -217,15 +217,11 @@ export default function TutorialPage() {
             <div className="mb-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/50">
               <span className="text-green-400">Hit</span>
               {' = '}
-              {t('tutorial.step4HintHit')
-                .replace('ヒット = ', '')
-                .replace('Hit = ', '')}
+              {t('tutorial.step4HintHitDesc')}
               {'  '}
               <span className="text-yellow-400">Blow</span>
               {' = '}
-              {t('tutorial.step4HintBlow')
-                .replace('ブロー = ', '')
-                .replace('Blow = ', '')}
+              {t('tutorial.step4HintBlowDesc')}
             </div>
           )}
           <GameBoard
