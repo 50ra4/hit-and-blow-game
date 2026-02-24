@@ -16,7 +16,7 @@ const THEME_OPTIONS: Array<{ value: Settings['theme']; labelKey: string }> = [
 
 export function AppLayout() {
   const { t } = useTranslation();
-  const { settings, updateLanguage, updateTheme } = useSettings();
+  const { settings, updateLanguage, updateTheme, toggleSound } = useSettings();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
@@ -154,6 +154,27 @@ export function AppLayout() {
                 English
               </Button>
             </div>
+          </div>
+
+          {/* サウンド設定 */}
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-white/80">
+              {t('settings.sound')}
+            </p>
+            <button
+              onClick={toggleSound}
+              className={`relative h-6 w-11 rounded-full transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 ${
+                settings.soundEnabled ? 'bg-indigo-500' : 'bg-white/20'
+              }`}
+              role="switch"
+              aria-checked={settings.soundEnabled}
+            >
+              <span
+                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${
+                  settings.soundEnabled ? 'translate-x-5' : 'translate-x-0.5'
+                }`}
+              />
+            </button>
           </div>
         </div>
       </Modal>
