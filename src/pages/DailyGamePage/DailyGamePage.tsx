@@ -1,10 +1,5 @@
 import { useRef } from 'react';
-import {
-  useNavigate,
-  useSearchParams,
-  Navigate,
-  useLocation,
-} from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { useGame } from '@/features/game/useGame';
@@ -13,32 +8,21 @@ import { useDailyPlayed } from '@/services/storage/useDailyPlayed';
 import { GameHeader } from '@/features/game/GameHeader/GameHeader';
 import { GameBoard } from '@/features/game/GameBoard/GameBoard';
 import { ResultDisplay } from '@/features/game/ResultDisplay/ResultDisplay';
-import { GAME_MODES, GAME_MODE_ID_VALUES } from '@/consts/modes';
+import { GAME_MODES } from '@/consts/modes';
 import { PLAY_TYPE_IDS } from '@/consts/playTypes';
-import type { GameMode, PlayType } from '@/features/game/game.schema';
 
-type GamePageProps = {
-  playType: PlayType;
-};
+// デイリーチャレンジは常にノーマルモード（設計書仕様）
+const DAILY_MODE = 'normal' as const;
 
-// 存在しないモードはノーマルにフォールバック（設計書仕様）
-const resolveMode = (playType: PlayType, rawMode: string): GameMode => {
-  if (playType === PLAY_TYPE_IDS.DAILY) return 'normal';
-  return GAME_MODE_ID_VALUES.find((id) => id === rawMode) ?? 'normal';
-};
-
-export default function GamePage({ playType }: GamePageProps) {
+export default function DailyGamePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchParams] = useSearchParams();
-  const { stats, recordGame, isModeUnlocked } = useStats();
+  const { stats, recordGame } = useStats();
   const { hasPlayedToday, markPlayedToday } = useDailyPlayed();
   const isRecordedRef = useRef(false);
 
-  const rawMode = searchParams.get('mode') ?? '';
-  const mode = resolveMode(playType, rawMode);
-  const modeConfig = GAME_MODES[mode];
+  const modeConfig = GAME_MODES[DAILY_MODE];
   const modeName = t(modeConfig.nameKey);
 
   const {
@@ -54,26 +38,18 @@ export default function GamePage({ playType }: GamePageProps) {
     removeTile,
     resetCurrentGuess,
     resetGame,
-  } = useGame(mode, playType);
+  } = useGame(DAILY_MODE, PLAY_TYPE_IDS.DAILY);
 
-  // フリープレイ: 未解放モードはホームにリダイレクト
-  if (playType === PLAY_TYPE_IDS.FREE && !isModeUnlocked(mode)) {
-    return <Navigate to="/" replace />;
-  }
-
-  // ゲーム終了時の記録（初回のみ）
   if (isGameOver && !isRecordedRef.current) {
     isRecordedRef.current = true;
     recordGame({
-      mode,
-      playType,
+      mode: DAILY_MODE,
+      playType: PLAY_TYPE_IDS.DAILY,
       isWon,
       attempts,
       timestamp: Date.now(),
     });
-    if (playType === PLAY_TYPE_IDS.DAILY) {
-      markPlayedToday();
-    }
+    markPlayedToday();
   }
 
   const handleGoHome = () => {
@@ -85,8 +61,8 @@ export default function GamePage({ playType }: GamePageProps) {
     resetGame();
   };
 
-  // デイリーチャレンジ: 既にプレイ済みかつゲームが終わっていない場合
-  if (playType === PLAY_TYPE_IDS.DAILY && hasPlayedToday() && !isGameOver) {
+  // 既プレイかつゲームが終わっていない場合は結果サマリーを表示
+  if (hasPlayedToday() && !isGameOver) {
     const today = format(new Date(), 'yyyy-MM-dd');
     const todayRecord = stats.dailyHistory.findLast((r) => r.date === today);
 
@@ -96,7 +72,7 @@ export default function GamePage({ playType }: GamePageProps) {
           modeName={modeName}
           attempts={attempts}
           maxAttempts={maxAttempts}
-          playType={playType}
+          playType={PLAY_TYPE_IDS.DAILY}
           onBack={handleGoHome}
         />
         <div className="flex flex-1 items-center justify-center px-4 py-8 text-center">
@@ -138,16 +114,15 @@ export default function GamePage({ playType }: GamePageProps) {
   }
 
   return (
-    // キー: 同じルートでもmodeが変わったら再マウント
     <div
-      key={`${playType}-${mode}-${location.search}`}
+      key={`daily-${location.search}`}
       className="bg-gradient-dark-1 flex min-h-screen flex-col"
     >
       <GameHeader
         modeName={modeName}
         attempts={attempts}
         maxAttempts={maxAttempts}
-        playType={playType}
+        playType={PLAY_TYPE_IDS.DAILY}
         onBack={handleGoHome}
       />
 
@@ -158,8 +133,8 @@ export default function GamePage({ playType }: GamePageProps) {
               isWon={isWon}
               attempts={attempts}
               answer={answer}
-              mode={mode}
-              playType={playType}
+              mode={DAILY_MODE}
+              playType={PLAY_TYPE_IDS.DAILY}
               onRestart={handleRestart}
               onGoHome={handleGoHome}
             />

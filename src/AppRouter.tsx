@@ -4,7 +4,8 @@ import { Loading } from '@/components/Loading/Loading';
 import { AppLayout } from '@/layouts/AppLayout/AppLayout';
 
 const HomePage = lazy(() => import('@/pages/HomePage/HomePage'));
-const GamePage = lazy(() => import('@/pages/GamePage/GamePage'));
+const FreeGamePage = lazy(() => import('@/pages/FreeGamePage/FreeGamePage'));
+const DailyGamePage = lazy(() => import('@/pages/DailyGamePage/DailyGamePage'));
 const StatsPage = lazy(() => import('@/pages/StatsPage/StatsPage'));
 const TutorialPage = lazy(() => import('@/pages/TutorialPage/TutorialPage'));
 const TermsPage = lazy(() => import('@/pages/TermsPage/TermsPage'));
@@ -17,8 +18,8 @@ export function AppRouter() {
       <Suspense fallback={<Loading />}>
         <Routes>
           {/* ゲームページは AppLayout を使わない（GameHeader が独自レイアウトを持つため） */}
-          <Route path="/games/free" element={<GamePage playType="free" />} />
-          <Route path="/games/daily" element={<GamePage playType="daily" />} />
+          <Route path="/games/free" element={<FreeGamePage />} />
+          <Route path="/games/daily" element={<DailyGamePage />} />
 
           {/* AppLayout を共通レイアウトとして使用するルート */}
           <Route element={<AppLayout />}>
