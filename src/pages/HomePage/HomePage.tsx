@@ -71,6 +71,7 @@ export default function HomePage() {
             const cardContent = (
               <>
                 <div className="font-semibold text-white">
+                  {!unlocked && <span className="mr-1">🔒</span>}
                   {t(modeConfig.nameKey)}
                 </div>
                 <div className="mt-1 text-sm text-white/60">
