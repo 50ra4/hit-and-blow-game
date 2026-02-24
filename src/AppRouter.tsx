@@ -13,7 +13,7 @@ const NotFoundPage = lazy(() => import('@/pages/NotFoundPage/NotFoundPage'));
 
 export function AppRouter() {
   return (
-    <BrowserRouter basename="/hit-and-blow-game">
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Suspense fallback={<Loading />}>
         <Routes>
           {/* ゲームページは AppLayout を使わない（GameHeader が独自レイアウトを持つため） */}
