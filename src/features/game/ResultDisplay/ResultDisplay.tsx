@@ -6,6 +6,7 @@ import {
   TILE_SYMBOLS,
   type TileId,
 } from '@/features/game/tileDisplay';
+import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 
 type ResultDisplayProps = {
   isWon: boolean;
@@ -14,7 +15,6 @@ type ResultDisplayProps = {
   mode: GameMode;
   playType: PlayType;
   onRestart: () => void;
-  onGoHome: () => void;
 };
 
 export function ResultDisplay({
@@ -23,7 +23,6 @@ export function ResultDisplay({
   answer,
   playType,
   onRestart,
-  onGoHome,
 }: ResultDisplayProps) {
   const { t } = useTranslation();
   const isFreePlay = playType === PLAY_TYPE_IDS.FREE;
@@ -79,12 +78,13 @@ export function ResultDisplay({
             {t('result.restart')}
           </button>
         )}
-        <button
-          onClick={onGoHome}
-          className="w-full rounded-xl border border-white/20 bg-white/10 py-4 font-bold text-white transition-all duration-300 hover:bg-white/20 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
+        <ButtonLink
+          to="/"
+          variant="secondary"
+          className="w-full py-4 font-bold"
         >
           {t('result.backToHome')}
-        </button>
+        </ButtonLink>
       </div>
     </div>
   );

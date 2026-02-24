@@ -162,6 +162,18 @@ export const Button = ({ label, onClick }: ButtonProps) => {
 
 ### 型定義
 
+#### 配列型の記法
+
+```typescript
+// ✅ 良い例: [] 記法
+type Scores = number[];
+const THEME_OPTIONS: { value: string; labelKey: string }[] = [];
+
+// ❌ 悪い例: Array<T> 記法
+type Scores = Array<number>;
+const THEME_OPTIONS: Array<{ value: string; labelKey: string }> = [];
+```
+
 #### 型インポート（`consistent-type-imports` ルール対応）
 
 ```typescript
@@ -477,6 +489,48 @@ const handleShare = () => {
 
 ---
 
+## ルーティング規約
+
+### Link vs useNavigate
+
+**副作用のない単純なページ遷移には `<Link>` / `<ButtonLink>` を使う。`useNavigate` は副作用が伴う場合のみ使用する。**
+
+`<Link>` はセマンティックな `<a>` 要素として描画されるため、アクセシビリティ・SEO・ブラウザ標準動作（新しいタブで開くなど）の面で優れる。
+
+```typescript
+// ✅ 良い例: 単純な遷移は Link
+<Link to="/">{t('result.backToHome')}</Link>
+
+// ✅ 良い例: ボタン見た目のリンクは ButtonLink
+<ButtonLink to="/games/daily">{t('home.dailyChallenge')}</ButtonLink>
+
+// ✅ 良い例: 遷移前に副作用がある場合は useNavigate
+const handleComplete = () => {
+  completeTutorial(); // 副作用
+  navigate('/');
+};
+
+// ❌ 悪い例: 副作用なしに useNavigate を使う
+const handleGoHome = () => {
+  navigate('/'); // Link で十分
+};
+<Button onClick={handleGoHome}>ホームへ</Button>
+```
+
+### export する定数・関数の命名
+
+複数ファイルから参照されるために export する場合でも、名前は利用側ではなく**定義側のコンテキスト**を反映した具体的な名前にする。
+
+```typescript
+// ❌ 悪い例: 抽象的すぎる（どのコンポーネントのvariantか不明）
+export const VARIANT_CLASSES = { ... };
+
+// ✅ 良い例: 定義元が明確
+export const BUTTON_VARIANT_CLASSES = { ... };
+```
+
+---
+
 ## React コーディング規約
 
 ### コンポーネント設計
@@ -648,7 +702,10 @@ useEffect(() => {
 }, [items]);
 
 // ✅
-const filteredItems = useMemo(() => items.filter((item) => item.active), [items]);
+const filteredItems = useMemo(
+  () => items.filter((item) => item.active),
+  [items],
+);
 
 // パターン2: イベント駆動 → イベントハンドラ
 // ❌
@@ -681,7 +738,7 @@ const handleSubmit = useCallback(
   (guess: Symbol[]) => {
     submitGuess(guess);
   },
-  [submitGuess]
+  [submitGuess],
 );
 
 // ✅ 良い例: 重い計算のメモ化
@@ -730,7 +787,12 @@ type ButtonProps = {
   disabled?: boolean;
 };
 
-export function Button({ label, onClick, variant = 'primary', disabled = false }: ButtonProps) {
+export function Button({
+  label,
+  onClick,
+  variant = 'primary',
+  disabled = false,
+}: ButtonProps) {
   // ...
 }
 
@@ -1312,9 +1374,11 @@ if (!data) return defaultStorageData;
 
 ```typescript
 // ✅ 良い例: コメント不要（Howはコードで十分表現されている）
-export const getBestScore = (scores: number[]): number => Math.max(0, ...scores);
+export const getBestScore = (scores: number[]): number =>
+  Math.max(0, ...scores);
 
 // ❌ 悪い例: 冗長なコメント
 // スコアの最大値を返す（0以上を保証）
-export const getBestScore = (scores: number[]): number => Math.max(0, ...scores);
+export const getBestScore = (scores: number[]): number =>
+  Math.max(0, ...scores);
 ```
