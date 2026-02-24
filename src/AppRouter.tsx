@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { Loading } from '@/components/Loading/Loading';
 import { AppLayout } from '@/layouts/AppLayout/AppLayout';
 
@@ -12,26 +12,40 @@ const TermsPage = lazy(() => import('@/pages/TermsPage/TermsPage'));
 const PrivacyPage = lazy(() => import('@/pages/PrivacyPage/PrivacyPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage/NotFoundPage'));
 
-export function AppRouter() {
+function SuspenseWrapper() {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <Suspense fallback={<Loading />}>
-        <Routes>
-          {/* ゲームページは AppLayout を使わない（GameHeader が独自レイアウトを持つため） */}
-          <Route path="/games/free" element={<FreeGamePage />} />
-          <Route path="/games/daily" element={<DailyGamePage />} />
-
-          {/* AppLayout を共通レイアウトとして使用するルート */}
-          <Route element={<AppLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/stats" element={<StatsPage />} />
-            <Route path="/tutorial" element={<TutorialPage />} />
-            <Route path="/terms" element={<TermsPage />} />
-            <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <Suspense fallback={<Loading />}>
+      <Outlet />
+    </Suspense>
   );
+}
+
+const router = createBrowserRouter(
+  [
+    {
+      element: <SuspenseWrapper />,
+      children: [
+        // ゲームページは AppLayout を使わない（GameHeader が独自レイアウトを持つため）
+        { path: '/games/free', element: <FreeGamePage /> },
+        { path: '/games/daily', element: <DailyGamePage /> },
+        // AppLayout を共通レイアウトとして使用するルート
+        {
+          element: <AppLayout />,
+          children: [
+            { path: '/', element: <HomePage /> },
+            { path: '/stats', element: <StatsPage /> },
+            { path: '/tutorial', element: <TutorialPage /> },
+            { path: '/terms', element: <TermsPage /> },
+            { path: '/privacy', element: <PrivacyPage /> },
+            { path: '*', element: <NotFoundPage /> },
+          ],
+        },
+      ],
+    },
+  ],
+  { basename: import.meta.env.BASE_URL },
+);
+
+export function AppRouter() {
+  return <RouterProvider router={router} />;
 }
