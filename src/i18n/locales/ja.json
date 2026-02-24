@@ -20,6 +20,7 @@
     "blow": "ブロー",
     "reset": "リセット",
     "backToHome": "← ホーム",
+    "confirmLeave": "ゲームを中断しますか？進行中のデータは失われます。",
     "dailyTitle": "📅 今日の問題（{{mode}}）",
     "currentGuessLabel": "今の入力",
     "removeTile": "{{tile}}を削除"

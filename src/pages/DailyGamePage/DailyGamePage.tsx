@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { useGame } from '@/features/game/useGame';
@@ -16,6 +16,7 @@ const DAILY_MODE = 'normal' as const;
 
 export default function DailyGamePage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { stats, recordGame } = useStats();
   const { hasPlayedToday, markPlayedToday } = useDailyPlayed();
   const isRecordedRef = useRef(false);
@@ -55,6 +56,11 @@ export default function DailyGamePage() {
     resetGame();
   };
 
+  const handleBack = () => {
+    if (!isGameOver && !window.confirm(t('game.confirmLeave'))) return;
+    navigate('/');
+  };
+
   // 既プレイかつゲームが終わっていない場合は結果サマリーを表示
   if (hasPlayedToday() && !isGameOver) {
     const today = format(new Date(), 'yyyy-MM-dd');
@@ -67,6 +73,7 @@ export default function DailyGamePage() {
           attempts={attempts}
           maxAttempts={maxAttempts}
           playType={PLAY_TYPE_IDS.DAILY}
+          onBack={handleBack}
         />
         <div className="flex flex-1 items-center justify-center px-4 py-8 text-center">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
@@ -116,6 +123,7 @@ export default function DailyGamePage() {
         attempts={attempts}
         maxAttempts={maxAttempts}
         playType={PLAY_TYPE_IDS.DAILY}
+        onBack={handleBack}
       />
 
       <div className="flex-1 overflow-y-auto px-4 py-6">

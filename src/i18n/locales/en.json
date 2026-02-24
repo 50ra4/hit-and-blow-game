@@ -20,6 +20,7 @@
     "blow": "Blow",
     "reset": "Reset",
     "backToHome": "← Home",
+    "confirmLeave": "Quit the game? Your progress will be lost.",
     "dailyTitle": "📅 Daily ({{mode}})",
     "currentGuessLabel": "Current Input",
     "removeTile": "Remove {{tile}}"
