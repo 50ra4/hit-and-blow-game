@@ -6,6 +6,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { format } from 'date-fns';
 import { useGame } from '@/features/game/useGame';
 import { useStats } from '@/features/stats/useStats';
 import { useDailyPlayed } from '@/services/storage/useDailyPlayed';
@@ -31,7 +32,7 @@ export default function GamePage({ playType }: GamePageProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { recordGame, isModeUnlocked } = useStats();
+  const { stats, recordGame, isModeUnlocked } = useStats();
   const { hasPlayedToday, markPlayedToday } = useDailyPlayed();
   const isRecordedRef = useRef(false);
 
@@ -86,6 +87,9 @@ export default function GamePage({ playType }: GamePageProps) {
 
   // デイリーチャレンジ: 既にプレイ済みかつゲームが終わっていない場合
   if (playType === PLAY_TYPE_IDS.DAILY && hasPlayedToday() && !isGameOver) {
+    const today = format(new Date(), 'yyyy-MM-dd');
+    const todayRecord = stats.dailyHistory.findLast((r) => r.date === today);
+
     return (
       <div className="bg-gradient-dark-1 flex min-h-screen flex-col">
         <GameHeader
@@ -97,11 +101,30 @@ export default function GamePage({ playType }: GamePageProps) {
         />
         <div className="flex flex-1 items-center justify-center px-4 py-8 text-center">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
-            <div className="mb-4 text-5xl">📅</div>
+            <div className="mb-4 text-5xl">
+              {todayRecord?.isWon ? '🎉' : '📅'}
+            </div>
             <p className="text-lg font-semibold text-white">
               {t('home.dailyChallenge')}
             </p>
-            <p className="mt-2 text-sm text-white/60">{t('home.dailyDesc')}</p>
+            {todayRecord ? (
+              <div className="mt-4 space-y-2">
+                <p
+                  className={`text-base font-bold ${todayRecord.isWon ? 'text-yellow-400' : 'text-blue-400'}`}
+                >
+                  {todayRecord.isWon ? t('result.win') : t('result.lose')}
+                </p>
+                {todayRecord.isWon && (
+                  <p className="text-sm text-white/70">
+                    {t('result.attempts', { count: todayRecord.attempts })}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <p className="mt-2 text-sm text-white/60">
+                {t('home.dailyDesc')}
+              </p>
+            )}
             <button
               onClick={handleGoHome}
               className="mt-6 rounded-xl border border-white/20 bg-white/10 px-6 py-3 font-medium text-white transition-all hover:bg-white/20"
