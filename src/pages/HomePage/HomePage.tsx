@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { useSettings } from '@/i18n/useSettings';
 import { useStats } from '@/features/stats/useStats';
 import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
@@ -47,6 +47,16 @@ export default function HomePage() {
         <Button onClick={handleDailyChallenge} className="w-full py-4 text-lg">
           📅 {t('home.dailyChallenge')}
         </Button>
+      </div>
+
+      {/* チュートリアルリンク（常時表示） */}
+      <div className="mb-6 text-center">
+        <Link
+          to="/tutorial"
+          className="text-sm text-white/50 underline-offset-2 transition-colors hover:text-white/80 hover:underline"
+        >
+          ❓ {t('home.tutorial')}
+        </Link>
       </div>
 
       {/* モード選択 */}
