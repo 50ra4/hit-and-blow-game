@@ -32,9 +32,15 @@ export function StatsPanel({ stats }: StatsPanelProps) {
       : String(stats.bestAttempts);
 
   const sortedDailyHistory = stats.dailyHistory.toReversed();
+  const hasNoStats = stats.totalPlays === 0;
 
   return (
     <div className="space-y-8">
+      {hasNoStats && (
+        <p className="rounded-xl border border-white/10 bg-white/5 px-4 py-6 text-center text-sm text-white/60">
+          {t('stats.empty')}
+        </p>
+      )}
       {/* 全体統計 */}
       <section>
         <h2 className="mb-4 text-lg font-semibold text-white/80">
@@ -88,6 +94,9 @@ export function StatsPanel({ stats }: StatsPanelProps) {
           {t('stats.modeStats')}
         </h2>
         <div className="space-y-3">
+          {MODE_ID_LIST.every((modeId) => !stats.modeStats[modeId]) && (
+            <p className="text-sm text-white/50">{t('stats.modeStatsEmpty')}</p>
+          )}
           {MODE_ID_LIST.map((modeId) => {
             const modeStat = stats.modeStats[modeId];
             if (!modeStat) return null;

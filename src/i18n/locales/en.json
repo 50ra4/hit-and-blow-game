@@ -78,6 +78,8 @@
     "bestAttempts": "Best Attempts",
     "clear": "Clear Statistics",
     "noData": "No Data",
+    "empty": "No records yet. Play some games to build your stats!",
+    "modeStatsEmpty": "This mode has not been played yet.",
     "attempts": "{{count}} attempts",
     "dailyHistory": "Daily History",
     "confirmClear": "Reset statistics? This action cannot be undone.",

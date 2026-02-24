@@ -78,6 +78,8 @@
     "bestAttempts": "最短クリア回数",
     "clear": "統計をクリア",
     "noData": "データなし",
+    "empty": "まだ記録がありません。ゲームをプレイして統計を貯めましょう！",
+    "modeStatsEmpty": "このモードはまだプレイされていません。",
     "attempts": "{{count}}回",
     "dailyHistory": "デイリー履歴",
     "confirmClear": "統計をリセットしますか？この操作は取り消せません。",
