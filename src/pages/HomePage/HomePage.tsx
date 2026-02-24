@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Navigate, Link } from 'react-router-dom';
 import { useSettings } from '@/i18n/useSettings';
 import { useStats } from '@/features/stats/useStats';
+import { useDailyPlayed } from '@/services/storage/useDailyPlayed';
 import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import type { GameMode } from '@/features/game/game.schema';
 import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
@@ -18,6 +19,7 @@ export default function HomePage() {
   const { t } = useTranslation();
   const { settings } = useSettings();
   const { isModeUnlocked } = useStats();
+  const { hasPlayedToday } = useDailyPlayed();
 
   if (!settings.tutorialCompleted) {
     return <Navigate to="/tutorial" replace />;
@@ -36,7 +38,9 @@ export default function HomePage() {
       <div className="mb-8 rounded-2xl border border-yellow-400/30 bg-yellow-400/10 p-6 text-center">
         <p className="mb-3 text-sm text-white/70">{t('home.dailyDesc')}</p>
         <ButtonLink to="/games/daily" className="w-full py-4 text-lg">
-          📅 {t('home.dailyChallenge')}
+          {hasPlayedToday()
+            ? t('home.dailyChallengeCompleted')
+            : `📅 ${t('home.dailyChallenge')}`}
         </ButtonLink>
       </div>
 

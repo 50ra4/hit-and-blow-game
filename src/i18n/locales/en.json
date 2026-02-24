@@ -63,6 +63,7 @@
   },
   "home": {
     "dailyChallenge": "Daily Challenge",
+    "dailyChallengeCompleted": "✅ Today's Challenge (Done)",
     "selectMode": "Select a Mode",
     "dailyDesc": "Today's Challenge!",
     "tutorial": "View Tutorial"
