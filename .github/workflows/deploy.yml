@@ -26,9 +26,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
         env:
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
           VITE_LIFF_ID: ${{ secrets.VITE_LIFF_ID }}
           VITE_ADSENSE_CLIENT_ID: ${{ secrets.VITE_ADSENSE_CLIENT_ID }}
           VITE_ADSENSE_SLOT_ID: ${{ secrets.VITE_ADSENSE_SLOT_ID }}
+      # public/404.html 内の __VITE_BASE_URL__ プレースホルダーを実際の値に置換
+      - run: sed -i "s|__VITE_BASE_URL__|${VITE_BASE_URL}|g" dist/404.html
+        env:
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
