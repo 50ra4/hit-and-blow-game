@@ -8,6 +8,7 @@ import {
 } from '@/features/game/tileDisplay';
 import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 import { ShareButton } from '@/features/share/ShareButton/ShareButton';
+import { AdBanner } from '@/features/ad/AdBanner/AdBanner';
 
 type ResultDisplayProps = {
   isWon: boolean;
@@ -74,7 +75,8 @@ export function ResultDisplay({
         </div>
       )}
 
-      {/* 広告表示用スロット（T-020で実装） */}
+      {/* 広告バナー */}
+      <AdBanner show={true} />
 
       {/* アクションボタン */}
       <div className="flex flex-col gap-3">
