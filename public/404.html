@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <script>
       sessionStorage.setItem('redirectPath', location.pathname);
+      // __VITE_BASE_URL__ は deploy.yml の sed コマンドでビルド時に置換される
       location.replace('__VITE_BASE_URL__');
     </script>
   </head>
