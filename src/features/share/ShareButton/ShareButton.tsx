@@ -6,6 +6,7 @@ import {
 } from '@/features/share/shareHelper';
 import { useShare } from '@/features/share/useShare';
 import { useFallbackShare } from '@/features/share/useFallbackShare';
+import { useLiff } from '@/services/liff/useLiff';
 import type { GameMode, PlayType } from '@/features/game/game.schema';
 
 type ShareButtonProps = {
@@ -19,6 +20,7 @@ export function ShareButton({ mode, attempts, playType }: ShareButtonProps) {
   const { canShare, shareText } = useShare();
   const { copyToClipboard, openTwitterShare, openLineShare, openThreadsShare } =
     useFallbackShare();
+  const { isLiff, shareToLine } = useLiff();
   const [copied, setCopied] = useState(false);
 
   const shareData = { mode, attempts, playType };
@@ -41,6 +43,10 @@ export function ShareButton({ mode, attempts, playType }: ShareButtonProps) {
     }
   };
 
+  const handleLiffShare = () => {
+    void shareToLine(text);
+  };
+
   if (canShare) {
     return (
       <button
@@ -61,12 +67,21 @@ export function ShareButton({ mode, attempts, playType }: ShareButtonProps) {
       >
         X
       </button>
-      <button
-        onClick={() => openLineShare(text)}
-        className="rounded-lg bg-[#06C755] px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-[#06C755] focus-visible:ring-offset-2"
-      >
-        LINE
-      </button>
+      {isLiff ? (
+        <button
+          onClick={handleLiffShare}
+          className="rounded-lg bg-[#06C755] px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-[#06C755] focus-visible:ring-offset-2"
+        >
+          LINE でシェア
+        </button>
+      ) : (
+        <button
+          onClick={() => openLineShare(text)}
+          className="rounded-lg bg-[#06C755] px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-[#06C755] focus-visible:ring-offset-2"
+        >
+          LINE
+        </button>
+      )}
       <button
         onClick={() => openThreadsShare(text)}
         className="rounded-lg bg-gray-800 px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
