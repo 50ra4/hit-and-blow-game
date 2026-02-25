@@ -69,11 +69,9 @@ export function ResultDisplay({
       </div>
 
       {/* シェアボタン */}
-      {isWon && (
-        <div className="mb-4">
-          <ShareButton mode={mode} attempts={attempts} playType={playType} />
-        </div>
-      )}
+      <div className="mb-4">
+        <ShareButton mode={mode} attempts={attempts} playType={playType} />
+      </div>
 
       {/* 広告バナー */}
       <AdBanner show={true} />
