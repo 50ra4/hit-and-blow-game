@@ -7,6 +7,8 @@ import {
   type TileId,
 } from '@/features/game/tileDisplay';
 import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
+import { ShareButton } from '@/features/share/ShareButton/ShareButton';
+import { AdBanner } from '@/features/ad/AdBanner/AdBanner';
 
 type ResultDisplayProps = {
   isWon: boolean;
@@ -21,6 +23,7 @@ export function ResultDisplay({
   isWon,
   attempts,
   answer,
+  mode,
   playType,
   onRestart,
 }: ResultDisplayProps) {
@@ -65,8 +68,13 @@ export function ResultDisplay({
         )}
       </div>
 
-      {/* シェアボタン用スロット（T-019で実装） */}
-      {/* 広告表示用スロット（T-020で実装） */}
+      {/* シェアボタン */}
+      <div className="mb-4">
+        <ShareButton mode={mode} attempts={attempts} playType={playType} />
+      </div>
+
+      {/* 広告バナー */}
+      <AdBanner />
 
       {/* アクションボタン */}
       <div className="flex flex-col gap-3">
