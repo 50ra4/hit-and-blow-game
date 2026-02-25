@@ -22,8 +22,7 @@ export function AdBanner({ show }: AdBannerProps) {
   return (
     <div className="mx-auto my-4 w-full max-w-lg">
       <ins
-        className="adsbygoogle"
-        style={{ display: 'block' }}
+        className="adsbygoogle block"
         data-ad-client={APP_CONFIG.ADSENSE_CLIENT_ID}
         data-ad-slot={APP_CONFIG.ADSENSE_SLOT_ID}
         data-ad-format="auto"
