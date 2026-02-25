@@ -74,7 +74,7 @@ export function ResultDisplay({
       </div>
 
       {/* 広告バナー */}
-      <AdBanner show={true} />
+      <AdBanner />
 
       {/* アクションボタン */}
       <div className="flex flex-col gap-3">

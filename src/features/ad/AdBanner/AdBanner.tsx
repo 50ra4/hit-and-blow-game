@@ -1,22 +1,17 @@
 import { useEffect } from 'react';
 import { APP_CONFIG } from '@/consts/config';
 
-type AdBannerProps = {
-  show: boolean;
-};
-
-export function AdBanner({ show }: AdBannerProps) {
+export function AdBanner() {
   useEffect(() => {
-    if (show && typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       } catch {
         // AdSense 読み込み失敗時は無視
       }
     }
-  }, [show]);
+  }, []);
 
-  if (!show) return null;
   if (!APP_CONFIG.ADSENSE_CLIENT_ID) return null;
 
   return (

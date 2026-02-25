@@ -851,6 +851,12 @@ return <ResultDisplay result={result} />;
 
 // ❌ 悪い例: 三項演算子の null
 {isNewRecord ? <NewRecordAnimation /> : null}  // && を使う
+
+// ❌ 悪い例: show prop でコンポーネント内部に表示/非表示を持たせる
+<AdBanner show={isGameOver} />  // 呼び出し元で条件付きレンダーにする
+
+// ✅ 良い例: 呼び出し元で条件付きレンダー
+{isGameOver && <AdBanner />}
 ```
 
 ---
