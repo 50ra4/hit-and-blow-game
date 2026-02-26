@@ -1,11 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { PLAY_TYPE_IDS } from '@/consts/playTypes';
 import type { GameMode, PlayType, Tile } from '@/features/game/game.schema';
-import {
-  TILE_GRADIENT_STYLES,
-  TILE_SYMBOLS,
-  type TileId,
-} from '@/features/game/tileDisplay';
+import { TileIcon } from '@/components/TileIcon/TileIcon';
+import { TILE_GRADIENT_STYLES } from '@/features/game/tileDisplay';
 import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 import { ShareButton } from '@/features/share/ShareButton/ShareButton';
 import { AdBanner } from '@/features/ad/AdBanner/AdBanner';
@@ -57,10 +54,10 @@ export function ResultDisplay({
               {answer.map((tile, index) => (
                 <div
                   key={index}
-                  style={TILE_GRADIENT_STYLES[tile.id as TileId]}
-                  className="inline-flex h-14 w-14 items-center justify-center rounded-2xl text-xl font-bold shadow-md"
+                  style={TILE_GRADIENT_STYLES[tile.id]}
+                  className="inline-flex h-14 w-14 items-center justify-center rounded-2xl shadow-md"
                 >
-                  {TILE_SYMBOLS[tile.id as TileId]}
+                  <TileIcon tileId={tile.id} className="h-8 w-8" />
                 </div>
               ))}
             </div>

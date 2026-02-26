@@ -1,10 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import { TileIcon } from '@/components/TileIcon/TileIcon';
 import type { Guess } from '@/features/game/game.schema';
-import {
-  TILE_GRADIENT_STYLES,
-  TILE_SYMBOLS,
-  type TileId,
-} from '@/features/game/tileDisplay';
+import { TILE_GRADIENT_STYLES } from '@/features/game/tileDisplay';
 
 type GuessHistoryProps = {
   guesses: Guess[];
@@ -55,10 +52,10 @@ export function GuessHistory({
               {guess.tiles.map((tile, slotIndex) => (
                 <div
                   key={slotIndex}
-                  style={TILE_GRADIENT_STYLES[tile.id as TileId]}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-lg font-bold shadow-md"
+                  style={TILE_GRADIENT_STYLES[tile.id]}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl shadow-md"
                 >
-                  {TILE_SYMBOLS[tile.id as TileId]}
+                  <TileIcon tileId={tile.id} className="h-6 w-6" />
                 </div>
               ))}
             </div>
