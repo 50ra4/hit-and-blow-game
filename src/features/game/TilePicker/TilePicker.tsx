@@ -1,12 +1,9 @@
 import { memo, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AVAILABLE_TILES } from '@/consts/tiles';
+import { TileIcon } from '@/components/TileIcon/TileIcon';
 import type { Tile } from '@/features/game/game.schema';
-import {
-  TILE_GRADIENT_STYLES,
-  TILE_SYMBOLS,
-  type TileId,
-} from '@/features/game/tileDisplay';
+import { TILE_GRADIENT_STYLES } from '@/features/game/tileDisplay';
 
 type TilePickerProps = {
   selected: Tile[];
@@ -64,8 +61,7 @@ export const TilePicker = memo(function TilePicker({
       {AVAILABLE_TILES.map((tile, index) => {
         const tileDisabled = isTileDisabled(tile);
         const tileSelected = isTileSelected(tile);
-        const gradientStyle = TILE_GRADIENT_STYLES[tile.id as TileId];
-        const symbol = TILE_SYMBOLS[tile.id as TileId];
+        const gradientStyle = TILE_GRADIENT_STYLES[tile.id];
 
         return (
           <button
@@ -77,13 +73,13 @@ export const TilePicker = memo(function TilePicker({
             onClick={() => onSelect(tile)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             style={tileDisabled ? undefined : gradientStyle}
-            className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl text-2xl font-bold shadow-md transition-all duration-300 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 sm:h-16 sm:w-16 ${
+            className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl shadow-md transition-all duration-300 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 sm:h-16 sm:w-16 ${
               tileDisabled
                 ? 'cursor-not-allowed bg-gray-600 text-gray-400 opacity-30'
                 : 'cursor-pointer hover:-translate-y-1 hover:scale-105 hover:shadow-lg active:scale-95'
             } ${tileSelected ? 'ring-4 ring-white/60' : ''} `}
           >
-            {symbol}
+            <TileIcon tileId={tile.id} className="h-8 w-8 sm:h-9 sm:w-9" />
           </button>
         );
       })}

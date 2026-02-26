@@ -5,13 +5,10 @@ import { useTutorial } from '@/features/tutorial/useTutorial';
 import { useGame } from '@/features/game/useGame';
 import { TutorialStep } from '@/features/tutorial/TutorialStep/TutorialStep';
 import { GameBoard } from '@/features/game/GameBoard/GameBoard';
-import { TILE_IDS } from '@/consts/tiles';
-import {
-  TILE_SYMBOLS,
-  TILE_GRADIENT_STYLES,
-} from '@/features/game/tileDisplay';
-import type { TileId } from '@/features/game/tileDisplay';
-import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
+import { TILE_ID_VALUES } from '@/consts/tiles';
+import { TileIcon } from '@/components/TileIcon/TileIcon';
+import { TILE_GRADIENT_STYLES, type TileId } from '@/features/game/tileDisplay';
+import { GAME_MODE_ID_VALUES, GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import { PLAY_TYPE_IDS } from '@/consts/playTypes';
 import { Button } from '@/components/Button/Button';
 
@@ -21,15 +18,9 @@ import { Button } from '@/components/Button/Button';
 const EXAMPLE_ANSWER_IDS: TileId[] = ['star', 'circle', 'triangle', 'square'];
 const EXAMPLE_GUESS_IDS: TileId[] = ['star', 'diamond', 'triangle', 'heart'];
 
-const TILE_ID_LIST = Object.values(TILE_IDS) as TileId[];
+const TILE_ID_LIST = TILE_ID_VALUES;
 
-const FREE_MODE_ID_LIST = [
-  GAME_MODE_IDS.BEGINNER,
-  GAME_MODE_IDS.NORMAL,
-  GAME_MODE_IDS.HARD,
-  GAME_MODE_IDS.EXPERT,
-  GAME_MODE_IDS.MASTER,
-] as const;
+const FREE_MODE_ID_LIST = GAME_MODE_ID_VALUES;
 
 export default function TutorialPage() {
   const { t } = useTranslation();
@@ -103,9 +94,9 @@ export default function TutorialPage() {
           <div
             key={i}
             style={TILE_GRADIENT_STYLES[id]}
-            className="flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold"
+            className="flex h-12 w-12 items-center justify-center rounded-xl"
           >
-            {TILE_SYMBOLS[id]}
+            <TileIcon tileId={id} className="h-7 w-7" />
           </div>
         ))}
       </div>
@@ -118,9 +109,9 @@ export default function TutorialPage() {
             <div
               key={i}
               style={TILE_GRADIENT_STYLES[id]}
-              className="flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold"
+              className="flex h-12 w-12 items-center justify-center rounded-xl"
             >
-              {TILE_SYMBOLS[id]}
+              <TileIcon tileId={id} className="h-7 w-7" />
             </div>
           ))}
         </div>
@@ -144,9 +135,9 @@ export default function TutorialPage() {
           <div key={id} className="flex flex-col items-center gap-1">
             <div
               style={TILE_GRADIENT_STYLES[id]}
-              className="flex h-14 w-14 items-center justify-center rounded-2xl text-xl font-bold shadow-md"
+              className="flex h-14 w-14 items-center justify-center rounded-2xl shadow-md"
             >
-              {TILE_SYMBOLS[id]}
+              <TileIcon tileId={id} className="h-8 w-8" />
             </div>
             <span className="text-xs text-white/60">{t(`tile.${id}`)}</span>
           </div>

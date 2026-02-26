@@ -7,7 +7,6 @@ import { PLAY_TYPE_ID_VALUES } from '@/consts/playTypes';
 export const TileSchema = z.object({
   id: z.enum(TILE_ID_VALUES),
   color: z.string(),
-  svgPath: z.string(),
 });
 
 // GameMode スキーマ
@@ -66,7 +65,5 @@ export type GameResult = z.output<typeof GameResultSchema>;
 export type ModeConfig = z.output<typeof ModeConfigSchema>;
 
 // Input/Output型
-export type TileInput = z.input<typeof TileSchema>;
-export type TileOutput = z.output<typeof TileSchema>;
 export type GameResultInput = z.input<typeof GameResultSchema>;
 export type GameResultOutput = z.output<typeof GameResultSchema>;

@@ -4,18 +4,6 @@ import type { Tile } from '@/features/game/game.schema';
 // タイルIDの型（Zodスキーマは string で推論されるため、表示層での型安全性確保に使用）
 export type TileId = (typeof TILE_IDS)[keyof typeof TILE_IDS];
 
-// タイルごとの表示シンボル（T-022でSVGに差し替え予定のプレースホルダー）
-export const TILE_SYMBOLS = {
-  star: '★',
-  circle: '●',
-  triangle: '▲',
-  square: '■',
-  diamond: '◆',
-  spade: '♠',
-  heart: '♥',
-  club: '♣',
-} as const satisfies Record<Tile['id'], string>;
-
 // タイルごとの背景グラデーション（06_mock_design.htmlに基づく）
 export const TILE_GRADIENT_STYLES = {
   star: {
