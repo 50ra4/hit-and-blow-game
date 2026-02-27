@@ -11,7 +11,12 @@
     "hard": "Hard",
     "expert": "Expert",
     "master": "Master",
-    "locked": "🔒 Clear {{condition}} to unlock"
+    "locked": "🔒 Clear {{condition}} to unlock",
+    "beginner_description": "3 digits, no duplicates, 6 tries. Great for beginners",
+    "normal_description": "4 digits, no duplicates, 8 tries. Standard difficulty",
+    "hard_description": "4 digits, duplicates allowed, 10 tries. Tests your logic",
+    "expert_description": "8 digits, no duplicates, 12 tries",
+    "master_description": "8 digits, duplicates allowed, 15 tries"
   },
   "game": {
     "submit": "Submit",

@@ -19,6 +19,7 @@ export const GAME_MODES = {
   [GAME_MODE_IDS.BEGINNER]: {
     id: GAME_MODE_IDS.BEGINNER,
     nameKey: 'mode.beginner',
+    descriptionKey: 'mode.beginner_description',
     length: 3,
     allowDuplicates: false,
     maxAttempts: 6,
@@ -26,6 +27,7 @@ export const GAME_MODES = {
   [GAME_MODE_IDS.NORMAL]: {
     id: GAME_MODE_IDS.NORMAL,
     nameKey: 'mode.normal',
+    descriptionKey: 'mode.normal_description',
     length: 4,
     allowDuplicates: false,
     maxAttempts: 8,
@@ -33,6 +35,7 @@ export const GAME_MODES = {
   [GAME_MODE_IDS.HARD]: {
     id: GAME_MODE_IDS.HARD,
     nameKey: 'mode.hard',
+    descriptionKey: 'mode.hard_description',
     length: 4,
     allowDuplicates: true,
     maxAttempts: 10,
@@ -40,6 +43,7 @@ export const GAME_MODES = {
   [GAME_MODE_IDS.EXPERT]: {
     id: GAME_MODE_IDS.EXPERT,
     nameKey: 'mode.expert',
+    descriptionKey: 'mode.expert_description',
     length: 8,
     allowDuplicates: false,
     maxAttempts: 12,
@@ -48,6 +52,7 @@ export const GAME_MODES = {
   [GAME_MODE_IDS.MASTER]: {
     id: GAME_MODE_IDS.MASTER,
     nameKey: 'mode.master',
+    descriptionKey: 'mode.master_description',
     length: 8,
     allowDuplicates: true,
     maxAttempts: 15,

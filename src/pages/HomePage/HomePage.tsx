@@ -7,6 +7,34 @@ import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import type { GameMode } from '@/features/game/game.schema';
 import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 
+const MODE_CARD_STYLES = {
+  [GAME_MODE_IDS.BEGINNER]: {
+    badge: 'EASY',
+    borderClass: 'border-green-500/50',
+    badgeClass: 'bg-green-500/30 text-green-400',
+  },
+  [GAME_MODE_IDS.NORMAL]: {
+    badge: 'NORMAL',
+    borderClass: 'border-blue-500/50',
+    badgeClass: 'bg-blue-500/30 text-blue-400',
+  },
+  [GAME_MODE_IDS.HARD]: {
+    badge: 'HARD',
+    borderClass: 'border-orange-500/50',
+    badgeClass: 'bg-orange-500/30 text-orange-400',
+  },
+  [GAME_MODE_IDS.EXPERT]: {
+    badge: 'EXPERT',
+    borderClass: 'border-purple-500/50',
+    badgeClass: 'bg-purple-500/30 text-purple-400',
+  },
+  [GAME_MODE_IDS.MASTER]: {
+    badge: 'MASTER',
+    borderClass: 'border-red-500/50',
+    badgeClass: 'bg-red-500/30 text-red-400',
+  },
+} as const;
+
 const FREE_MODE_IDS: GameMode[] = [
   GAME_MODE_IDS.BEGINNER,
   GAME_MODE_IDS.NORMAL,
@@ -62,6 +90,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {FREE_MODE_IDS.map((modeId) => {
             const modeConfig = GAME_MODES[modeId];
+            const cardStyle = MODE_CARD_STYLES[modeId];
             const unlocked = isModeUnlocked(modeId);
             const unlockCondition =
               'unlockCondition' in modeConfig
@@ -70,6 +99,13 @@ export default function HomePage() {
 
             const cardContent = (
               <>
+                <div className="mb-1 flex items-center gap-2">
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${cardStyle.badgeClass}`}
+                  >
+                    {cardStyle.badge}
+                  </span>
+                </div>
                 <div className="font-semibold text-white">
                   {!unlocked && <span className="mr-1">🔒</span>}
                   {t(modeConfig.nameKey)}
@@ -86,6 +122,9 @@ export default function HomePage() {
                     })
                   )}
                 </div>
+                <p className="mt-1 text-xs text-white/50">
+                  {t(modeConfig.descriptionKey)}
+                </p>
               </>
             );
 
@@ -93,7 +132,7 @@ export default function HomePage() {
               <Link
                 key={modeId}
                 to={`/games/free?mode=${modeId}`}
-                className="rounded-xl border border-white/20 bg-white/10 p-4 text-left transition-all duration-200 hover:border-indigo-400/50 hover:bg-white/15"
+                className={`rounded-xl border bg-white/10 p-4 text-left transition-all duration-200 hover:bg-white/15 ${cardStyle.borderClass}`}
               >
                 {cardContent}
               </Link>
@@ -101,7 +140,7 @@ export default function HomePage() {
               <button
                 key={modeId}
                 disabled
-                className="cursor-not-allowed rounded-xl border border-white/10 bg-white/5 p-4 text-left opacity-60 transition-all duration-200"
+                className={`cursor-not-allowed rounded-xl border bg-white/5 p-4 text-left opacity-60 transition-all duration-200 ${cardStyle.borderClass}`}
               >
                 {cardContent}
               </button>

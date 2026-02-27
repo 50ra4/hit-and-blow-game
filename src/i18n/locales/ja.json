@@ -11,7 +11,12 @@
     "hard": "ハード",
     "expert": "エキスパート",
     "master": "マスター",
-    "locked": "🔒 {{condition}}をクリアで解放"
+    "locked": "🔒 {{condition}}をクリアで解放",
+    "beginner_description": "3桁・重複なし・6回まで。初心者におすすめ",
+    "normal_description": "4桁・重複なし・8回まで。標準的な難易度",
+    "hard_description": "4桁・重複あり・10回まで。推理力が試される",
+    "expert_description": "8桁・重複なし・12回まで",
+    "master_description": "8桁・重複あり・15回まで"
   },
   "game": {
     "submit": "回答する",
