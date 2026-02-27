@@ -98,6 +98,7 @@ export function AppLayout() {
               {t('nav.privacy')}
             </Link>
           </nav>
+          <p className="mt-2 text-center text-xs text-white/40">©50ra4</p>
         </footer>
       )}
 
