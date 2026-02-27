@@ -1,5 +1,10 @@
 import { lazy, Suspense } from 'react';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  ScrollRestoration,
+} from 'react-router-dom';
 import { Loading } from '@/components/Loading/Loading';
 import { AppLayout } from '@/layouts/AppLayout/AppLayout';
 
@@ -15,6 +20,7 @@ const NotFoundPage = lazy(() => import('@/pages/NotFoundPage/NotFoundPage'));
 function SuspenseWrapper() {
   return (
     <Suspense fallback={<Loading />}>
+      <ScrollRestoration />
       <Outlet />
     </Suspense>
   );
