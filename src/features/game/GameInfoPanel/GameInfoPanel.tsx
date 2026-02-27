@@ -3,7 +3,6 @@ import { CircularProgress } from '@/features/game/CircularProgress/CircularProgr
 
 type GameInfoPanelProps = {
   modeName: string;
-  answerLength: number;
   allowDuplicates: boolean;
   attempts: number;
   maxAttempts: number;
@@ -11,7 +10,6 @@ type GameInfoPanelProps = {
 
 export function GameInfoPanel({
   modeName,
-  answerLength,
   allowDuplicates,
   attempts,
   maxAttempts,
@@ -25,27 +23,19 @@ export function GameInfoPanel({
           <p className="mb-2 text-xs text-white/60">
             {t('game.infoModeLabel')}
           </p>
-          <p className="text-2xl font-bold text-white">{modeName}</p>
-        </div>
-        <div className="text-center">
-          <p className="mb-2 text-xs text-white/60">
-            {t('game.infoDigitsLabel')}
-          </p>
-          <p className="text-2xl font-bold text-white">
-            {t('game.infoDigits', { count: answerLength })}
-          </p>
+          <p className="text-sm font-bold text-white">{modeName}</p>
         </div>
         <div className="text-center">
           <p className="mb-2 text-xs text-white/60">
             {t('game.infoDuplicatesLabel')}
           </p>
-          <p className="text-2xl font-bold text-white">
+          <p className="text-sm font-bold text-white">
             {allowDuplicates
               ? t('game.infoDuplicatesOn')
               : t('game.infoDuplicatesOff')}
           </p>
         </div>
-        <CircularProgress current={attempts} max={maxAttempts} />
+        <CircularProgress current={attempts} max={maxAttempts} size={80} />
       </div>
     </div>
   );

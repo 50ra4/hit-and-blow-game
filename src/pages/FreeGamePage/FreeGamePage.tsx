@@ -79,7 +79,6 @@ export default function FreeGamePage() {
         <div className="mx-auto max-w-2xl">
           <GameInfoPanel
             modeName={modeName}
-            answerLength={modeConfig.length}
             allowDuplicates={modeConfig.allowDuplicates}
             attempts={attempts}
             maxAttempts={maxAttempts}
