@@ -25,6 +25,7 @@ export function GameInfoPanel({
           </p>
           <p className="text-lg font-bold text-white">{modeName}</p>
         </div>
+        <CircularProgress current={attempts} max={maxAttempts} />
         <div className="text-center">
           <p className="mb-2 text-xs text-white/60">
             {t('game.infoDuplicatesLabel')}
@@ -35,7 +36,6 @@ export function GameInfoPanel({
               : t('game.infoDuplicatesOff')}
           </p>
         </div>
-        <CircularProgress current={attempts} max={maxAttempts} />
       </div>
     </div>
   );
