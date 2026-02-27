@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useGame } from '@/features/game/useGame';
 import { useStats } from '@/features/stats/useStats';
 import { GameHeader } from '@/features/game/GameHeader/GameHeader';
+import { GameInfoPanel } from '@/features/game/GameInfoPanel/GameInfoPanel';
 import { GameBoard } from '@/features/game/GameBoard/GameBoard';
 import { ResultDisplay } from '@/features/game/ResultDisplay/ResultDisplay';
 import { GAME_MODES, GAME_MODE_ID_VALUES } from '@/consts/modes';
@@ -70,14 +71,19 @@ export default function FreeGamePage() {
     <div className="bg-gradient-dark-1 flex min-h-screen flex-col">
       <GameHeader
         modeName={modeName}
-        attempts={attempts}
-        maxAttempts={maxAttempts}
         playType={PLAY_TYPE_IDS.FREE}
         onBack={handleBack}
       />
 
       <div className="flex-1 overflow-y-auto px-4 py-6">
         <div className="mx-auto max-w-2xl">
+          <GameInfoPanel
+            modeName={modeName}
+            answerLength={modeConfig.length}
+            allowDuplicates={modeConfig.allowDuplicates}
+            attempts={attempts}
+            maxAttempts={maxAttempts}
+          />
           {isGameOver ? (
             <ResultDisplay
               isWon={isWon}
