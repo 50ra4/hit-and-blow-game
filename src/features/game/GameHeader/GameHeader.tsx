@@ -4,19 +4,11 @@ import type { PlayType } from '@/features/game/game.schema';
 
 type GameHeaderProps = {
   modeName: string;
-  attempts: number;
-  maxAttempts: number;
   playType: PlayType;
   onBack: () => void;
 };
 
-export function GameHeader({
-  modeName,
-  attempts,
-  maxAttempts,
-  playType,
-  onBack,
-}: GameHeaderProps) {
+export function GameHeader({ modeName, playType, onBack }: GameHeaderProps) {
   const { t } = useTranslation();
 
   const centerTitle =
@@ -38,9 +30,7 @@ export function GameHeader({
           {centerTitle}
         </h2>
 
-        <div className="min-w-24 text-right text-sm font-medium text-white/80">
-          {t('game.attempts', { current: attempts, max: maxAttempts })}
-        </div>
+        <div className="min-w-24" aria-hidden="true" />
       </div>
     </header>
   );
