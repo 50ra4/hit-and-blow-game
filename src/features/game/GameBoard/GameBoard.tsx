@@ -32,13 +32,15 @@ export function GameBoard({
   const canSubmit = currentGuess.length === answerLength && !isGameOver;
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col overflow-hidden">
       {/* 推測履歴 */}
-      <GuessHistory guesses={guesses} />
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <GuessHistory guesses={guesses} />
+      </div>
 
       {/* 現在の入力エリア */}
       {!isGameOver && (
-        <div className="rounded-xl border-2 border-dashed border-white/30 bg-white/5 p-4">
+        <div className="mt-6 shrink-0 rounded-xl border-2 border-dashed border-white/30 bg-white/5 p-4">
           <p className="mb-3 text-center text-sm text-white/60">
             {t('game.currentGuessLabel')}
           </p>
