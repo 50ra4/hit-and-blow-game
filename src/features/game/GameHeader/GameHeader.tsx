@@ -29,8 +29,6 @@ export function GameHeader({ modeName, playType, onBack }: GameHeaderProps) {
         <h2 className="flex-1 truncate px-2 text-center text-base font-semibold text-white">
           {centerTitle}
         </h2>
-
-        <div className="min-w-24" aria-hidden="true" />
       </div>
     </header>
   );
