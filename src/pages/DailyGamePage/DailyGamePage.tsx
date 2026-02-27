@@ -8,6 +8,7 @@ import { useDailyPlayed } from '@/services/storage/useDailyPlayed';
 import { GameHeader } from '@/features/game/GameHeader/GameHeader';
 import { GameInfoPanel } from '@/features/game/GameInfoPanel/GameInfoPanel';
 import { GameBoard } from '@/features/game/GameBoard/GameBoard';
+import { GameInputArea } from '@/features/game/GameInputArea/GameInputArea';
 import { ResultDisplay } from '@/features/game/ResultDisplay/ResultDisplay';
 import { GAME_MODES } from '@/consts/modes';
 import { PLAY_TYPE_IDS } from '@/consts/playTypes';
@@ -125,12 +126,6 @@ export default function DailyGamePage() {
 
       <div className="flex flex-1 flex-col overflow-hidden px-4 py-6">
         <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col overflow-hidden">
-          <GameInfoPanel
-            length={modeConfig.length}
-            allowDuplicates={modeConfig.allowDuplicates}
-            attempts={attempts}
-            maxAttempts={maxAttempts}
-          />
           {isGameOver ? (
             <div className="min-h-0 flex-1 overflow-y-auto">
               <ResultDisplay
@@ -144,19 +139,26 @@ export default function DailyGamePage() {
               />
             </div>
           ) : (
-            <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-              <GameBoard
-                guesses={guesses}
+            <>
+              <div className="min-h-0 flex-1 overflow-y-auto">
+                <GameInfoPanel
+                  length={modeConfig.length}
+                  allowDuplicates={modeConfig.allowDuplicates}
+                  attempts={attempts}
+                  maxAttempts={maxAttempts}
+                />
+                <GameBoard guesses={guesses} />
+              </div>
+              <GameInputArea
                 currentGuess={currentGuess}
                 answerLength={modeConfig.length}
                 onTileSelect={addTile}
                 onTileRemove={removeTile}
                 onSubmit={submitGuess}
                 onResetGuess={resetCurrentGuess}
-                isGameOver={isGameOver}
                 allowDuplicates={modeConfig.allowDuplicates}
               />
-            </div>
+            </>
           )}
         </div>
       </div>
