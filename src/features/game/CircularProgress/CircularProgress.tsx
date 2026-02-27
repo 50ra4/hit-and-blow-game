@@ -5,7 +5,7 @@ type CircularProgressProps = {
   max: number;
 };
 
-const SIZE = 80;
+const SIZE = 90;
 const RADIUS = (SIZE - 8) / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
@@ -22,7 +22,7 @@ export function CircularProgress({ current, max }: CircularProgressProps) {
   const colorClass = getColorClass(remaining, max);
 
   return (
-    <div className="relative size-20">
+    <div className="relative size-22.5">
       <svg width={SIZE} height={SIZE} className="-rotate-90">
         <circle
           cx={SIZE / 2}
