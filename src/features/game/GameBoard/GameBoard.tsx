@@ -32,7 +32,7 @@ export function GameBoard({
   const canSubmit = currentGuess.length === answerLength && !isGameOver;
 
   return (
-    <div className="flex flex-col overflow-hidden">
+    <div className="flex flex-1 flex-col overflow-hidden">
       {/* 推測履歴 */}
       <div className="min-h-0 flex-1 overflow-y-auto">
         <GuessHistory guesses={guesses} />
