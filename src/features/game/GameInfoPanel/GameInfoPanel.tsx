@@ -23,13 +23,13 @@ export function GameInfoPanel({
           <p className="mb-2 text-xs text-white/60">
             {t('game.infoModeLabel')}
           </p>
-          <p className="text-sm font-bold text-white">{modeName}</p>
+          <p className="text-lg font-bold text-white">{modeName}</p>
         </div>
         <div className="text-center">
           <p className="mb-2 text-xs text-white/60">
             {t('game.infoDuplicatesLabel')}
           </p>
-          <p className="text-sm font-bold text-white">
+          <p className="text-lg font-bold text-white">
             {allowDuplicates
               ? t('game.infoDuplicatesOn')
               : t('game.infoDuplicatesOff')}
