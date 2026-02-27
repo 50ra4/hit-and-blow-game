@@ -6,6 +6,7 @@ import { useGame } from '@/features/game/useGame';
 import { useStats } from '@/features/stats/useStats';
 import { useDailyPlayed } from '@/services/storage/useDailyPlayed';
 import { GameHeader } from '@/features/game/GameHeader/GameHeader';
+import { GameInfoPanel } from '@/features/game/GameInfoPanel/GameInfoPanel';
 import { GameBoard } from '@/features/game/GameBoard/GameBoard';
 import { ResultDisplay } from '@/features/game/ResultDisplay/ResultDisplay';
 import { GAME_MODES } from '@/consts/modes';
@@ -70,8 +71,6 @@ export default function DailyGamePage() {
       <div className="bg-gradient-dark-1 flex min-h-screen flex-col">
         <GameHeader
           modeName={modeName}
-          attempts={attempts}
-          maxAttempts={maxAttempts}
           playType={PLAY_TYPE_IDS.DAILY}
           onBack={handleBack}
         />
@@ -120,14 +119,18 @@ export default function DailyGamePage() {
     >
       <GameHeader
         modeName={modeName}
-        attempts={attempts}
-        maxAttempts={maxAttempts}
         playType={PLAY_TYPE_IDS.DAILY}
         onBack={handleBack}
       />
 
       <div className="flex-1 overflow-y-auto px-4 py-6">
         <div className="mx-auto max-w-2xl">
+          <GameInfoPanel
+            modeName={modeName}
+            allowDuplicates={modeConfig.allowDuplicates}
+            attempts={attempts}
+            maxAttempts={maxAttempts}
+          />
           {isGameOver ? (
             <ResultDisplay
               isWon={isWon}

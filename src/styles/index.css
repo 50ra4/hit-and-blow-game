@@ -1,7 +1,15 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-gradient-dark-1: #1a1a2e;
   --color-gradient-dark-2: #16213e;
   --color-gradient-dark-3: #0f3460;
+}
+
+/* stroke-dashoffset と stroke の2プロパティに異なるdurationを指定するため
+   Tailwindの単一transition-durationでは表現できない */
+.hab-progress-bar {
+  transition:
+    stroke-dashoffset 0.5s ease,
+    stroke 0.3s ease;
 }
