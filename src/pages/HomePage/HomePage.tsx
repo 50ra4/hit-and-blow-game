@@ -70,6 +70,13 @@ export default function HomePage() {
 
             const cardContent = (
               <>
+                <div className="mb-1 flex items-center gap-2">
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${modeConfig.badgeClass}`}
+                  >
+                    {modeConfig.badge}
+                  </span>
+                </div>
                 <div className="font-semibold text-white">
                   {!unlocked && <span className="mr-1">🔒</span>}
                   {t(modeConfig.nameKey)}
@@ -86,6 +93,9 @@ export default function HomePage() {
                     })
                   )}
                 </div>
+                <p className="mt-1 text-xs text-white/50">
+                  {t(modeConfig.descriptionKey)}
+                </p>
               </>
             );
 
@@ -93,7 +103,7 @@ export default function HomePage() {
               <Link
                 key={modeId}
                 to={`/games/free?mode=${modeId}`}
-                className="rounded-xl border border-white/20 bg-white/10 p-4 text-left transition-all duration-200 hover:border-indigo-400/50 hover:bg-white/15"
+                className={`rounded-xl border bg-white/10 p-4 text-left transition-all duration-200 hover:bg-white/15 ${modeConfig.borderClass}`}
               >
                 {cardContent}
               </Link>
@@ -101,7 +111,7 @@ export default function HomePage() {
               <button
                 key={modeId}
                 disabled
-                className="cursor-not-allowed rounded-xl border border-white/10 bg-white/5 p-4 text-left opacity-60 transition-all duration-200"
+                className={`cursor-not-allowed rounded-xl border bg-white/5 p-4 text-left opacity-60 transition-all duration-200 ${modeConfig.borderClass}`}
               >
                 {cardContent}
               </button>
