@@ -20,7 +20,7 @@ export function GameInfoPanel({
 
   return (
     <div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="flex items-center justify-between gap-4">
         <div className="text-center">
           <p className="mb-2 text-xs text-white/60">
             {t('game.infoModeLabel')}
@@ -45,9 +45,7 @@ export function GameInfoPanel({
               : t('game.infoDuplicatesOff')}
           </p>
         </div>
-        <div className="col-span-3 flex justify-center pt-2">
-          <CircularProgress current={attempts} max={maxAttempts} />
-        </div>
+        <CircularProgress current={attempts} max={maxAttempts} />
       </div>
     </div>
   );
