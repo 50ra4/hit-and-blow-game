@@ -115,7 +115,7 @@ export default function DailyGamePage() {
   return (
     <div
       key={`daily-${location.search}`}
-      className="bg-gradient-dark-1 flex min-h-screen flex-col"
+      className="bg-gradient-dark-1 flex h-screen flex-col"
     >
       <GameHeader
         modeName={modeName}
@@ -123,8 +123,8 @@ export default function DailyGamePage() {
         onBack={handleBack}
       />
 
-      <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="mx-auto max-w-2xl">
+      <div className="flex flex-1 flex-col overflow-hidden px-4 py-6">
+        <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col overflow-hidden">
           <GameInfoPanel
             length={modeConfig.length}
             allowDuplicates={modeConfig.allowDuplicates}
@@ -132,27 +132,31 @@ export default function DailyGamePage() {
             maxAttempts={maxAttempts}
           />
           {isGameOver ? (
-            <ResultDisplay
-              isWon={isWon}
-              attempts={attempts}
-              answer={answer}
-              guesses={guesses}
-              mode={DAILY_MODE}
-              playType={PLAY_TYPE_IDS.DAILY}
-              onRestart={handleRestart}
-            />
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              <ResultDisplay
+                isWon={isWon}
+                attempts={attempts}
+                answer={answer}
+                guesses={guesses}
+                mode={DAILY_MODE}
+                playType={PLAY_TYPE_IDS.DAILY}
+                onRestart={handleRestart}
+              />
+            </div>
           ) : (
-            <GameBoard
-              guesses={guesses}
-              currentGuess={currentGuess}
-              answerLength={modeConfig.length}
-              onTileSelect={addTile}
-              onTileRemove={removeTile}
-              onSubmit={submitGuess}
-              onResetGuess={resetCurrentGuess}
-              isGameOver={isGameOver}
-              allowDuplicates={modeConfig.allowDuplicates}
-            />
+            <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+              <GameBoard
+                guesses={guesses}
+                currentGuess={currentGuess}
+                answerLength={modeConfig.length}
+                onTileSelect={addTile}
+                onTileRemove={removeTile}
+                onSubmit={submitGuess}
+                onResetGuess={resetCurrentGuess}
+                isGameOver={isGameOver}
+                allowDuplicates={modeConfig.allowDuplicates}
+              />
+            </div>
           )}
         </div>
       </div>
