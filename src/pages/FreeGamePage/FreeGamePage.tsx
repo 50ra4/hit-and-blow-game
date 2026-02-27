@@ -88,6 +88,7 @@ export default function FreeGamePage() {
               isWon={isWon}
               attempts={attempts}
               answer={answer}
+              guesses={guesses}
               mode={mode}
               playType={PLAY_TYPE_IDS.FREE}
               onRestart={handleRestart}
