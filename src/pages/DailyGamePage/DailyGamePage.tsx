@@ -145,7 +145,6 @@ export default function DailyGamePage() {
               guesses={guesses}
               currentGuess={currentGuess}
               answerLength={modeConfig.length}
-              maxAttempts={maxAttempts}
               onTileSelect={addTile}
               onTileRemove={removeTile}
               onSubmit={submitGuess}

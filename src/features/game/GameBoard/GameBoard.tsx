@@ -9,7 +9,6 @@ type GameBoardProps = {
   guesses: Guess[];
   currentGuess: Tile[];
   answerLength: number;
-  maxAttempts: number;
   onTileSelect: (tile: Tile) => void;
   onTileRemove: (index: number) => void;
   onSubmit: () => void;
@@ -22,7 +21,6 @@ export function GameBoard({
   guesses,
   currentGuess,
   answerLength,
-  maxAttempts,
   onTileSelect,
   onTileRemove,
   onSubmit,
@@ -36,11 +34,7 @@ export function GameBoard({
   return (
     <div className="space-y-6">
       {/* 推測履歴 */}
-      <GuessHistory
-        guesses={guesses}
-        answerLength={answerLength}
-        maxAttempts={maxAttempts}
-      />
+      <GuessHistory guesses={guesses} />
 
       {/* 現在の入力エリア */}
       {!isGameOver && (
