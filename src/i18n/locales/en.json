@@ -15,7 +15,6 @@
   },
   "game": {
     "submit": "Submit",
-    "attempts": "Attempt {{current}} / {{max}}",
     "hit": "Hit",
     "blow": "Blow",
     "reset": "Reset",
@@ -23,7 +22,14 @@
     "confirmLeave": "Quit the game? Your progress will be lost.",
     "dailyTitle": "📅 Daily ({{mode}})",
     "currentGuessLabel": "Current Input",
-    "removeTile": "Remove {{tile}}"
+    "removeTile": "Remove {{tile}}",
+    "infoModeLabel": "Mode",
+    "infoDigitsLabel": "Digits",
+    "infoDuplicatesLabel": "Dup",
+    "infoDigits": "{{count}} digits",
+    "infoDuplicatesOn": "Yes",
+    "infoDuplicatesOff": "No",
+    "attemptsUnit": "turns"
   },
   "result": {
     "win": "You Win!",

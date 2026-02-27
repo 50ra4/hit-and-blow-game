@@ -15,7 +15,6 @@
   },
   "game": {
     "submit": "回答する",
-    "attempts": "{{current}} / {{max}}回目",
     "hit": "ヒット",
     "blow": "ブロー",
     "reset": "リセット",
@@ -23,7 +22,14 @@
     "confirmLeave": "ゲームを中断しますか？進行中のデータは失われます。",
     "dailyTitle": "📅 今日の問題（{{mode}}）",
     "currentGuessLabel": "今の入力",
-    "removeTile": "{{tile}}を削除"
+    "removeTile": "{{tile}}を削除",
+    "infoModeLabel": "モード",
+    "infoDigitsLabel": "桁数",
+    "infoDuplicatesLabel": "重複",
+    "infoDigits": "{{count}}桁",
+    "infoDuplicatesOn": "あり",
+    "infoDuplicatesOff": "なし",
+    "attemptsUnit": "回"
   },
   "result": {
     "win": "クリア！",
