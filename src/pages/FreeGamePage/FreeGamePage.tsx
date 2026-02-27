@@ -97,7 +97,6 @@ export default function FreeGamePage() {
               guesses={guesses}
               currentGuess={currentGuess}
               answerLength={modeConfig.length}
-              maxAttempts={maxAttempts}
               onTileSelect={addTile}
               onTileRemove={removeTile}
               onSubmit={submitGuess}

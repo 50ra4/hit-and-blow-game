@@ -219,7 +219,6 @@ export default function TutorialPage() {
             guesses={guesses}
             currentGuess={currentGuess}
             answerLength={modeConfig.length}
-            maxAttempts={maxAttempts}
             onTileSelect={addTile}
             onTileRemove={removeTile}
             onSubmit={submitGuess}
