@@ -35,7 +35,7 @@ export function GameInfoPanel({
               : t('game.infoDuplicatesOff')}
           </p>
         </div>
-        <CircularProgress current={attempts} max={maxAttempts} size={80} />
+        <CircularProgress current={attempts} max={maxAttempts} size={90} />
       </div>
     </div>
   );
