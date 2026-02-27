@@ -1,16 +1,24 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PLAY_TYPE_IDS } from '@/consts/playTypes';
-import type { GameMode, PlayType, Tile } from '@/features/game/game.schema';
+import type {
+  GameMode,
+  PlayType,
+  Tile,
+  Guess,
+} from '@/features/game/game.schema';
 import { TileIcon } from '@/components/TileIcon/TileIcon';
 import { TILE_GRADIENT_STYLES } from '@/features/game/tileDisplay';
 import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 import { ShareButton } from '@/features/share/ShareButton/ShareButton';
 import { AdBanner } from '@/features/ad/AdBanner/AdBanner';
+import { GuessHistory } from '@/features/game/GuessHistory/GuessHistory';
 
 type ResultDisplayProps = {
   isWon: boolean;
   attempts: number;
   answer: Tile[];
+  guesses: Guess[];
   mode: GameMode;
   playType: PlayType;
   onRestart: () => void;
@@ -20,11 +28,13 @@ export function ResultDisplay({
   isWon,
   attempts,
   answer,
+  guesses,
   mode,
   playType,
   onRestart,
 }: ResultDisplayProps) {
   const { t } = useTranslation();
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const isFreePlay = playType === PLAY_TYPE_IDS.FREE;
 
   return (
@@ -65,13 +75,30 @@ export function ResultDisplay({
         )}
       </div>
 
+      {/* 広告バナー */}
+      <AdBanner />
+
+      {/* 試行履歴トグル */}
+      <div className="mb-4">
+        <button
+          onClick={() => setIsHistoryOpen((prev) => !prev)}
+          className="w-full rounded-xl border border-white/20 bg-white/5 py-3 text-sm font-medium text-white/70 transition-all duration-200 hover:bg-white/10"
+        >
+          {isHistoryOpen ? t('result.historyClose') : t('result.historyOpen')}
+        </button>
+        <div
+          className={`overflow-hidden transition-all duration-300 ${
+            isHistoryOpen ? 'mt-3 max-h-screen' : 'max-h-0'
+          }`}
+        >
+          <GuessHistory guesses={guesses} />
+        </div>
+      </div>
+
       {/* シェアボタン */}
       <div className="mb-4">
         <ShareButton mode={mode} attempts={attempts} playType={playType} />
       </div>
-
-      {/* 広告バナー */}
-      <AdBanner />
 
       {/* アクションボタン */}
       <div className="flex flex-col gap-3">

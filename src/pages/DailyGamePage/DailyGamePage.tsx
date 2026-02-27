@@ -136,6 +136,7 @@ export default function DailyGamePage() {
               isWon={isWon}
               attempts={attempts}
               answer={answer}
+              guesses={guesses}
               mode={DAILY_MODE}
               playType={PLAY_TYPE_IDS.DAILY}
               onRestart={handleRestart}
