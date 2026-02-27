@@ -75,11 +75,6 @@ export function ResultDisplay({
         )}
       </div>
 
-      {/* シェアボタン */}
-      <div className="mb-4">
-        <ShareButton mode={mode} attempts={attempts} playType={playType} />
-      </div>
-
       {/* 広告バナー */}
       <AdBanner />
 
@@ -98,6 +93,11 @@ export function ResultDisplay({
         >
           <GuessHistory guesses={guesses} />
         </div>
+      </div>
+
+      {/* シェアボタン */}
+      <div className="mb-4">
+        <ShareButton mode={mode} attempts={attempts} playType={playType} />
       </div>
 
       {/* アクションボタン */}
