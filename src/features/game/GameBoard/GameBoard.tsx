@@ -35,6 +35,13 @@ export function GameBoard({
 
   return (
     <div className="space-y-6">
+      {/* 推測履歴 */}
+      <GuessHistory
+        guesses={guesses}
+        answerLength={answerLength}
+        maxAttempts={maxAttempts}
+      />
+
       {/* 現在の入力エリア */}
       {!isGameOver && (
         <div className="rounded-xl border-2 border-dashed border-white/30 bg-white/5 p-4">
@@ -100,13 +107,6 @@ export function GameBoard({
           </div>
         </div>
       )}
-
-      {/* 推測履歴 */}
-      <GuessHistory
-        guesses={guesses}
-        answerLength={answerLength}
-        maxAttempts={maxAttempts}
-      />
     </div>
   );
 }
