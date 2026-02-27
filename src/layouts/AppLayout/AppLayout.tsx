@@ -42,7 +42,7 @@ export function AppLayout() {
         <div className="mx-auto flex max-w-2xl items-center justify-between">
           <Link
             to="/"
-            className="text-lg font-bold text-white transition-opacity hover:opacity-80"
+            className="bg-gradient-to-br from-indigo-400 to-purple-500 bg-clip-text text-lg font-bold text-transparent transition-opacity hover:opacity-80"
           >
             {t('common.title')}
           </Link>
