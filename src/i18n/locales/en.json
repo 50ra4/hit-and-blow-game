@@ -87,7 +87,12 @@
     "dailyCountdown": "Next challenge in {{time}}",
     "dailyRule": "{{modeName}} | {{length}} digits, duplicates {{duplicates}}, up to {{maxAttempts}} attempts",
     "dailyRuleDuplicatesOn": "allowed",
-    "dailyRuleDuplicatesOff": "not allowed"
+    "dailyRuleDuplicatesOff": "not allowed",
+    "statsCard": "Play Records",
+    "statsCardEmpty": "No records yet",
+    "statsCardTotalPlays": "Plays",
+    "statsCardWins": "Wins",
+    "statsCardWinRate": "Win Rate"
   },
   "stats": {
     "title": "Statistics",

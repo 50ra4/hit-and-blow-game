@@ -5,6 +5,7 @@ import { useStats } from '@/features/stats/useStats';
 import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import type { GameMode } from '@/features/game/game.schema';
 import { DailyChallengeCard } from './DailyChallengeCard';
+import { StatsCard } from './StatsCard';
 
 const MODE_CARD_STYLES = {
   [GAME_MODE_IDS.BEGINNER]: {
@@ -45,7 +46,7 @@ const FREE_MODE_IDS: GameMode[] = [
 export default function HomePage() {
   const { t } = useTranslation();
   const { settings } = useSettings();
-  const { isModeUnlocked } = useStats();
+  const { stats, isModeUnlocked } = useStats();
 
   if (!settings.tutorialCompleted) {
     return <Navigate to="/tutorial" replace />;
@@ -72,6 +73,13 @@ export default function HomePage() {
           ❓ {t('home.tutorial')}
         </Link>
       </div>
+
+      {/* 遊んだ記録 */}
+      <StatsCard
+        totalPlays={stats.totalPlays}
+        totalWins={stats.totalWins}
+        winRate={stats.winRate}
+      />
 
       {/* モード選択 */}
       <div>
@@ -139,6 +147,7 @@ export default function HomePage() {
           })}
         </div>
       </div>
+
     </div>
   );
 }
