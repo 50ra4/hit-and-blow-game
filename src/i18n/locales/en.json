@@ -26,6 +26,7 @@
     "backToHome": "← Home",
     "confirmLeave": "Quit the game? Your progress will be lost.",
     "dailyTitle": "📅 Daily ({{mode}})",
+    "freeTitle": "Free Play ({{mode}})",
     "currentGuessLabel": "Current Input",
     "removeTile": "Remove {{tile}}",
     "infoModeLabel": "Mode",

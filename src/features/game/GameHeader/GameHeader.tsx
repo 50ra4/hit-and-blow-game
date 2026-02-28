@@ -14,7 +14,7 @@ export function GameHeader({ modeName, playType, onBack }: GameHeaderProps) {
   const centerTitle =
     playType === PLAY_TYPE_IDS.DAILY
       ? t('game.dailyTitle', { mode: modeName })
-      : modeName;
+      : t('game.freeTitle', { mode: modeName });
 
   return (
     <header className="sticky top-0 z-10 border-b border-white/10 bg-gray-900/85 px-4 py-3 shadow-lg backdrop-blur-md">
