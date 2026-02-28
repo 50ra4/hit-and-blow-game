@@ -5,6 +5,7 @@ import { useTutorial } from '@/features/tutorial/useTutorial';
 import { useGame } from '@/features/game/useGame';
 import { TutorialStep } from '@/features/tutorial/TutorialStep/TutorialStep';
 import { GameBoard } from '@/features/game/GameBoard/GameBoard';
+import { GameInputArea } from '@/features/game/GameInputArea/GameInputArea';
 import { TILE_ID_VALUES } from '@/consts/tiles';
 import { TileIcon } from '@/components/TileIcon/TileIcon';
 import { TILE_GRADIENT_STYLES, type TileId } from '@/features/game/tileDisplay';
@@ -215,17 +216,18 @@ export default function TutorialPage() {
               {t('tutorial.step4HintBlowDesc')}
             </div>
           )}
-          <GameBoard
-            guesses={guesses}
-            currentGuess={currentGuess}
-            answerLength={modeConfig.length}
-            onTileSelect={addTile}
-            onTileRemove={removeTile}
-            onSubmit={submitGuess}
-            onResetGuess={resetCurrentGuess}
-            isGameOver={isGameOver}
-            allowDuplicates={modeConfig.allowDuplicates}
-          />
+          <GameBoard guesses={guesses} />
+          {!isGameOver && (
+            <GameInputArea
+              currentGuess={currentGuess}
+              answerLength={modeConfig.length}
+              onTileSelect={addTile}
+              onTileRemove={removeTile}
+              onSubmit={submitGuess}
+              onResetGuess={resetCurrentGuess}
+              allowDuplicates={modeConfig.allowDuplicates}
+            />
+          )}
         </>
       )}
     </div>,

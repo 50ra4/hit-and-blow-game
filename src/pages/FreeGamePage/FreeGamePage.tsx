@@ -6,6 +6,7 @@ import { useStats } from '@/features/stats/useStats';
 import { GameHeader } from '@/features/game/GameHeader/GameHeader';
 import { GameInfoPanel } from '@/features/game/GameInfoPanel/GameInfoPanel';
 import { GameBoard } from '@/features/game/GameBoard/GameBoard';
+import { GameInputArea } from '@/features/game/GameInputArea/GameInputArea';
 import { ResultDisplay } from '@/features/game/ResultDisplay/ResultDisplay';
 import { GAME_MODES, GAME_MODE_ID_VALUES } from '@/consts/modes';
 import { PLAY_TYPE_IDS } from '@/consts/playTypes';
@@ -68,43 +69,48 @@ export default function FreeGamePage() {
   };
 
   return (
-    <div className="bg-gradient-dark-1 flex min-h-screen flex-col">
+    <div className="bg-gradient-dark-1 flex h-screen flex-col">
       <GameHeader
         modeName={modeName}
         playType={PLAY_TYPE_IDS.FREE}
         onBack={handleBack}
       />
 
-      <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="mx-auto max-w-2xl">
-          <GameInfoPanel
-            length={modeConfig.length}
-            allowDuplicates={modeConfig.allowDuplicates}
-            attempts={attempts}
-            maxAttempts={maxAttempts}
-          />
+      <div className="flex flex-1 flex-col overflow-hidden px-4 py-6">
+        <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col overflow-hidden">
           {isGameOver ? (
-            <ResultDisplay
-              isWon={isWon}
-              attempts={attempts}
-              answer={answer}
-              guesses={guesses}
-              mode={mode}
-              playType={PLAY_TYPE_IDS.FREE}
-              onRestart={handleRestart}
-            />
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              <ResultDisplay
+                isWon={isWon}
+                attempts={attempts}
+                answer={answer}
+                guesses={guesses}
+                mode={mode}
+                playType={PLAY_TYPE_IDS.FREE}
+                onRestart={handleRestart}
+              />
+            </div>
           ) : (
-            <GameBoard
-              guesses={guesses}
-              currentGuess={currentGuess}
-              answerLength={modeConfig.length}
-              onTileSelect={addTile}
-              onTileRemove={removeTile}
-              onSubmit={submitGuess}
-              onResetGuess={resetCurrentGuess}
-              isGameOver={isGameOver}
-              allowDuplicates={modeConfig.allowDuplicates}
-            />
+            <>
+              <div className="min-h-0 flex-1 overflow-y-auto">
+                <GameInfoPanel
+                  length={modeConfig.length}
+                  allowDuplicates={modeConfig.allowDuplicates}
+                  attempts={attempts}
+                  maxAttempts={maxAttempts}
+                />
+                <GameBoard guesses={guesses} />
+              </div>
+              <GameInputArea
+                currentGuess={currentGuess}
+                answerLength={modeConfig.length}
+                onTileSelect={addTile}
+                onTileRemove={removeTile}
+                onSubmit={submitGuess}
+                onResetGuess={resetCurrentGuess}
+                allowDuplicates={modeConfig.allowDuplicates}
+              />
+            </>
           )}
         </div>
       </div>
