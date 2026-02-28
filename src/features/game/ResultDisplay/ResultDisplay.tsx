@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PLAY_TYPE_IDS } from '@/consts/playTypes';
-import { GAME_MODES } from '@/consts/modes';
 import type {
   GameMode,
   PlayType,
@@ -9,6 +8,7 @@ import type {
   Guess,
 } from '@/features/game/game.schema';
 import { TileChip } from '@/components/TileChip/TileChip';
+import { ModeChip } from '@/components/ModeChip/ModeChip';
 import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 import { ShareButton } from '@/features/share/ShareButton/ShareButton';
 import { AdBanner } from '@/features/ad/AdBanner/AdBanner';
@@ -36,7 +36,6 @@ export function ResultDisplay({
   const { t } = useTranslation();
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const isFreePlay = playType === PLAY_TYPE_IDS.FREE;
-  const modeName = t(GAME_MODES[mode].nameKey);
 
   return (
     <div className="mx-auto max-w-lg px-4 py-6 text-center">
@@ -55,16 +54,18 @@ export function ResultDisplay({
         </h2>
 
         <div>
-          <div className="mb-3 flex justify-center gap-4">
-            <div className="rounded-xl bg-black/30 px-4 py-3 text-center">
-              <p className="text-2xl font-bold text-white">
+          <div className="mb-3 flex flex-col gap-2">
+            <div className="rounded-xl bg-black/20 p-3 text-center">
+              <p className="text-xs text-white/60">{t('result.modeLabel')}</p>
+              <div className="mt-2 flex justify-center">
+                <ModeChip mode={mode} className="px-3 py-1 text-sm" />
+              </div>
+            </div>
+            <div className="rounded-xl bg-black/20 p-3 text-center">
+              <p className="text-xs text-white/60">{t('result.attemptsLabel')}</p>
+              <p className="mt-1 text-3xl font-bold text-white">
                 {t('result.attemptsCount', { count: attempts })}
               </p>
-              <p className="mt-1 text-xs text-white/60">{t('result.attemptsLabel')}</p>
-            </div>
-            <div className="rounded-xl bg-black/30 px-4 py-3 text-center">
-              <p className="text-2xl font-bold text-white">{modeName}</p>
-              <p className="mt-1 text-xs text-white/60">{t('result.modeLabel')}</p>
             </div>
           </div>
           <p className="mb-3 text-sm text-white/60">
