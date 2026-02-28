@@ -52,7 +52,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8">
+    <div className="mx-auto max-w-2xl px-4 py-8 hab-fade-in-up">
       {/* タイトル */}
       <div className="mb-8 text-center">
         <h1 className="mb-2 bg-gradient-to-br from-indigo-400 to-purple-500 bg-clip-text text-4xl font-bold text-transparent">

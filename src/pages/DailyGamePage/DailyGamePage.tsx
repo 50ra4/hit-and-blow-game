@@ -116,7 +116,7 @@ export default function DailyGamePage() {
   return (
     <div
       key={`daily-${location.search}`}
-      className="bg-gradient-dark-1 flex h-screen flex-col"
+      className="bg-gradient-dark-1 flex h-screen flex-col hab-fade-in-up"
     >
       <GameHeader
         modeName={modeName}
