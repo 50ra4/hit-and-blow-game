@@ -16,101 +16,187 @@
 
 ## タスク一覧
 
-### タスク1: Issue #71 — TileIcon に光沢オーバーレイを追加
+### タスク1: Issue #71 — TileChip コンポーネントを新設し光沢オーバーレイを実装
 
-**変更ファイル**: `src/components/TileIcon/TileIcon.tsx`
+**変更ファイル**:
+- `src/components/TileIcon/TileIcon.tsx`（元に戻す）
+- `src/components/TileChip/TileChip.tsx`（新規作成）
 
 **選択理由**:
-`TileIcon` は `TilePicker`・`GameInputArea`・`GuessHistory`・`ResultDisplay`・`TutorialPage` の全箇所で使用されているため、`TileIcon` 内部で光沢を実装すれば一箇所の変更で全表示箇所に適用される。
+当初 `TileIcon`（SVGシンボル部分のみ、h-8 w-8 程度）に光沢を追加したが、シンボルの小さな面積にしか乗らず、タイルの大半を占めるグラデーション背景には効果がなかった。
 
-CSS の `::before` 疑似要素はインラインスタイル（`style` prop）では使用できないため、JSX の `<span>` で代替する。
+`TileChip` として「グラデーション背景＋光沢オーバーレイ＋シンボルアイコン」を一体化することで、タイル全体に光沢がかかる正しい実装になる。`TileIcon` は純粋な SVG コンポーネントとして責務を分離する。
 
-**実装内容**:
-
+**TileIcon の変更内容（元に戻す）**:
 ```tsx
 export function TileIcon({ tileId, className }: TileIconProps) {
   return (
-    <span className="relative inline-flex rounded-lg overflow-hidden">
-      {/* 光沢オーバーレイ: タイルの立体感を演出 */}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 64"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      {TILE_SVG_CONTENTS[tileId]}
+    </svg>
+  );
+}
+```
+
+**TileChip の実装内容**:
+```tsx
+// src/components/TileChip/TileChip.tsx
+import { TILE_GRADIENT_STYLES, type TileId } from '@/features/game/tileDisplay';
+import { TileIcon } from '@/components/TileIcon/TileIcon';
+
+type TileChipProps = {
+  tileId: TileId;
+  className?: string;
+};
+
+export function TileChip({ tileId, className }: TileChipProps) {
+  return (
+    <div
+      className={`relative inline-flex items-center justify-center overflow-hidden ${className ?? ''}`}
+      style={TILE_GRADIENT_STYLES[tileId]}
+    >
       <span
-        className="absolute inset-0 pointer-events-none rounded-lg"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background:
             'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 60%)',
         }}
       />
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 64 64"
-        fill="currentColor"
-        aria-hidden="true"
-        className={className}
-      >
-        {TILE_SVG_CONTENTS[tileId]}
-      </svg>
-    </span>
+      <TileIcon tileId={tileId} className="relative w-[57%] h-[57%]" />
+    </div>
   );
 }
 ```
 
-**注意**: `TileIcon` は現在 SVG のみを返している。ラッパー `<span>` を追加することで、呼び出し元のレイアウトに影響が出ないよう `inline-flex` を使用する。
+**アイコンサイズ**: 各呼び出し箇所のコンテナとアイコン比率は一貫して約57%のため `w-[57%] h-[57%]` を使用する（h-8/h-14=57%、h-7/h-12=58%、h-6/h-10=60%）。
 
 **受け入れ条件**:
 - [ ] タイルの上半分に白の半透明グラデーションが表示される
 - [ ] 光沢オーバーレイがインタラクションの妨げにならない（`pointer-events-none`）
-- [ ] タイルパレット・入力スロット・推測履歴の全ての表示箇所で適用される
+- [ ] TileIcon が元の純粋な SVG コンポーネントに戻っている
 
 ---
 
-### タスク2: Issue #70 — TilePicker にバウンスアニメーションを追加
+### タスク2: 全呼び出し元を TileChip に置き換え
 
 **変更ファイル**:
-- `src/styles/index.css`
+- `src/features/game/GuessHistory/GuessHistory.tsx`
+- `src/features/game/ResultDisplay/ResultDisplay.tsx`
+- `src/pages/TutorialPage/TutorialPage.tsx`
+- `src/features/game/GameInputArea/GameInputArea.tsx`
 - `src/features/game/TilePicker/TilePicker.tsx`
 
 **選択理由**:
-Tailwind の標準ユーティリティにはバウンスアニメーション（`scale 0.9 → 1.1 → 1.0`）が存在しないため、`index.css` に `@keyframes` を追加しカスタムユーティリティ `.hab-tile-bounce` として定義する（プロジェクトの命名規則 `hab-` プレフィックスに従う）。
+TileChip が「タイル全体」の表現を担うため、各呼び出し元では `style={TILE_GRADIENT_STYLES[...]}` を持つラッパー要素を TileChip に置き換える。
 
-アニメーションのトリガーは `useState` で管理し、`onAnimationEnd` でリセットすることで連続クリック時も各タイルが独立してアニメーションする。
+**各ファイルの変更内容**:
 
-**実装内容 (index.css)**:
+#### GuessHistory.tsx
+```tsx
+// Before
+<div
+  style={TILE_GRADIENT_STYLES[tile.id]}
+  className="inline-flex h-10 w-10 items-center justify-center rounded-xl shadow-md"
+>
+  <TileIcon tileId={tile.id} className="h-6 w-6" />
+</div>
 
-```css
-@keyframes tileBounce {
-  0%   { transform: scale(1); }
-  30%  { transform: scale(0.9); }
-  70%  { transform: scale(1.1); }
-  100% { transform: scale(1); }
-}
-
-@layer utilities {
-  .hab-tile-bounce {
-    animation: tileBounce 0.25s ease;
-  }
-}
+// After
+<TileChip tileId={tile.id} className="h-10 w-10 rounded-xl shadow-md" />
 ```
 
-**実装内容 (TilePicker.tsx)**:
-
+#### ResultDisplay.tsx
 ```tsx
-const [animatingTileId, setAnimatingTileId] = useState<string | null>(null);
+// Before
+<div
+  style={TILE_GRADIENT_STYLES[tile.id]}
+  className="inline-flex h-14 w-14 items-center justify-center rounded-2xl shadow-md"
+>
+  <TileIcon tileId={tile.id} className="h-8 w-8" />
+</div>
 
-const handleSelect = useCallback(
-  (tile: Tile) => {
-    setAnimatingTileId(tile.id);
-    onSelect(tile);
-  },
-  [onSelect],
-);
+// After
+<TileChip tileId={tile.id} className="h-14 w-14 rounded-2xl shadow-md" />
+```
 
-// ボタン要素
+#### TutorialPage.tsx（Step1 答え/推測の例）
+```tsx
+// Before
+<div style={TILE_GRADIENT_STYLES[id]} className="flex h-12 w-12 items-center justify-center rounded-xl">
+  <TileIcon tileId={id} className="h-7 w-7" />
+</div>
+
+// After
+<TileChip tileId={id} className="h-12 w-12 rounded-xl" />
+```
+
+#### TutorialPage.tsx（Step2 タイル一覧）
+```tsx
+// Before
+<div style={TILE_GRADIENT_STYLES[id]} className="flex h-14 w-14 items-center justify-center rounded-2xl shadow-md">
+  <TileIcon tileId={id} className="h-8 w-8" />
+</div>
+
+// After
+<TileChip tileId={id} className="h-14 w-14 rounded-2xl shadow-md" />
+```
+
+#### GameInputArea.tsx（入力スロット）
+```tsx
+// Before（buttonのstyleを削除し、TileChipを子要素にする）
 <button
   ...
-  className={`... ${animatingTileId === tile.id ? 'hab-tile-bounce' : ''}`}
-  onClick={() => handleSelect(tile)}
-  onAnimationEnd={() => setAnimatingTileId(null)}
+  style={TILE_GRADIENT_STYLES[tile.id]}  // 削除
+  className="inline-flex h-14 w-14 ... rounded-2xl overflow-hidden ..."
 >
+  <TileIcon tileId={tile.id} className="h-8 w-8" />  // 削除
+
+// After
+<button
+  ...
+  className="inline-flex h-14 w-14 ... rounded-2xl overflow-hidden ..."
+>
+  <TileChip tileId={tile.id} className="h-full w-full" />
+</button>
 ```
+
+#### TilePicker.tsx（有効タイルのみ TileChip、無効タイルは従来通り）
+```tsx
+// ボタンに overflow-hidden を追加し、styleを削除
+<button
+  ...
+  style={undefined}  // 削除（TILE_GRADIENT_STYLES はTileChipが内部で管理）
+  className={`... rounded-2xl overflow-hidden ... ${
+    tileDisabled
+      ? 'cursor-not-allowed bg-gray-600 text-gray-400 opacity-30'
+      : 'cursor-pointer ...'
+  } ...`}
+>
+  {tileDisabled ? (
+    <TileIcon tileId={tile.id} className="h-8 w-8 sm:h-9 sm:w-9" />
+  ) : (
+    <TileChip tileId={tile.id} className="h-full w-full" />
+  )}
+</button>
+```
+
+**注意**: TilePicker の disabled タイルは従来の見た目（グレー背景）を維持するため、TileChip を使わず TileIcon を直接レンダーする。
+
+**受け入れ条件**:
+- [ ] タイルパレット・入力スロット・推測履歴・結果表示・チュートリアルの全ての表示箇所でタイル全体に光沢が表示される
+- [ ] TilePicker の無効タイルは従来通りグレー表示を維持する
+
+---
+
+### タスク3: Issue #70 — TilePicker にバウンスアニメーションを追加（既実装・確認のみ）
+
+バウンスアニメーション（Issue #70）はタスク2以前に実装済み。タスク2の TilePicker 変更後も以下の動作を確認する。
 
 **受け入れ条件**:
 - [ ] タイルをクリックしたとき 0.25秒のバウンスアニメーションが再生される
@@ -122,6 +208,6 @@ const handleSelect = useCallback(
 
 ## 実装順序の選択理由
 
-タスク1（#71 TileIcon）→ タスク2（#70 TilePicker）の順で実装する。
+タスク1（TileChip 新設）→ タスク2（全呼び出し元の置き換え）の順で実装する。
 
-`TilePicker` は `TileIcon` を内部で使用しているため、タスク1を先に完了させることで、タスク2の実装・確認時に光沢オーバーレイとバウンスアニメーションを合わせて確認できる。
+TileChip が存在してからでないと呼び出し元を変更できないため。
