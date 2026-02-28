@@ -2,11 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { Navigate, Link } from 'react-router-dom';
 import { useSettings } from '@/i18n/useSettings';
 import { useStats } from '@/features/stats/useStats';
-import { useDailyPlayed } from '@/services/storage/useDailyPlayed';
 import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import type { GameMode } from '@/features/game/game.schema';
-import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
-import { useCountdown } from '@/hooks/useCountdown';
+import { DailyChallengeCard } from './DailyChallengeCard';
 
 const MODE_CARD_STYLES = {
   [GAME_MODE_IDS.BEGINNER]: {
@@ -48,9 +46,6 @@ export default function HomePage() {
   const { t } = useTranslation();
   const { settings } = useSettings();
   const { isModeUnlocked } = useStats();
-  const { hasPlayedToday } = useDailyPlayed();
-  const countdown = useCountdown();
-  const normalModeConfig = GAME_MODES[GAME_MODE_IDS.NORMAL];
 
   if (!settings.tutorialCompleted) {
     return <Navigate to="/tutorial" replace />;
@@ -66,36 +61,7 @@ export default function HomePage() {
       </div>
 
       {/* デイリーチャレンジ */}
-      <div className="mb-8 rounded-2xl border border-yellow-400/30 bg-yellow-400/10 p-6">
-        <div className="mb-4 flex items-center justify-center gap-2">
-          <span className="text-lg font-semibold text-white">
-            📅 {t('home.dailyChallenge')}
-          </span>
-          <span className="rounded-full bg-yellow-500/30 px-3 py-1 text-xs font-semibold text-yellow-300">
-            {t('home.dailyAllCommon')}
-          </span>
-        </div>
-        <p className="mb-3 text-sm text-white/70">
-          {t('home.dailyRule', {
-            modeName: t(normalModeConfig.nameKey),
-            length: normalModeConfig.length,
-            duplicates: t(
-              normalModeConfig.allowDuplicates
-                ? 'home.dailyRuleDuplicatesOn'
-                : 'home.dailyRuleDuplicatesOff',
-            ),
-            maxAttempts: normalModeConfig.maxAttempts,
-          })}
-        </p>
-        <p className="mb-4 text-sm text-white/70">
-          {t('home.dailyCountdown', { time: countdown })}
-        </p>
-        <ButtonLink to="/games/daily" className="w-full py-4 text-lg">
-          {hasPlayedToday()
-            ? t('home.dailyChallengeCompleted')
-            : `${t('home.dailyChallenge')}`}
-        </ButtonLink>
-      </div>
+      <DailyChallengeCard />
 
       {/* チュートリアルリンク（常時表示） */}
       <div className="mb-6 text-center">
