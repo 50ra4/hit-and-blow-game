@@ -80,7 +80,12 @@
     "dailyChallengeCompleted": "✅ Today's Challenge (Done)",
     "selectMode": "Select a Mode",
     "dailyDesc": "Today's Challenge!",
-    "tutorial": "View Tutorial"
+    "tutorial": "View Tutorial",
+    "dailyAllCommon": "For Everyone",
+    "dailyCountdown": "Next challenge in {{time}}",
+    "dailyRule": "{{modeName}} | {{length}} digits, duplicates {{duplicates}}, up to {{maxAttempts}} attempts",
+    "dailyRuleDuplicatesOn": "allowed",
+    "dailyRuleDuplicatesOff": "not allowed"
   },
   "stats": {
     "title": "Statistics",
