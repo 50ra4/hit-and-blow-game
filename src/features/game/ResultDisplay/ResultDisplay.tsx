@@ -53,26 +53,25 @@ export function ResultDisplay({
           {isWon ? t('result.win') : t('result.lose')}
         </h2>
 
-        {isWon ? (
-          <p className="text-lg text-white/70">
+        <div>
+          <p className="mb-3 text-lg text-white/70">
             {t('result.attempts', { count: attempts })}
           </p>
-        ) : (
-          <div>
-            <p className="mb-3 text-sm text-white/60">{t('result.answer')}</p>
-            <div className="flex flex-wrap justify-center gap-2">
-              {answer.map((tile, index) => (
-                <div
-                  key={index}
-                  style={TILE_GRADIENT_STYLES[tile.id]}
-                  className="inline-flex h-14 w-14 items-center justify-center rounded-2xl shadow-md"
-                >
-                  <TileIcon tileId={tile.id} className="h-8 w-8" />
-                </div>
-              ))}
-            </div>
+          <p className="mb-3 text-sm text-white/60">
+            {isWon ? t('result.correct') : t('result.answer')}
+          </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {answer.map((tile, index) => (
+              <div
+                key={index}
+                style={TILE_GRADIENT_STYLES[tile.id]}
+                className="inline-flex h-14 w-14 items-center justify-center rounded-2xl shadow-md"
+              >
+                <TileIcon tileId={tile.id} className="h-8 w-8" />
+              </div>
+            ))}
           </div>
-        )}
+        </div>
       </div>
 
       {/* 広告バナー */}
