@@ -32,14 +32,23 @@ const TILE_SVG_CONTENTS: Record<TileId, React.ReactNode> = {
 
 export function TileIcon({ tileId, className }: TileIconProps) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-      fill="currentColor"
-      aria-hidden="true"
-      className={className}
-    >
-      {TILE_SVG_CONTENTS[tileId]}
-    </svg>
+    <span className="relative inline-flex rounded-lg overflow-hidden">
+      <span
+        className="absolute inset-0 pointer-events-none rounded-lg"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 60%)',
+        }}
+      />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 64 64"
+        fill="currentColor"
+        aria-hidden="true"
+        className={className}
+      >
+        {TILE_SVG_CONTENTS[tileId]}
+      </svg>
+    </span>
   );
 }
