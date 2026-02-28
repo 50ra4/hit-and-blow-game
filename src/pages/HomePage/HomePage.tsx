@@ -4,17 +4,18 @@ import { useSettings } from '@/i18n/useSettings';
 import { useStats } from '@/features/stats/useStats';
 import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import type { GameMode } from '@/features/game/game.schema';
-import { ModeChip } from '@/components/ModeChip/ModeChip';
+import { OutlineChip } from '@/components/OutlineChip/OutlineChip';
+import type { OutlineChipVariant } from '@/components/OutlineChip/OutlineChip';
 import { DailyChallengeCard } from './DailyChallengeCard';
 import { StatsCard } from './StatsCard';
 
-const MODE_CARD_STYLES = {
-  [GAME_MODE_IDS.BEGINNER]: { borderClass: 'border-green-500/50' },
-  [GAME_MODE_IDS.NORMAL]: { borderClass: 'border-blue-500/50' },
-  [GAME_MODE_IDS.HARD]: { borderClass: 'border-orange-500/50' },
-  [GAME_MODE_IDS.EXPERT]: { borderClass: 'border-purple-500/50' },
-  [GAME_MODE_IDS.MASTER]: { borderClass: 'border-red-500/50' },
-} as const;
+const MODE_CARD_STYLES: Record<GameMode, { borderClass: string; chipVariant: OutlineChipVariant }> = {
+  [GAME_MODE_IDS.BEGINNER]: { borderClass: 'border-green-500/50', chipVariant: 'green' },
+  [GAME_MODE_IDS.NORMAL]: { borderClass: 'border-blue-500/50', chipVariant: 'blue' },
+  [GAME_MODE_IDS.HARD]: { borderClass: 'border-orange-500/50', chipVariant: 'orange' },
+  [GAME_MODE_IDS.EXPERT]: { borderClass: 'border-purple-500/50', chipVariant: 'purple' },
+  [GAME_MODE_IDS.MASTER]: { borderClass: 'border-red-500/50', chipVariant: 'red' },
+};
 
 const FREE_MODE_IDS: GameMode[] = [
   GAME_MODE_IDS.BEGINNER,
@@ -80,7 +81,11 @@ export default function HomePage() {
             const cardContent = (
               <>
                 <div className="mb-1 flex items-center gap-2">
-                  <ModeChip mode={modeId} className="px-2 py-0.5 text-xs" />
+                  <OutlineChip
+                    label={t(modeConfig.nameKey)}
+                    variant={cardStyle.chipVariant}
+                    className="px-2 py-0.5 text-xs"
+                  />
                 </div>
                 <div className="font-semibold text-white">
                   {!unlocked && <span className="mr-1">🔒</span>}
