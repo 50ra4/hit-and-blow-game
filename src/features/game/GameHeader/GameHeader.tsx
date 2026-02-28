@@ -14,21 +14,25 @@ export function GameHeader({ modeName, playType, onBack }: GameHeaderProps) {
   const centerTitle =
     playType === PLAY_TYPE_IDS.DAILY
       ? t('game.dailyTitle', { mode: modeName })
-      : modeName;
+      : t('game.freeTitle', { mode: modeName });
 
   return (
     <header className="sticky top-0 z-10 border-b border-white/10 bg-gray-900/85 px-4 py-3 shadow-lg backdrop-blur-md">
-      <div className="mx-auto flex max-w-2xl items-center justify-between">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
-        >
-          {t('game.backToHome')}
-        </button>
+      <div className="mx-auto flex max-w-2xl items-center">
+        <div className="flex flex-1 justify-start">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
+          >
+            {t('game.backToHome')}
+          </button>
+        </div>
 
-        <h2 className="flex-1 truncate px-2 text-center text-base font-semibold text-white">
+        <h2 className="truncate text-center text-base font-semibold text-white">
           {centerTitle}
         </h2>
+
+        <div className="flex-1" />
       </div>
     </header>
   );
