@@ -74,6 +74,13 @@ export default function HomePage() {
         </Link>
       </div>
 
+      {/* 遊んだ記録 */}
+      <StatsCard
+        totalPlays={stats.totalPlays}
+        totalWins={stats.totalWins}
+        winRate={stats.winRate}
+      />
+
       {/* モード選択 */}
       <div>
         <h2 className="mb-4 text-lg font-semibold text-white/80">
@@ -141,12 +148,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 遊んだ記録 */}
-      <StatsCard
-        totalPlays={stats.totalPlays}
-        totalWins={stats.totalWins}
-        winRate={stats.winRate}
-      />
     </div>
   );
 }
