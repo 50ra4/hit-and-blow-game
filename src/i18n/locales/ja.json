@@ -87,7 +87,12 @@
     "dailyCountdown": "次のチャレンジまで {{time}}",
     "dailyRule": "{{modeName}}｜{{length}}桁・重複{{duplicates}}・{{maxAttempts}}回まで",
     "dailyRuleDuplicatesOn": "あり",
-    "dailyRuleDuplicatesOff": "なし"
+    "dailyRuleDuplicatesOff": "なし",
+    "statsCard": "遊んだ記録",
+    "statsCardEmpty": "まだ記録がありません",
+    "statsCardTotalPlays": "プレイ数",
+    "statsCardWins": "勝利数",
+    "statsCardWinRate": "勝率"
   },
   "stats": {
     "title": "統計",
