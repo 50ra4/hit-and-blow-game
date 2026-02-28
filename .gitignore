@@ -143,3 +143,4 @@ vite.config.ts.timestamp-*
 /tmp
 .vscode/settings.json
 !.vscode/settings.sample.json
+.claude/worktrees/

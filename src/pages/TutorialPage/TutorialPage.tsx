@@ -7,11 +7,11 @@ import { TutorialStep } from '@/features/tutorial/TutorialStep/TutorialStep';
 import { GameBoard } from '@/features/game/GameBoard/GameBoard';
 import { GameInputArea } from '@/features/game/GameInputArea/GameInputArea';
 import { TILE_ID_VALUES } from '@/consts/tiles';
-import { TileIcon } from '@/components/TileIcon/TileIcon';
-import { TILE_GRADIENT_STYLES, type TileId } from '@/features/game/tileDisplay';
+import type { TileId } from '@/features/game/tileDisplay';
 import { GAME_MODE_ID_VALUES, GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import { PLAY_TYPE_IDS } from '@/consts/playTypes';
 import { Button } from '@/components/Button/Button';
+import { TileChip } from '@/components/TileChip/TileChip';
 
 // Step1: ヒット・ブロー説明用の静的例
 // 答え: star, circle, triangle, square / 推測: star, diamond, triangle, heart
@@ -92,13 +92,7 @@ export default function TutorialPage() {
       <p className="mb-2 text-xs text-white/50">答え（隠されている）:</p>
       <div className="mb-4 flex gap-2">
         {EXAMPLE_ANSWER_IDS.map((id, i) => (
-          <div
-            key={i}
-            style={TILE_GRADIENT_STYLES[id]}
-            className="flex h-12 w-12 items-center justify-center rounded-xl"
-          >
-            <TileIcon tileId={id} className="h-7 w-7" />
-          </div>
+          <TileChip key={i} tileId={id} className="h-12 w-12 rounded-xl" />
         ))}
       </div>
 
@@ -107,13 +101,7 @@ export default function TutorialPage() {
       <div className="flex items-center gap-3">
         <div className="flex gap-2">
           {EXAMPLE_GUESS_IDS.map((id, i) => (
-            <div
-              key={i}
-              style={TILE_GRADIENT_STYLES[id]}
-              className="flex h-12 w-12 items-center justify-center rounded-xl"
-            >
-              <TileIcon tileId={id} className="h-7 w-7" />
-            </div>
+            <TileChip key={i} tileId={id} className="h-12 w-12 rounded-xl" />
           ))}
         </div>
         <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm">
@@ -134,12 +122,7 @@ export default function TutorialPage() {
       <div className="grid grid-cols-4 gap-3">
         {TILE_ID_LIST.map((id) => (
           <div key={id} className="flex flex-col items-center gap-1">
-            <div
-              style={TILE_GRADIENT_STYLES[id]}
-              className="flex h-14 w-14 items-center justify-center rounded-2xl shadow-md"
-            >
-              <TileIcon tileId={id} className="h-8 w-8" />
-            </div>
+            <TileChip tileId={id} className="h-14 w-14 rounded-2xl shadow-md" />
             <span className="text-xs text-white/60">{t(`tile.${id}`)}</span>
           </div>
         ))}

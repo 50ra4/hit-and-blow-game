@@ -1,8 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { TileIcon } from '@/components/TileIcon/TileIcon';
 import type { Tile } from '@/features/game/game.schema';
-import { TILE_GRADIENT_STYLES } from '@/features/game/tileDisplay';
 import { TilePicker } from '@/features/game/TilePicker/TilePicker';
+import { TileChip } from '@/components/TileChip/TileChip';
 
 type GameInputAreaProps = {
   currentGuess: Tile[];
@@ -42,13 +41,12 @@ export function GameInputArea({
               <button
                 key={index}
                 onClick={() => onTileRemove(index)}
-                style={TILE_GRADIENT_STYLES[tile.id]}
-                className="inline-flex h-14 w-14 cursor-pointer items-center justify-center rounded-2xl shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:opacity-75 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 active:scale-95"
+                className="inline-flex h-14 w-14 cursor-pointer items-center justify-center rounded-2xl overflow-hidden shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:opacity-75 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 active:scale-95"
                 aria-label={t('game.removeTile', {
                   tile: t(`tile.${tile.id}`),
                 })}
               >
-                <TileIcon tileId={tile.id} className="h-8 w-8" />
+                <TileChip tileId={tile.id} className="h-full w-full" />
               </button>
             );
           }
