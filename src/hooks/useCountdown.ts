@@ -1,34 +1,26 @@
 import { useState, useEffect } from 'react';
 import { startOfTomorrow, differenceInSeconds } from 'date-fns';
 
+const formatSeconds = (totalSeconds: number): string => {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+};
+
 export const useCountdown = (): string => {
   const [countdown, setCountdown] = useState<string>('');
 
   useEffect(() => {
     const updateCountdown = (): void => {
       const now = new Date();
-      const nextMidnight = startOfTomorrow();
-      const remainingSeconds = differenceInSeconds(nextMidnight, now);
-
-      if (remainingSeconds <= 0) {
-        // 残り時間が0以下の場合、次の翌日を対象にして再計算
-        const nextNextMidnight = startOfTomorrow();
-        nextNextMidnight.setDate(nextNextMidnight.getDate() + 1);
-        const newRemainingSeconds = differenceInSeconds(nextNextMidnight, now);
-        const hours = Math.floor(newRemainingSeconds / 3600);
-        const minutes = Math.floor((newRemainingSeconds % 3600) / 60);
-        const seconds = newRemainingSeconds % 60;
-        setCountdown(
-          `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
-        );
-      } else {
-        const hours = Math.floor(remainingSeconds / 3600);
-        const minutes = Math.floor((remainingSeconds % 3600) / 60);
-        const seconds = remainingSeconds % 60;
-        setCountdown(
-          `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
-        );
-      }
+      // startOfTomorrow() は常に「次の深夜0時」を返す。
+      // differenceInSeconds が負になることは実質ないが、念のため Math.max で保護する。
+      const remainingSeconds = Math.max(
+        0,
+        differenceInSeconds(startOfTomorrow(), now),
+      );
+      setCountdown(formatSeconds(remainingSeconds));
     };
 
     // 初回の即座実行
