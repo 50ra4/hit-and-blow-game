@@ -47,7 +47,10 @@
     "correct": "正解",
     "answer": "正解：",
     "historyOpen": "試行履歴を見る ▼",
-    "historyClose": "閉じる ▲"
+    "historyClose": "閉じる ▲",
+    "attemptsCount": "{{count}}回",
+    "attemptsLabel": "試行回数",
+    "modeLabel": "モード"
   },
   "tile": {
     "star": "スター",

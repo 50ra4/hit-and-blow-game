@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PLAY_TYPE_IDS } from '@/consts/playTypes';
+import { GAME_MODES } from '@/consts/modes';
 import type {
   GameMode,
   PlayType,
@@ -35,6 +36,7 @@ export function ResultDisplay({
   const { t } = useTranslation();
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const isFreePlay = playType === PLAY_TYPE_IDS.FREE;
+  const modeName = t(GAME_MODES[mode].nameKey);
 
   return (
     <div className="mx-auto max-w-lg px-4 py-6 text-center">
@@ -53,9 +55,18 @@ export function ResultDisplay({
         </h2>
 
         <div>
-          <p className="mb-3 text-lg text-white/70">
-            {t('result.attempts', { count: attempts })}
-          </p>
+          <div className="mb-3 flex justify-center gap-4">
+            <div className="rounded-xl bg-black/30 px-4 py-3 text-center">
+              <p className="text-2xl font-bold text-white">
+                {t('result.attemptsCount', { count: attempts })}
+              </p>
+              <p className="mt-1 text-xs text-white/60">{t('result.attemptsLabel')}</p>
+            </div>
+            <div className="rounded-xl bg-black/30 px-4 py-3 text-center">
+              <p className="text-2xl font-bold text-white">{modeName}</p>
+              <p className="mt-1 text-xs text-white/60">{t('result.modeLabel')}</p>
+            </div>
+          </div>
           <p className="mb-3 text-sm text-white/60">
             {isWon ? t('result.correct') : t('result.answer')}
           </p>

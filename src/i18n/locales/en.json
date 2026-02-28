@@ -47,7 +47,10 @@
     "correct": "Answer",
     "answer": "Answer:",
     "historyOpen": "View History ▼",
-    "historyClose": "Close ▲"
+    "historyClose": "Close ▲",
+    "attemptsCount": "{{count}}",
+    "attemptsLabel": "Attempts",
+    "modeLabel": "Mode"
   },
   "tile": {
     "star": "Star",
