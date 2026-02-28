@@ -13,3 +13,20 @@
     stroke-dashoffset 0.5s ease,
     stroke 0.3s ease;
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .hab-fade-in-up {
+    animation: fadeInUp 0.35s ease forwards;
+  }
+}
