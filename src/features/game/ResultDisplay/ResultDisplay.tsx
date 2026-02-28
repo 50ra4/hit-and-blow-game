@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PLAY_TYPE_IDS } from '@/consts/playTypes';
+import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import type {
   GameMode,
   PlayType,
@@ -8,6 +9,16 @@ import type {
   Guess,
 } from '@/features/game/game.schema';
 import { TileChip } from '@/components/TileChip/TileChip';
+import { OutlineChip } from '@/components/OutlineChip/OutlineChip';
+import type { OutlineChipVariant } from '@/components/OutlineChip/OutlineChip';
+
+const MODE_CHIP_VARIANTS: Record<GameMode, OutlineChipVariant> = {
+  [GAME_MODE_IDS.BEGINNER]: 'green',
+  [GAME_MODE_IDS.NORMAL]: 'blue',
+  [GAME_MODE_IDS.HARD]: 'orange',
+  [GAME_MODE_IDS.EXPERT]: 'purple',
+  [GAME_MODE_IDS.MASTER]: 'red',
+};
 import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 import { ShareButton } from '@/features/share/ShareButton/ShareButton';
 import { AdBanner } from '@/features/ad/AdBanner/AdBanner';
@@ -35,6 +46,7 @@ export function ResultDisplay({
   const { t } = useTranslation();
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const isFreePlay = playType === PLAY_TYPE_IDS.FREE;
+  const modeName = t(GAME_MODES[mode].nameKey);
 
   return (
     <div className="mx-auto max-w-lg px-4 py-6 text-center">
@@ -48,22 +60,34 @@ export function ResultDisplay({
       >
         <div className="mb-4 text-6xl">{isWon ? '🎉' : '😔'}</div>
 
-        <h2 className="mb-3 text-3xl font-bold text-white">
+        <h2 className="mb-4 text-3xl font-bold text-white">
           {isWon ? t('result.win') : t('result.lose')}
         </h2>
 
-        <div>
-          <p className="mb-3 text-lg text-white/70">
-            {t('result.attempts', { count: attempts })}
-          </p>
-          <p className="mb-3 text-sm text-white/60">
-            {isWon ? t('result.correct') : t('result.answer')}
-          </p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {answer.map((tile, index) => (
-              <TileChip key={index} tileId={tile.id} className="h-14 w-14 rounded-2xl shadow-md" />
-            ))}
+        <div className="mb-3 flex flex-col items-center gap-2">
+          <OutlineChip
+            label={modeName}
+            variant={MODE_CHIP_VARIANTS[mode]}
+            className="h-fit w-fit shrink-0 grow-0 px-3 py-1 text-sm"
+          />
+          <div className="w-full grow rounded-xl bg-black/20 p-2 text-center">
+            <p className="text-xs text-white/60">{t('result.attemptsLabel')}</p>
+            <p className="mt-1 text-3xl font-bold text-white">
+              {t('result.attemptsCount', { count: attempts })}
+            </p>
           </div>
+        </div>
+        <p className="mb-3 text-sm text-white/60">
+          {isWon ? t('result.correct') : t('result.answer')}
+        </p>
+        <div className="flex flex-wrap justify-center gap-2">
+          {answer.map((tile, index) => (
+            <TileChip
+              key={index}
+              tileId={tile.id}
+              className="h-14 w-14 rounded-2xl shadow-md"
+            />
+          ))}
         </div>
       </div>
 

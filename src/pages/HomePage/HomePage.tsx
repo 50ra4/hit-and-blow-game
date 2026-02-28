@@ -4,36 +4,18 @@ import { useSettings } from '@/i18n/useSettings';
 import { useStats } from '@/features/stats/useStats';
 import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import type { GameMode } from '@/features/game/game.schema';
+import { OutlineChip } from '@/components/OutlineChip/OutlineChip';
+import type { OutlineChipVariant } from '@/components/OutlineChip/OutlineChip';
 import { DailyChallengeCard } from './DailyChallengeCard';
 import { StatsCard } from './StatsCard';
 
-const MODE_CARD_STYLES = {
-  [GAME_MODE_IDS.BEGINNER]: {
-    badge: 'EASY',
-    borderClass: 'border-green-500/50',
-    badgeClass: 'bg-green-500/30 text-green-400',
-  },
-  [GAME_MODE_IDS.NORMAL]: {
-    badge: 'NORMAL',
-    borderClass: 'border-blue-500/50',
-    badgeClass: 'bg-blue-500/30 text-blue-400',
-  },
-  [GAME_MODE_IDS.HARD]: {
-    badge: 'HARD',
-    borderClass: 'border-orange-500/50',
-    badgeClass: 'bg-orange-500/30 text-orange-400',
-  },
-  [GAME_MODE_IDS.EXPERT]: {
-    badge: 'EXPERT',
-    borderClass: 'border-purple-500/50',
-    badgeClass: 'bg-purple-500/30 text-purple-400',
-  },
-  [GAME_MODE_IDS.MASTER]: {
-    badge: 'MASTER',
-    borderClass: 'border-red-500/50',
-    badgeClass: 'bg-red-500/30 text-red-400',
-  },
-} as const;
+const MODE_CARD_STYLES: Record<GameMode, { borderClass: string; chipVariant: OutlineChipVariant }> = {
+  [GAME_MODE_IDS.BEGINNER]: { borderClass: 'border-green-500/50', chipVariant: 'green' },
+  [GAME_MODE_IDS.NORMAL]: { borderClass: 'border-blue-500/50', chipVariant: 'blue' },
+  [GAME_MODE_IDS.HARD]: { borderClass: 'border-orange-500/50', chipVariant: 'orange' },
+  [GAME_MODE_IDS.EXPERT]: { borderClass: 'border-purple-500/50', chipVariant: 'purple' },
+  [GAME_MODE_IDS.MASTER]: { borderClass: 'border-red-500/50', chipVariant: 'red' },
+};
 
 const FREE_MODE_IDS: GameMode[] = [
   GAME_MODE_IDS.BEGINNER,
@@ -99,11 +81,11 @@ export default function HomePage() {
             const cardContent = (
               <>
                 <div className="mb-1 flex items-center gap-2">
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${cardStyle.badgeClass}`}
-                  >
-                    {cardStyle.badge}
-                  </span>
+                  <OutlineChip
+                    label={t(modeConfig.nameKey)}
+                    variant={cardStyle.chipVariant}
+                    className="px-2 py-0.5 text-xs"
+                  />
                 </div>
                 <div className="font-semibold text-white">
                   {!unlocked && <span className="mr-1">🔒</span>}
