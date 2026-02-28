@@ -69,7 +69,7 @@ export default function FreeGamePage() {
   };
 
   return (
-    <div className="bg-gradient-dark-1 flex h-screen flex-col">
+    <div className="bg-gradient-dark-1 flex h-screen flex-col hab-fade-in-up">
       <GameHeader
         modeName={modeName}
         playType={PLAY_TYPE_IDS.FREE}

@@ -4,7 +4,7 @@ export default function PrivacyPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8">
+    <div className="mx-auto max-w-2xl px-4 py-8 hab-fade-in-up">
       <h1 className="mb-8 text-2xl font-bold text-white">
         {t('privacy.title')}
       </h1>

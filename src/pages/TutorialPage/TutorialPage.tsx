@@ -234,7 +234,7 @@ export default function TutorialPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8">
+    <div className="mx-auto max-w-2xl px-4 py-8 hab-fade-in-up">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-lg font-bold text-white">{t('tutorial.title')}</h1>
         <button
