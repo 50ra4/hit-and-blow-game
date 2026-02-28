@@ -7,8 +7,7 @@ import type {
   Tile,
   Guess,
 } from '@/features/game/game.schema';
-import { TileIcon } from '@/components/TileIcon/TileIcon';
-import { TILE_GRADIENT_STYLES } from '@/features/game/tileDisplay';
+import { TileChip } from '@/components/TileChip/TileChip';
 import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 import { ShareButton } from '@/features/share/ShareButton/ShareButton';
 import { AdBanner } from '@/features/ad/AdBanner/AdBanner';
@@ -62,13 +61,7 @@ export function ResultDisplay({
           </p>
           <div className="flex flex-wrap justify-center gap-2">
             {answer.map((tile, index) => (
-              <div
-                key={index}
-                style={TILE_GRADIENT_STYLES[tile.id]}
-                className="inline-flex h-14 w-14 items-center justify-center rounded-2xl shadow-md"
-              >
-                <TileIcon tileId={tile.id} className="h-8 w-8" />
-              </div>
+              <TileChip key={index} tileId={tile.id} className="h-14 w-14 rounded-2xl shadow-md" />
             ))}
           </div>
         </div>
