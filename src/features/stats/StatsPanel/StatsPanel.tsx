@@ -7,6 +7,24 @@ type StatsPanelProps = {
   stats: Stats;
 };
 
+// インラインスタイル禁止のため、Tailwind クラスをすべて列挙したマッピングを使用
+const WIN_RATE_WIDTH_CLASSES = {
+  0: 'w-0',
+  10: 'w-[10%]',
+  20: 'w-[20%]',
+  30: 'w-[30%]',
+  40: 'w-[40%]',
+  50: 'w-1/2',
+  60: 'w-[60%]',
+  70: 'w-[70%]',
+  80: 'w-4/5',
+  90: 'w-[90%]',
+  100: 'w-full',
+} as const satisfies Record<number, string>;
+
+const getWinRateStep = (winRate: number): keyof typeof WIN_RATE_WIDTH_CLASSES =>
+  (Math.floor(winRate / 10) * 10) as keyof typeof WIN_RATE_WIDTH_CLASSES;
+
 const MODE_ID_LIST: GameMode[] = [
   GAME_MODE_IDS.BEGINNER,
   GAME_MODE_IDS.NORMAL,
@@ -110,17 +128,36 @@ export function StatsPanel({ stats }: StatsPanelProps) {
                 <div className="mb-2 font-medium text-white">
                   {t(modeConfig.nameKey)}
                 </div>
-                <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-white/70">
-                  <span>
-                    {t('stats.totalPlays')}: {modeStat.plays}
-                  </span>
-                  <span>
-                    {t('stats.winRate')}: {modeStat.winRate.toFixed(1)}%
-                  </span>
-                  <span>
-                    {t('stats.bestAttempts')}:{' '}
-                    {modeStat.bestAttempts ?? t('stats.noData')}
-                  </span>
+                <div className="space-y-2 text-sm text-white/70">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                    <span>
+                      {t('stats.totalPlays')}: {modeStat.plays}
+                    </span>
+                    <span>
+                      {t('stats.totalWins')}: {modeStat.wins}
+                    </span>
+                    <span>
+                      {t('stats.avgAttempts')}:{' '}
+                      {modeStat.wins === 0
+                        ? t('stats.noData')
+                        : modeStat.averageAttempts.toFixed(1)}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="mb-1 flex justify-between">
+                      <span>{t('stats.winRate')}</span>
+                      <span>
+                        {modeStat.plays === 0
+                          ? t('stats.noData')
+                          : `${modeStat.winRate.toFixed(1)}%`}
+                      </span>
+                    </div>
+                    <div className="h-2 w-full rounded-full bg-white/10">
+                      <div
+                        className={`h-2 rounded-full bg-indigo-400 transition-all ${WIN_RATE_WIDTH_CLASSES[getWinRateStep(modeStat.winRate)]}`}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             );
