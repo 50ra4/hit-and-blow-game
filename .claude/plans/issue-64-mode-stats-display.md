@@ -68,6 +68,31 @@
 
 **変更後**（grid 2列、4項目 + 勝率バー）:
 
+まず、プログレスバー幅のマッピング定数をモジュールレベルに定義する（Tailwind はクラス名を動的生成できないため、全パターンを列挙する必要がある）:
+
+```ts
+// インラインスタイル禁止のため、Tailwind クラスをすべて列挙したマッピングを使用
+const WIN_RATE_WIDTH_CLASSES = {
+  0: 'w-0',
+  10: 'w-[10%]',
+  20: 'w-[20%]',
+  30: 'w-[30%]',
+  40: 'w-[40%]',
+  50: 'w-1/2',
+  60: 'w-[60%]',
+  70: 'w-[70%]',
+  80: 'w-4/5',
+  90: 'w-[90%]',
+  100: 'w-full',
+} as const satisfies Record<number, string>;
+
+// 勝率(0〜100)を10%刻みに切り捨てる（ゼロ除算なし）
+const getWinRateStep = (winRate: number): keyof typeof WIN_RATE_WIDTH_CLASSES =>
+  (Math.floor(winRate / 10) * 10) as keyof typeof WIN_RATE_WIDTH_CLASSES;
+```
+
+カードのJSX部分:
+
 ```tsx
 <div className="space-y-2 text-sm text-white/70">
   <div className="grid grid-cols-2 gap-x-4 gap-y-1">
@@ -81,7 +106,7 @@
       {t('stats.avgAttempts')}:{' '}
       {modeStat.wins === 0
         ? t('stats.noData')
-        : `${modeStat.averageAttempts.toFixed(1)}${t('stats.attempts', { count: 1 }).replace('1', '')}`}
+        : `${modeStat.averageAttempts.toFixed(1)}`}
     </span>
   </div>
   {/* 勝率 + プログレスバー */}
@@ -96,15 +121,14 @@
     </div>
     <div className="h-2 w-full rounded-full bg-white/10">
       <div
-        className="h-2 rounded-full bg-indigo-400 transition-all"
-        style={{ width: `${modeStat.winRate}%` }}
+        className={`h-2 rounded-full bg-indigo-400 transition-all ${WIN_RATE_WIDTH_CLASSES[getWinRateStep(modeStat.winRate)]}`}
       />
     </div>
   </div>
 </div>
 ```
 
-**補足**: `style={{ width }}` はサンプル。0〜100%までを10%ごとに1の位切り捨てで表示。
+**補足**: Tailwind v4（JIT）では動的なクラス文字列構築はパージ対象外になるため、全パターンを定数に列挙する方式を採用。
 
 ### コミット
 
