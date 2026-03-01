@@ -6,6 +6,7 @@ import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import type { GameMode } from '@/features/game/game.schema';
 import { OutlineChip } from '@/components/OutlineChip/OutlineChip';
 import type { OutlineChipVariant } from '@/components/OutlineChip/OutlineChip';
+import { ButtonLink } from '@/components/ButtonLink/ButtonLink';
 import { DailyChallengeCard } from './DailyChallengeCard';
 import { StatsCard } from './StatsCard';
 
@@ -47,13 +48,10 @@ export default function HomePage() {
       <DailyChallengeCard />
 
       {/* チュートリアルリンク（常時表示） */}
-      <div className="mb-6 text-center">
-        <Link
-          to="/tutorial"
-          className="text-sm text-white/50 underline-offset-2 transition-colors hover:text-white/80 hover:underline"
-        >
+      <div className="mb-6">
+        <ButtonLink to="/tutorial" variant="secondary" className="w-full">
           ❓ {t('home.tutorial')}
-        </Link>
+        </ButtonLink>
       </div>
 
       {/* 遊んだ記録 */}
