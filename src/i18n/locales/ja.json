@@ -85,7 +85,7 @@
     "dailyChallengeCompleted": "✅ 今日の問題（クリア済み）",
     "selectMode": "モードを選んでプレイ",
     "dailyDesc": "今日の問題に挑戦！",
-    "tutorial": "チュートリアルを見る",
+    "tutorial": "初めての方へ - 遊び方を見る",
     "dailyAllCommon": "全員共通",
     "dailyCountdown": "次のチャレンジまで {{time}}",
     "dailyRule": "{{modeName}}｜{{length}}桁・重複{{duplicates}}・{{maxAttempts}}回まで",
