@@ -28,7 +28,7 @@
     "dailyTitle": "📅 Daily ({{mode}})",
     "freeTitle": "Free Play ({{mode}})",
     "currentGuessLabel": "Current Input",
-    "removeTile": "Remove {{tile}}",
+    "selectSlot": "Select slot {{index}}",
     "infoModeLabel": "Mode",
     "infoDigitsLabel": "Digits",
     "infoDuplicatesLabel": "Dup",

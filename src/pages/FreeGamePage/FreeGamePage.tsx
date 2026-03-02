@@ -37,7 +37,8 @@ export default function FreeGamePage() {
     maxAttempts,
     submitGuess,
     addTile,
-    removeTile,
+    handleSlotTap,
+    activeSlotIndex,
     resetCurrentGuess,
     resetGame,
   } = useGame(mode, PLAY_TYPE_IDS.FREE);
@@ -104,8 +105,9 @@ export default function FreeGamePage() {
               <GameInputArea
                 currentGuess={currentGuess}
                 answerLength={modeConfig.length}
+                activeSlotIndex={activeSlotIndex}
                 onTileSelect={addTile}
-                onTileRemove={removeTile}
+                onSlotTap={handleSlotTap}
                 onSubmit={submitGuess}
                 onResetGuess={resetCurrentGuess}
                 allowDuplicates={modeConfig.allowDuplicates}

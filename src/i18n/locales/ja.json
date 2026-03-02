@@ -28,7 +28,7 @@
     "dailyTitle": "📅 今日の問題（{{mode}}）",
     "freeTitle": "フリープレイ（{{mode}}）",
     "currentGuessLabel": "今の入力",
-    "removeTile": "{{tile}}を削除",
+    "selectSlot": "スロット{{index}}を選択",
     "infoModeLabel": "モード",
     "infoDigitsLabel": "桁数",
     "infoDuplicatesLabel": "重複",

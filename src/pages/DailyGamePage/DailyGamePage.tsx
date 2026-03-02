@@ -36,7 +36,8 @@ export default function DailyGamePage() {
     maxAttempts,
     submitGuess,
     addTile,
-    removeTile,
+    handleSlotTap,
+    activeSlotIndex,
     resetCurrentGuess,
     resetGame,
   } = useGame(DAILY_MODE, PLAY_TYPE_IDS.DAILY);
@@ -152,8 +153,9 @@ export default function DailyGamePage() {
               <GameInputArea
                 currentGuess={currentGuess}
                 answerLength={modeConfig.length}
+                activeSlotIndex={activeSlotIndex}
                 onTileSelect={addTile}
-                onTileRemove={removeTile}
+                onSlotTap={handleSlotTap}
                 onSubmit={submitGuess}
                 onResetGuess={resetCurrentGuess}
                 allowDuplicates={modeConfig.allowDuplicates}
