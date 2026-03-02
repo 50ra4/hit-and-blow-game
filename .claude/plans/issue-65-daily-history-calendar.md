@@ -15,6 +15,8 @@
 | ファイル | 変更内容 |
 |--------|---------|
 | `src/features/stats/StatsPanel/StatsPanel.tsx` | デイリー履歴セクションをカレンダーグリッドに変更 |
+| `src/i18n/locales/ja.json` | 曜日名キーを追加（`stats.weekday.0`〜`stats.weekday.6`） |
+| `src/i18n/locales/en.json` | 曜日名キーを追加（`stats.weekday.0`〜`stats.weekday.6`） |
 
 ---
 
@@ -26,19 +28,48 @@
 
 ```ts
 import {
-  format,           // 日付を 'yyyy-MM-dd' / 'EEEEE' フォーマット
-  subDays,          // 今日から N 日前の Date を生成
+  format,            // 日付を 'yyyy-MM-dd' フォーマット
+  subDays,           // 今日から N 日前の Date を生成
   eachDayOfInterval, // 開始〜終了の Date[] を生成
-  isToday,          // Date が今日かどうか判定
+  isToday,           // Date が今日かどうか判定
+  getDay,            // Date から曜日インデックス（0=日〜6=土）を取得
 } from 'date-fns';
-import { ja, enUS } from 'date-fns/locale'; // 曜日名のロケール
 ```
 
 #### 実装手順
 
-1. 上記 `date-fns` 関数と `date-fns/locale` を import に追加する
+1. i18n ファイルに曜日名キーを追加する
 
-2. `dailyHistory` 配列を日付キーのルックアップマップに変換するロジックを追加する
+   `src/i18n/locales/ja.json` の `stats` オブジェクトに追加:
+   ```json
+   "weekday": {
+     "0": "日",
+     "1": "月",
+     "2": "火",
+     "3": "水",
+     "4": "木",
+     "5": "金",
+     "6": "土"
+   }
+   ```
+
+   `src/i18n/locales/en.json` の `stats` オブジェクトに追加:
+   ```json
+   "weekday": {
+     "0": "Sun",
+     "1": "Mon",
+     "2": "Tue",
+     "3": "Wed",
+     "4": "Thu",
+     "5": "Fri",
+     "6": "Sat"
+   }
+   ```
+   - **選択理由**: 曜日名は表示文字列のため、プロジェクトの既存パターン（i18next）で管理する。`date-fns/locale` の追加インポートが不要になる
+
+2. 上記 `date-fns` 関数を import に追加する
+
+3. `dailyHistory` 配列を日付キーのルックアップマップに変換するロジックを追加する
    ```ts
    // dailyHistory は DailyRecord[] なので、日付をキーとしたマップに変換
    const historyMap = Object.fromEntries(
@@ -46,7 +77,7 @@ import { ja, enUS } from 'date-fns/locale'; // 曜日名のロケール
    );
    ```
 
-3. 直近 28 日分（今日含む）の日付配列を `eachDayOfInterval` で生成する
+4. 直近 28 日分（今日含む）の日付配列を `eachDayOfInterval` で生成する
    ```ts
    const today = new Date();
    const days = eachDayOfInterval({
@@ -57,20 +88,16 @@ import { ja, enUS } from 'date-fns/locale'; // 曜日名のロケール
    ```
    - **選択理由**: `eachDayOfInterval` は開始〜終了の全日付を Date[] で返すため、`Array.from` + 手動での日付計算が不要で意図が明確になる
 
-4. 曜日ヘッダーラベルを `days.slice(0, 7)` と `format(day, 'EEEEE', { locale })` で生成する
+5. 曜日ヘッダーラベルを `getDay()` + `t()` で生成する
    ```ts
-   // i18next の言語設定に合わせたロケールを選択
-   const locale = i18n.language === 'ja' ? ja : enUS;
-
-   // days の最初の7要素の曜日名がそのまま列ヘッダーになる
+   // days の最初の7要素の曜日インデックスから i18n キーを引く
    // （28日 = 4週間ちょうどなので、先頭7日が列順序と一致）
    const weekdayLabels = days.slice(0, 7).map((day) =>
-     format(day, 'EEEEE', { locale }),
+     t(`stats.weekday.${getDay(day)}`),
    );
    ```
-   - **選択理由**: `days[0]` の曜日が左端列の曜日と一致するため、`slice(0, 7)` で導出できる。`Intl.DateTimeFormat` を使わず `date-fns` に統一することで、日付操作ライブラリを一本化できる
 
-5. グリッドのセルカラーを判定するロジックを追加する
+6. グリッドのセルカラーを判定するロジックを追加する
    ```ts
    // isToday() で今日判定（date-fns）
    const getDayCellClass = (day: Date, record: DailyRecord | undefined): string => {
@@ -121,7 +148,6 @@ import { ja, enUS } from 'date-fns/locale'; // 曜日名のロケール
 - `DailyRecord.isWon` フィールド名を使用すること（Issue サンプルの `record.isWin` は誤り）
 - `w-6`（固定幅）ではなく `w-full`（グリッドセル幅に合わせる）を使用すること
 - インラインスタイル禁止（規約準拠）
-- `weekdayLabels` はロケール依存のためモジュールレベル定数にしないこと。コンポーネント関数の先頭で `i18n.language` を参照して生成すること
 - 既存の `sortedDailyHistory` 変数は削除する（不要になる）
 
 ---
