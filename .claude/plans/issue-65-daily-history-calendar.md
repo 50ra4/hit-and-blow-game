@@ -22,9 +22,22 @@
 
 ### Task 1: StatsPanel.tsx のデイリー履歴をカレンダーグリッドに変更
 
+#### 利用する date-fns 関数
+
+```ts
+import {
+  format,           // 日付を 'yyyy-MM-dd' / 'EEEEE' フォーマット
+  subDays,          // 今日から N 日前の Date を生成
+  eachDayOfInterval, // 開始〜終了の Date[] を生成
+  isToday,          // Date が今日かどうか判定
+} from 'date-fns';
+import { ja, enUS } from 'date-fns/locale'; // 曜日名のロケール
+```
+
 #### 実装手順
 
-1. `date-fns` の `format` を `import` に追加する
+1. 上記 `date-fns` 関数と `date-fns/locale` を import に追加する
+
 2. `dailyHistory` 配列を日付キーのルックアップマップに変換するロジックを追加する
    ```ts
    // dailyHistory は DailyRecord[] なので、日付をキーとしたマップに変換
@@ -32,44 +45,48 @@
      stats.dailyHistory.map((record) => [record.date, record]),
    );
    ```
-3. 直近 28 日分（今日含む）の日付配列を生成するロジックを追加する
+
+3. 直近 28 日分（今日含む）の日付配列を `eachDayOfInterval` で生成する
    ```ts
    const today = new Date();
-   const todayKey = format(today, 'yyyy-MM-dd');
-   const days = Array.from({ length: 28 }, (_, i) => {
-     const d = new Date(today);
-     d.setDate(today.getDate() - (27 - i));
-     return d;
+   const days = eachDayOfInterval({
+     start: subDays(today, 27),
+     end: today,
    });
+   // → Date[] 28要素（today-27日 〜 today）
    ```
-4. 曜日ヘッダーを `Intl.DateTimeFormat` で生成するロジックを追加する
-   - i18n ファイルへの追加不要（ブラウザのロケールで自動生成）
-   - `i18n.language` を利用してアプリの言語に合わせた曜日名を取得する
+   - **選択理由**: `eachDayOfInterval` は開始〜終了の全日付を Date[] で返すため、`Array.from` + 手動での日付計算が不要で意図が明確になる
+
+4. 曜日ヘッダーラベルを `days.slice(0, 7)` と `format(day, 'EEEEE', { locale })` で生成する
    ```ts
-   // 2023-01-01（日曜始まり）から7日分の曜日名を生成
-   const WEEKDAY_LABELS = Array.from({ length: 7 }, (_, i) => {
-     const d = new Date(2023, 0, 1 + i); // 2023-01-01 = 日曜
-     return new Intl.DateTimeFormat(i18n.language, { weekday: 'narrow' }).format(d);
-   });
+   // i18next の言語設定に合わせたロケールを選択
+   const locale = i18n.language === 'ja' ? ja : enUS;
+
+   // days の最初の7要素の曜日名がそのまま列ヘッダーになる
+   // （28日 = 4週間ちょうどなので、先頭7日が列順序と一致）
+   const weekdayLabels = days.slice(0, 7).map((day) =>
+     format(day, 'EEEEE', { locale }),
+   );
    ```
-   - **選択理由**: `Intl.DateTimeFormat` を使うことで ja/en 両ロケールの曜日名が i18n キー追加なしに自動対応できる
+   - **選択理由**: `days[0]` の曜日が左端列の曜日と一致するため、`slice(0, 7)` で導出できる。`Intl.DateTimeFormat` を使わず `date-fns` に統一することで、日付操作ライブラリを一本化できる
 
 5. グリッドのセルカラーを判定するロジックを追加する
    ```ts
-   // 各セルのクラスを判定
-   const getDayCellClass = (dayKey: string, record: DailyRecord | undefined): string => {
+   // isToday() で今日判定（date-fns）
+   const getDayCellClass = (day: Date, record: DailyRecord | undefined): string => {
      if (record) return record.isWon ? 'bg-green-500' : 'bg-red-500';
-     if (dayKey === todayKey) return 'bg-white/10 border border-white/40';
+     if (isToday(day)) return 'bg-white/10 border border-white/40';
      return 'bg-white/10';
    };
    ```
+
 6. デイリー履歴セクションのレンダリングを変更する
    - 既存のリスト（`sortedDailyHistory.map(...)` 部分）を削除
    - 以下のグリッドに置き換える:
      ```tsx
      {/* 曜日ヘッダー */}
-     <div className="grid grid-cols-7 gap-1 mb-1">
-       {WEEKDAY_LABELS.map((label) => (
+     <div className="mb-1 grid grid-cols-7 gap-1">
+       {weekdayLabels.map((label) => (
          <div key={label} className="text-center text-xs text-white/40">
            {label}
          </div>
@@ -80,19 +97,20 @@
        {days.map((day) => {
          const dayKey = format(day, 'yyyy-MM-dd');
          const record = historyMap[dayKey];
+         const titleText = record
+           ? `${dayKey} ${record.isWon ? t('result.win') : t('result.lose')} ${t('stats.attempts', { count: record.attempts })}`
+           : dayKey;
          return (
            <div
              key={dayKey}
-             title={/* 日付 + 結果テキスト */}
-             className={`h-6 w-full rounded-sm ${getDayCellClass(dayKey, record)}`}
+             title={titleText}
+             className={`h-6 w-full rounded-sm ${getDayCellClass(day, record)}`}
            />
          );
        })}
      </div>
      ```
-   - `title` 属性には `t()` を使って日付と結果を表示する
-     - 未プレイ: `dayKey` のみ
-     - プレイ済み: `` `${dayKey} ${record.isWon ? t('result.win') : t('result.lose')} ${t('stats.attempts', { count: record.attempts })}` ``
+
 7. 表示条件の変更
    - 現在: `sortedDailyHistory.length > 0` の場合のみ表示
    - 変更後: **常に表示**（28 日分のグリッドを常時表示し、未プレイ日はグレーで表示する）
@@ -103,7 +121,7 @@
 - `DailyRecord.isWon` フィールド名を使用すること（Issue サンプルの `record.isWin` は誤り）
 - `w-6`（固定幅）ではなく `w-full`（グリッドセル幅に合わせる）を使用すること
 - インラインスタイル禁止（規約準拠）
-- `WEEKDAY_LABELS` はモジュールレベルの定数として定義してしまうと言語が固定されるため、コンポーネント内で `i18n.language` を使って生成する
+- `weekdayLabels` はロケール依存のためモジュールレベル定数にしないこと。コンポーネント関数の先頭で `i18n.language` を参照して生成すること
 - 既存の `sortedDailyHistory` 変数は削除する（不要になる）
 
 ---
@@ -117,6 +135,6 @@
 - [ ] 今日（未プレイ）が白枠（`border-white/40`）で表示される
 - [ ] セルにホバー（またはタッチ）したとき日付と結果が `title` で確認できる
 - [ ] 直近28日分（4週間）が表示される
-- [ ] 曜日ヘッダー（日〜土）が表示される
+- [ ] 曜日ヘッダーが実際の列と対応した曜日で表示される
 - [ ] TypeScript 型エラーなし（`pnpm type-check` が通る）
 - [ ] Lint エラーなし（`pnpm lint` が通る）
