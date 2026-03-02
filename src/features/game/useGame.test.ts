@@ -17,7 +17,7 @@ describe('useGame', () => {
     expect(result.current.isGameOver).toBe(false);
     expect(result.current.isWon).toBe(false);
     expect(result.current.attempts).toBe(0);
-    expect(result.current.maxAttempts).toBe(8);
+    expect(result.current.maxAttempts).toBe(10);
     expect(result.current.activeSlotIndex).toBeNull();
   });
 
@@ -132,7 +132,7 @@ describe('useGame', () => {
     const { result } = renderHook(() => useGame('hard', 'daily'));
     // ノーマルモードは4桁
     expect(result.current.answer).toHaveLength(4);
-    expect(result.current.maxAttempts).toBe(8);
+    expect(result.current.maxAttempts).toBe(10);
   });
 
   it('デイリーチャレンジ → 同じ日に同じ答えが生成される', () => {
@@ -162,7 +162,7 @@ describe('useGame', () => {
   });
 
   it('最大試行回数まで推測送信 → isGameOver: true, isWon: false', () => {
-    // beginner モード: length=3, maxAttempts=6, allowDuplicates=false
+    // beginner モード: length=3, maxAttempts=8, allowDuplicates=false
     const { result } = renderHook(() => useGame('beginner', 'free'));
     const answer = result.current.answer;
 
@@ -172,7 +172,7 @@ describe('useGame', () => {
     );
     const wrongGuess = wrongTiles.slice(0, 3);
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 8; i++) {
       act(() => {
         wrongGuess.forEach((tile) => result.current.addTile(tile));
       });
@@ -183,7 +183,7 @@ describe('useGame', () => {
 
     expect(result.current.isGameOver).toBe(true);
     expect(result.current.isWon).toBe(false);
-    expect(result.current.guesses).toHaveLength(6);
+    expect(result.current.guesses).toHaveLength(8);
   });
 
   // --- handleSlotTap テスト ---
