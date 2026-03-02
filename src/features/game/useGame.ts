@@ -7,17 +7,21 @@ import { getDailySeed } from '@/utils/randomGenerator';
 type UseGameReturn = {
   answer: Tile[];
   guesses: Guess[];
-  currentGuess: Tile[];
+  currentGuess: (Tile | null)[];
   isGameOver: boolean;
   isWon: boolean;
   attempts: number;
   maxAttempts: number;
+  activeSlotIndex: number | null;
   submitGuess: () => void;
   addTile: (tile: Tile) => void;
-  removeTile: (index: number) => void;
+  handleSlotTap: (index: number) => void;
   resetCurrentGuess: () => void;
   resetGame: () => void;
 };
+
+const createEmptySlots = (length: number): (Tile | null)[] =>
+  Array.from({ length }, () => null);
 
 export const useGame = (mode: GameMode, playType: PlayType): UseGameReturn => {
   // デイリーチャレンジはノーマルモード固定
@@ -34,7 +38,10 @@ export const useGame = (mode: GameMode, playType: PlayType): UseGameReturn => {
   const [prevMode, setPrevMode] = useState<GameMode>(effectiveMode);
   const [answer, setAnswer] = useState<Tile[]>(() => createInitialAnswer());
   const [guesses, setGuesses] = useState<Guess[]>([]);
-  const [currentGuess, setCurrentGuess] = useState<Tile[]>([]);
+  const [currentGuess, setCurrentGuess] = useState<(Tile | null)[]>(() =>
+    createEmptySlots(length),
+  );
+  const [activeSlotIndex, setActiveSlotIndex] = useState<number | null>(null);
   const [isGameOver, setIsGameOver] = useState(false);
   const [isWon, setIsWon] = useState(false);
 
@@ -43,7 +50,8 @@ export const useGame = (mode: GameMode, playType: PlayType): UseGameReturn => {
     setPrevMode(effectiveMode);
     setAnswer(generateAnswer(length, allowDuplicates));
     setGuesses([]);
-    setCurrentGuess([]);
+    setCurrentGuess(createEmptySlots(length));
+    setActiveSlotIndex(null);
     setIsGameOver(false);
     setIsWon(false);
   }
@@ -51,30 +59,70 @@ export const useGame = (mode: GameMode, playType: PlayType): UseGameReturn => {
   const addTile = useCallback(
     (tile: Tile): void => {
       setCurrentGuess((prev) => {
-        if (prev.length >= length) return prev;
-        if (!allowDuplicates && prev.some((t) => t.id === tile.id)) {
+        if (activeSlotIndex !== null) {
+          // スロット選択中 → 選択中スロットに上書き
+          const existingTile = prev.at(activeSlotIndex);
+          if (
+            !allowDuplicates &&
+            prev.some(
+              (t, i) =>
+                t !== null &&
+                t.id === tile.id &&
+                i !== activeSlotIndex &&
+                existingTile?.id !== tile.id,
+            )
+          ) {
+            return prev;
+          }
+          return prev.map((t, i) => (i === activeSlotIndex ? tile : t));
+        }
+
+        // スロット未選択 → 最初の空きスロットに設定
+        const emptyIndex = prev.indexOf(null);
+        if (emptyIndex === -1) return prev;
+        if (!allowDuplicates && prev.some((t) => t !== null && t.id === tile.id)) {
           return prev;
         }
-        return [...prev, tile];
+        return prev.map((t, i) => (i === emptyIndex ? tile : t));
       });
+      setActiveSlotIndex(null);
     },
-    [length, allowDuplicates],
+    [activeSlotIndex, allowDuplicates],
   );
 
-  const removeTile = useCallback((index: number): void => {
-    setCurrentGuess((prev) => prev.filter((_, i) => i !== index));
-  }, []);
+  const handleSlotTap = useCallback(
+    (index: number): void => {
+      if (activeSlotIndex === null) {
+        setActiveSlotIndex(index);
+      } else if (activeSlotIndex === index) {
+        setActiveSlotIndex(null);
+      } else {
+        // スワップ
+        setCurrentGuess((prev) =>
+          prev.map((t, i) => {
+            if (i === activeSlotIndex) return prev.at(index) ?? null;
+            if (i === index) return prev.at(activeSlotIndex) ?? null;
+            return t;
+          }),
+        );
+        setActiveSlotIndex(null);
+      }
+    },
+    [activeSlotIndex],
+  );
 
   const resetCurrentGuess = useCallback((): void => {
-    setCurrentGuess([]);
-  }, []);
+    setCurrentGuess(createEmptySlots(length));
+    setActiveSlotIndex(null);
+  }, [length]);
 
   const submitGuess = useCallback((): void => {
-    if (currentGuess.length !== length) return;
+    if (!currentGuess.every((t) => t !== null)) return;
 
-    const { hits, blows } = checkGuess(currentGuess, answer);
+    const validGuess = currentGuess.filter((t): t is Tile => t !== null);
+    const { hits, blows } = checkGuess(validGuess, answer);
     const newGuess: Guess = {
-      tiles: currentGuess,
+      tiles: validGuess,
       hits,
       blows,
       timestamp: Date.now(),
@@ -82,7 +130,8 @@ export const useGame = (mode: GameMode, playType: PlayType): UseGameReturn => {
 
     const newGuesses = [...guesses, newGuess];
     setGuesses(newGuesses);
-    setCurrentGuess([]);
+    setCurrentGuess(createEmptySlots(length));
+    setActiveSlotIndex(null);
 
     const { isFinished, isWon: won } = isGameFinished(
       newGuesses,
@@ -98,10 +147,11 @@ export const useGame = (mode: GameMode, playType: PlayType): UseGameReturn => {
   const resetGame = useCallback((): void => {
     setAnswer(createInitialAnswer());
     setGuesses([]);
-    setCurrentGuess([]);
+    setCurrentGuess(createEmptySlots(length));
+    setActiveSlotIndex(null);
     setIsGameOver(false);
     setIsWon(false);
-  }, [createInitialAnswer]);
+  }, [createInitialAnswer, length]);
 
   return {
     answer,
@@ -111,9 +161,10 @@ export const useGame = (mode: GameMode, playType: PlayType): UseGameReturn => {
     isWon,
     attempts: guesses.length,
     maxAttempts,
+    activeSlotIndex,
     submitGuess,
     addTile,
-    removeTile,
+    handleSlotTap,
     resetCurrentGuess,
     resetGame,
   };

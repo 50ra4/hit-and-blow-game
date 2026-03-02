@@ -11,6 +11,8 @@ type TilePickerProps = {
   maxLength: number;
   disabled?: boolean;
   allowDuplicates: boolean;
+  activeSlotIndex: number | null;
+  activeSlotTile: Tile | null;
 };
 
 export const TilePicker = memo(function TilePicker({
@@ -19,6 +21,8 @@ export const TilePicker = memo(function TilePicker({
   maxLength,
   disabled = false,
   allowDuplicates,
+  activeSlotIndex,
+  activeSlotTile,
 }: TilePickerProps) {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,12 +31,26 @@ export const TilePicker = memo(function TilePicker({
   const isTileDisabled = useCallback(
     (tile: Tile): boolean => {
       if (disabled) return true;
+
+      if (activeSlotIndex !== null) {
+        // スロット選択中: 上書きのため maxLength 制限を解除
+        if (!allowDuplicates) {
+          // 選択中スロットのタイルを除外して重複チェック
+          const othersHaveTile = selected.some(
+            (s) => s.id === tile.id && s.id !== activeSlotTile?.id,
+          );
+          if (othersHaveTile) return true;
+        }
+        return false;
+      }
+
+      // スロット未選択時: 現状と同じロジック
       if (selected.length >= maxLength) return true;
       if (!allowDuplicates && selected.some((s) => s.id === tile.id))
         return true;
       return false;
     },
-    [disabled, maxLength, allowDuplicates, selected],
+    [disabled, maxLength, allowDuplicates, selected, activeSlotIndex, activeSlotTile],
   );
 
   const isTileSelected = useCallback(

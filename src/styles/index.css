@@ -31,6 +31,17 @@
   }
 }
 
+@keyframes slotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(129, 140, 248, 0.6); }
+  50%      { box-shadow: 0 0 0 8px rgba(129, 140, 248, 0); }
+}
+
+@layer utilities {
+  .hab-slot-pulse {
+    animation: slotPulse 1.5s ease-in-out infinite;
+  }
+}
+
 @keyframes tileBounce {
   0%   { transform: scale(1); }
   30%  { transform: scale(0.9); }

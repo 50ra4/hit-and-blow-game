@@ -37,7 +37,8 @@ export default function TutorialPage() {
     maxAttempts,
     submitGuess,
     addTile,
-    removeTile,
+    handleSlotTap,
+    activeSlotIndex,
     resetCurrentGuess,
   } = useGame(GAME_MODE_IDS.BEGINNER, PLAY_TYPE_IDS.FREE);
 
@@ -204,8 +205,9 @@ export default function TutorialPage() {
             <GameInputArea
               currentGuess={currentGuess}
               answerLength={modeConfig.length}
+              activeSlotIndex={activeSlotIndex}
               onTileSelect={addTile}
-              onTileRemove={removeTile}
+              onSlotTap={handleSlotTap}
               onSubmit={submitGuess}
               onResetGuess={resetCurrentGuess}
               allowDuplicates={modeConfig.allowDuplicates}

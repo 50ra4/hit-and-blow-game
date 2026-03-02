@@ -4,10 +4,11 @@ import { TilePicker } from '@/features/game/TilePicker/TilePicker';
 import { TileChip } from '@/components/TileChip/TileChip';
 
 type GameInputAreaProps = {
-  currentGuess: Tile[];
+  currentGuess: (Tile | null)[];
   answerLength: number;
+  activeSlotIndex: number | null;
   onTileSelect: (tile: Tile) => void;
-  onTileRemove: (index: number) => void;
+  onSlotTap: (index: number) => void;
   onSubmit: () => void;
   onResetGuess: () => void;
   allowDuplicates: boolean;
@@ -16,14 +17,16 @@ type GameInputAreaProps = {
 export function GameInputArea({
   currentGuess,
   answerLength,
+  activeSlotIndex,
   onTileSelect,
-  onTileRemove,
+  onSlotTap,
   onSubmit,
   onResetGuess,
   allowDuplicates,
 }: GameInputAreaProps) {
   const { t } = useTranslation();
-  const canSubmit = currentGuess.length === answerLength;
+  const canSubmit = currentGuess.every((t) => t !== null);
+  const selectedTiles = currentGuess.filter((t): t is Tile => t !== null);
 
   return (
     <div className="mt-6 shrink-0 rounded-xl border-2 border-dashed border-white/30 bg-white/5 p-4">
@@ -34,46 +37,48 @@ export function GameInputArea({
       {/* 入力スロット */}
       <div className="mb-5 flex flex-wrap justify-center gap-2">
         {Array.from({ length: answerLength }, (_, index) => {
-          const tile = currentGuess.at(index);
-
-          if (tile) {
-            return (
-              <button
-                key={index}
-                onClick={() => onTileRemove(index)}
-                className="inline-flex h-14 w-14 cursor-pointer items-center justify-center rounded-2xl overflow-hidden shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:opacity-75 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 active:scale-95"
-                aria-label={t('game.removeTile', {
-                  tile: t(`tile.${tile.id}`),
-                })}
-              >
-                <TileChip tileId={tile.id} className="h-full w-full" />
-              </button>
-            );
-          }
+          const tile = currentGuess.at(index) ?? null;
+          const isActive = activeSlotIndex === index;
 
           return (
-            <div
+            <button
               key={index}
-              className="h-14 w-14 rounded-2xl border-2 border-dashed border-white/40 bg-white/5"
-            />
+              onClick={() => onSlotTap(index)}
+              className={`inline-flex h-14 w-14 cursor-pointer items-center justify-center rounded-2xl overflow-hidden shadow-md transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 active:scale-95 ${
+                isActive
+                  ? 'hab-slot-pulse ring-2 ring-indigo-400'
+                  : ''
+              } ${
+                tile
+                  ? 'hover:-translate-y-0.5 hover:opacity-75'
+                  : 'border-2 border-dashed border-white/40 bg-white/5'
+              }`}
+              aria-label={t('game.selectSlot', { index: index + 1 })}
+            >
+              {tile && (
+                <TileChip tileId={tile.id} className="h-full w-full" />
+              )}
+            </button>
           );
         })}
       </div>
 
       {/* タイルパレット */}
       <TilePicker
-        selected={currentGuess}
+        selected={selectedTiles}
         onSelect={onTileSelect}
         maxLength={answerLength}
         disabled={false}
         allowDuplicates={allowDuplicates}
+        activeSlotIndex={activeSlotIndex}
+        activeSlotTile={activeSlotIndex !== null ? (currentGuess.at(activeSlotIndex) ?? null) : null}
       />
 
       {/* アクションボタン */}
       <div className="mt-5 flex justify-center gap-3">
         <button
           onClick={onResetGuess}
-          disabled={currentGuess.length === 0}
+          disabled={currentGuess.every((t) => t === null)}
           className="rounded-xl border border-white/20 bg-white/10 px-5 py-3 text-white transition-all duration-300 hover:bg-white/20 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {t('game.reset')}
