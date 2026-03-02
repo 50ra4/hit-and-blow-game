@@ -12,11 +12,11 @@
     "expert": "Expert",
     "master": "Master",
     "locked": "🔒 Clear {{condition}} to unlock",
-    "beginner_description": "3 digits, no duplicates, 6 tries. Great for beginners",
-    "normal_description": "4 digits, no duplicates, 8 tries. Standard difficulty",
-    "hard_description": "4 digits, duplicates allowed, 10 tries. Tests your logic",
-    "expert_description": "8 digits, no duplicates, 12 tries",
-    "master_description": "8 digits, duplicates allowed, 15 tries"
+    "beginner_description": "3 digits, no duplicates, 8 tries. Great for beginners",
+    "normal_description": "4 digits, no duplicates, 10 tries. Standard difficulty",
+    "hard_description": "4 digits, duplicates allowed, 12 tries. Tests your logic",
+    "expert_description": "6 digits, no duplicates, 16 tries",
+    "master_description": "6 digits, duplicates allowed, 24 tries"
   },
   "game": {
     "submit": "Submit",
@@ -131,7 +131,7 @@
     "step3FreeDesc": "Free Play: Play any mode as many times as you like",
     "step3DailyDesc": "Daily Challenge: One puzzle per day",
     "step4Title": "Try it out!",
-    "step4Desc": "3 tiles, 6 attempts. Give it a try!",
+    "step4Desc": "3 tiles, 8 attempts. Give it a try!",
     "step4HintHit": "Hit = Correct tile AND position",
     "step4HintHitDesc": "Correct tile AND position",
     "step4HintBlow": "Blow = Correct tile but wrong position",

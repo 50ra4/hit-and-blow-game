@@ -12,11 +12,11 @@
     "expert": "エキスパート",
     "master": "マスター",
     "locked": "🔒 {{condition}}をクリアで解放",
-    "beginner_description": "3桁・重複なし・6回まで。初心者におすすめ",
-    "normal_description": "4桁・重複なし・8回まで。標準的な難易度",
-    "hard_description": "4桁・重複あり・10回まで。推理力が試される",
-    "expert_description": "8桁・重複なし・12回まで",
-    "master_description": "8桁・重複あり・15回まで"
+    "beginner_description": "3桁・重複なし・8回まで。初心者におすすめ",
+    "normal_description": "4桁・重複なし・10回まで。標準的な難易度",
+    "hard_description": "4桁・重複あり・12回まで。推理力が試される",
+    "expert_description": "6桁・重複なし・16回まで",
+    "master_description": "6桁・重複あり・24回まで"
   },
   "game": {
     "submit": "回答する",
@@ -131,7 +131,7 @@
     "step3FreeDesc": "フリープレイ: 好きなモードで何度でも",
     "step3DailyDesc": "デイリーチャレンジ: 毎日1回だけ挑戦できる問題",
     "step4Title": "実際に試してみよう！",
-    "step4Desc": "3桁・6回まで。やってみよう！",
+    "step4Desc": "3桁・8回まで。やってみよう！",
     "step4HintHit": "ヒット = 位置も種類も正解",
     "step4HintHitDesc": "位置も種類も正解",
     "step4HintBlow": "ブロー = 種類は合っているが位置が違う",
