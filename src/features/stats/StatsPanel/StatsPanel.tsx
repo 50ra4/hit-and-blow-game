@@ -1,9 +1,11 @@
 import {
   format,
-  subDays,
   eachDayOfInterval,
   isToday,
   getDay,
+  startOfWeek,
+  endOfWeek,
+  subWeeks,
 } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
@@ -45,9 +47,9 @@ const getDayCellClass = (
   day: Date,
   record: DailyRecord | undefined,
 ): string => {
-  if (record) return record.isWon ? 'bg-green-500' : 'bg-red-500';
-  if (isToday(day)) return 'bg-white/10 border border-white/40';
-  return 'bg-white/10';
+  if (record) return record.isWon ? 'bg-green-500 text-white' : 'bg-red-500 text-white';
+  if (isToday(day)) return 'bg-white/10 border border-white/40 text-white/70';
+  return 'bg-white/10 text-white/40';
 };
 
 export function StatsPanel({ stats }: StatsPanelProps) {
@@ -73,11 +75,13 @@ export function StatsPanel({ stats }: StatsPanelProps) {
     stats.dailyHistory.map((record) => [record.date, record]),
   );
 
-  // 直近28日分（今日含む）の日付配列を生成
+  // 日曜始まりで直近4週間の日付配列を生成
+  // weekStartsOn: 0 = 日曜
   const today = new Date();
+  const weekStart = { weekStartsOn: 0 } as const;
   const days = eachDayOfInterval({
-    start: subDays(today, 27),
-    end: today,
+    start: subWeeks(startOfWeek(today, weekStart), 3),
+    end: endOfWeek(today, weekStart),
   });
 
   // 曜日ヘッダーラベルを生成
@@ -223,8 +227,10 @@ export function StatsPanel({ stats }: StatsPanelProps) {
               <div
                 key={dayKey}
                 title={titleText}
-                className={`h-6 w-full rounded-sm ${getDayCellClass(day, record)}`}
-              />
+                className={`flex h-8 w-full items-center justify-center rounded-sm text-xs ${getDayCellClass(day, record)}`}
+              >
+                {format(day, 'd')}
+              </div>
             );
           })}
         </div>
