@@ -111,7 +111,16 @@
     "attempts": "{{count}} attempts",
     "dailyHistory": "Daily History",
     "confirmClear": "Reset statistics? This action cannot be undone.",
-    "modeStats": "Mode Stats"
+    "modeStats": "Mode Stats",
+    "weekday": {
+      "0": "Sun",
+      "1": "Mon",
+      "2": "Tue",
+      "3": "Wed",
+      "4": "Thu",
+      "5": "Fri",
+      "6": "Sat"
+    }
   },
   "tutorial": {
     "title": "How to Play",

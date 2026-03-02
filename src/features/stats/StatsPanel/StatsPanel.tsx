@@ -1,7 +1,17 @@
+import {
+  format,
+  eachDayOfInterval,
+  isToday,
+  getDay,
+  startOfWeek,
+  endOfWeek,
+  subWeeks,
+} from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import { GAME_MODE_IDS, GAME_MODES } from '@/consts/modes';
 import type { Stats } from '@/features/stats/stats.schema';
 import type { GameMode } from '@/features/game/game.schema';
+import type { DailyRecord } from '@/features/stats/stats.schema';
 
 type StatsPanelProps = {
   stats: Stats;
@@ -33,6 +43,15 @@ const MODE_ID_LIST: GameMode[] = [
   GAME_MODE_IDS.MASTER,
 ];
 
+const getDayCellClass = (
+  day: Date,
+  record: DailyRecord | undefined,
+): string => {
+  if (record) return record.isWon ? 'bg-green-500 text-white' : 'bg-red-500 text-white';
+  if (isToday(day)) return 'bg-white/10 border border-white/40 text-white/70';
+  return 'bg-white/10 text-white/40';
+};
+
 export function StatsPanel({ stats }: StatsPanelProps) {
   const { t } = useTranslation();
 
@@ -49,8 +68,26 @@ export function StatsPanel({ stats }: StatsPanelProps) {
       ? t('stats.noData')
       : String(stats.bestAttempts);
 
-  const sortedDailyHistory = stats.dailyHistory.toReversed();
   const hasNoStats = stats.totalPlays === 0;
+
+  // 日付をキーとしたマップに変換
+  const historyMap = Object.fromEntries(
+    stats.dailyHistory.map((record) => [record.date, record]),
+  );
+
+  // 日曜始まりで直近4週間の日付配列を生成
+  // weekStartsOn: 0 = 日曜
+  const today = new Date();
+  const weekStart = { weekStartsOn: 0 } as const;
+  const days = eachDayOfInterval({
+    start: subWeeks(startOfWeek(today, weekStart), 3),
+    end: endOfWeek(today, weekStart),
+  });
+
+  // 曜日ヘッダーラベルを生成
+  const weekdayLabels = days.slice(0, 7).map((day) =>
+    t(`stats.weekday.${getDay(day)}`),
+  );
 
   return (
     <div className="space-y-8">
@@ -166,33 +203,38 @@ export function StatsPanel({ stats }: StatsPanelProps) {
       </section>
 
       {/* デイリー履歴 */}
-      {sortedDailyHistory.length > 0 && (
-        <section>
-          <h2 className="mb-4 text-lg font-semibold text-white/80">
-            {t('stats.dailyHistory')}
-          </h2>
-          <div className="space-y-2">
-            {sortedDailyHistory.map((record, index) => (
+      <section>
+        <h2 className="mb-4 text-lg font-semibold text-white/80">
+          {t('stats.dailyHistory')}
+        </h2>
+        {/* 曜日ヘッダー */}
+        <div className="mb-1 grid grid-cols-7 gap-1">
+          {weekdayLabels.map((label) => (
+            <div key={label} className="text-center text-xs text-white/40">
+              {label}
+            </div>
+          ))}
+        </div>
+        {/* 日付グリッド */}
+        <div className="grid grid-cols-7 gap-1">
+          {days.map((day) => {
+            const dayKey = format(day, 'yyyy-MM-dd');
+            const record = historyMap[dayKey];
+            const titleText = record
+              ? `${dayKey} ${record.isWon ? t('result.win') : t('result.lose')} ${t('stats.attempts', { count: record.attempts })}`
+              : dayKey;
+            return (
               <div
-                key={`${record.date}-${index}`}
-                className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                key={dayKey}
+                title={titleText}
+                className={`flex h-8 w-full items-center justify-center rounded-sm text-xs ${getDayCellClass(day, record)}`}
               >
-                <span className="text-sm text-white/70">{record.date}</span>
-                <div className="flex items-center gap-3 text-sm">
-                  <span className="text-white/60">
-                    {t('stats.attempts', { count: record.attempts })}
-                  </span>
-                  <span
-                    className={record.isWon ? 'text-green-400' : 'text-red-400'}
-                  >
-                    {record.isWon ? t('result.win') : t('result.lose')}
-                  </span>
-                </div>
+                {format(day, 'd')}
               </div>
-            ))}
-          </div>
-        </section>
-      )}
+            );
+          })}
+        </div>
+      </section>
     </div>
   );
 }
