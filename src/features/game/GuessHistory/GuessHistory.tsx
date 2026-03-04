@@ -11,6 +11,9 @@ export function GuessHistory({ guesses }: GuessHistoryProps) {
 
   return (
     <div className="space-y-2">
+      {guesses.length > 0 && (
+        <p className="text-xs text-white/50 mb-2">{t('game.guessHistoryLabel')}</p>
+      )}
       {guesses.map((guess, rowIndex) => (
         <div
           key={rowIndex}
