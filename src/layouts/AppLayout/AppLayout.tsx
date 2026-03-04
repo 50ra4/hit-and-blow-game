@@ -158,24 +158,30 @@ export function AppLayout() {
           </div>
 
           {/* サウンド設定 */}
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-white/80">
-              {t('settings.sound')}
+          <div>
+            <p className="mb-3 text-sm font-medium text-white/80">
+              {t('settings.sound.label')}
             </p>
-            <button
-              onClick={toggleSound}
-              className={`relative h-6 w-11 rounded-full transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 ${
-                settings.soundEnabled ? 'bg-indigo-500' : 'bg-white/20'
-              }`}
-              role="switch"
-              aria-checked={settings.soundEnabled}
-            >
-              <span
-                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${
-                  settings.soundEnabled ? 'translate-x-5' : 'translate-x-0.5'
-                }`}
-              />
-            </button>
+            <div className="flex gap-2">
+              <Button
+                variant={settings.soundEnabled ? 'primary' : 'secondary'}
+                onClick={() => {
+                  if (!settings.soundEnabled) toggleSound();
+                }}
+                className="flex-1 text-sm"
+              >
+                {t('settings.sound.on')}
+              </Button>
+              <Button
+                variant={settings.soundEnabled ? 'secondary' : 'primary'}
+                onClick={() => {
+                  if (settings.soundEnabled) toggleSound();
+                }}
+                className="flex-1 text-sm"
+              >
+                {t('settings.sound.off')}
+              </Button>
+            </div>
           </div>
         </div>
       </Modal>

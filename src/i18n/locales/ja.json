@@ -74,7 +74,11 @@
     "title": "設定",
     "theme": "テーマ",
     "language": "言語",
-    "sound": "サウンド"
+    "sound": {
+      "label": "サウンド",
+      "on": "オン",
+      "off": "オフ"
+    }
   },
   "theme": {
     "light": "ライト",
