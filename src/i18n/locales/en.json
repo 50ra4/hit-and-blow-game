@@ -74,7 +74,11 @@
     "title": "Settings",
     "theme": "Theme",
     "language": "Language",
-    "sound": "Sound"
+    "sound": {
+      "label": "Sound",
+      "on": "On",
+      "off": "Off"
+    }
   },
   "theme": {
     "light": "Light",
