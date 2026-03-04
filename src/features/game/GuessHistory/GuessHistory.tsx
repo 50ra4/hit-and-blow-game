@@ -11,6 +11,11 @@ export function GuessHistory({ guesses }: GuessHistoryProps) {
 
   return (
     <div className="space-y-2">
+      {guesses.length > 0 && (
+        <p className="mb-1 text-xs text-white/50">
+          {t('game.guessHistoryLabel')}
+        </p>
+      )}
       {guesses.map((guess, rowIndex) => (
         <div
           key={rowIndex}
@@ -18,7 +23,11 @@ export function GuessHistory({ guesses }: GuessHistoryProps) {
         >
           <div className="flex flex-1 gap-2">
             {guess.tiles.map((tile, slotIndex) => (
-              <TileChip key={slotIndex} tileId={tile.id} className="h-10 w-10 rounded-xl shadow-md" />
+              <TileChip
+                key={slotIndex}
+                tileId={tile.id}
+                className="h-10 w-10 rounded-xl shadow-md"
+              />
             ))}
           </div>
           <div className="flex min-w-24 justify-end gap-4 text-sm font-bold">

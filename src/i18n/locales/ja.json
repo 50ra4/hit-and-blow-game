@@ -35,7 +35,8 @@
     "infoDigits": "{{count}}桁",
     "infoDuplicatesOn": "あり",
     "infoDuplicatesOff": "なし",
-    "attemptsUnit": "回"
+    "attemptsUnit": "回",
+    "guessHistoryLabel": "これまでの推測"
   },
   "result": {
     "win": "クリア！",

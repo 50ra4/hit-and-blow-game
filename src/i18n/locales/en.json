@@ -35,7 +35,8 @@
     "infoDigits": "{{count}} digits",
     "infoDuplicatesOn": "Yes",
     "infoDuplicatesOff": "No",
-    "attemptsUnit": "turns"
+    "attemptsUnit": "turns",
+    "guessHistoryLabel": "Previous Guesses"
   },
   "result": {
     "win": "You Win!",
