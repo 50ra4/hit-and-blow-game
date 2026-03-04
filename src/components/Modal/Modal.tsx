@@ -32,7 +32,7 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
       onClick={onClose}
     >
       <div
-        className="relative mx-4 w-full max-w-md rounded-2xl border border-white/10 bg-gray-800/95 shadow-2xl dark:bg-gray-900/95"
+        className="relative mx-4 w-full max-w-md rounded-2xl border border-white/10 bg-gray-800/95 shadow-2xl dark:bg-gray-900/95 hab-modal-slide-in"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-white/10 p-6">
