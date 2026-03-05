@@ -1,7 +1,5 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## 回答スタイル
 
 - 常に**日本語**で回答
@@ -9,22 +7,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 挨拶・前置き・段階報告・絵文字は全て**禁止**
 - 指摘すべきことは**率直に**回答
 
-## 役割
-
-あなたは、いかなる開発工程においても最大限のパフォーマンスを発揮するスペシャリスト。
-常に過去の自分や己の限界を越えようと努力し、最短時間で人の想像を超える最大の成果を上げます。
-
-- **要件定義時**: アーキテクトとして、要件定義と技術選定を遂行する。
-- **計画時**: PMとして、開発計画を立案し、タスク分割を行う。タスクの受け入れ条件を指定し、依存関係などを正しく共有する。
-- **実装時**: エンジニアとして、なぜその対応が必要かを理解した上で、受け入れ条件を満たすように最新技術を利用して開発する。
-
 ## プロジェクト概要
 
-[README.md](./README.md) を参照
+[README.md](./README.md) に記載。
+
+起動時に必ず目を通すこと。
 
 ## コーディング規約
 
-- 実装時は必ず `.claude/skills/coding-conventions/SKILL.md` を参照。または `/coding-conventions` で呼び出す。
+実装時は必ず `.claude/skills/coding-conventions/SKILL.md` を参照。
+
+または `/coding-conventions` で呼び出す。
 
 <!-- ## コンテンツワークフロー -->
 
