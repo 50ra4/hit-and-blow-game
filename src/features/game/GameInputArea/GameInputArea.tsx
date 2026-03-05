@@ -35,7 +35,7 @@ export function GameInputArea({
       </p>
 
       {/* 入力スロット */}
-      <div className="mb-5 flex flex-wrap justify-center gap-2">
+      <div className="mb-5 flex flex-nowrap justify-center gap-1.5 sm:gap-2">
         {Array.from({ length: answerLength }, (_, index) => {
           const tile = currentGuess.at(index) ?? null;
           const isActive = activeSlotIndex === index;
@@ -44,10 +44,8 @@ export function GameInputArea({
             <button
               key={index}
               onClick={() => onSlotTap(index)}
-              className={`inline-flex h-14 w-14 cursor-pointer items-center justify-center rounded-2xl overflow-hidden shadow-md transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 active:scale-95 ${
-                isActive
-                  ? 'hab-slot-pulse ring-2 ring-indigo-400'
-                  : ''
+              className={`inline-flex h-11 w-11 cursor-pointer items-center justify-center overflow-hidden rounded-2xl shadow-md transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 active:scale-95 sm:h-14 sm:w-14 ${
+                isActive ? 'hab-slot-pulse ring-2 ring-indigo-400' : ''
               } ${
                 tile
                   ? 'hover:-translate-y-0.5 hover:opacity-75'
@@ -55,9 +53,7 @@ export function GameInputArea({
               }`}
               aria-label={t('game.selectSlot', { index: index + 1 })}
             >
-              {tile && (
-                <TileChip tileId={tile.id} className="h-full w-full" />
-              )}
+              {tile && <TileChip tileId={tile.id} className="h-full w-full" />}
             </button>
           );
         })}
@@ -71,7 +67,11 @@ export function GameInputArea({
         disabled={false}
         allowDuplicates={allowDuplicates}
         activeSlotIndex={activeSlotIndex}
-        activeSlotTile={activeSlotIndex !== null ? (currentGuess.at(activeSlotIndex) ?? null) : null}
+        activeSlotTile={
+          activeSlotIndex !== null
+            ? (currentGuess.at(activeSlotIndex) ?? null)
+            : null
+        }
       />
 
       {/* アクションボタン */}
