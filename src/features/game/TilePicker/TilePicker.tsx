@@ -91,7 +91,10 @@ export const TilePicker = memo(function TilePicker({
   );
 
   return (
-    <div ref={containerRef} className="grid grid-cols-4 gap-3 sm:gap-4">
+    <div
+      ref={containerRef}
+      className="grid grid-cols-4 justify-items-center gap-3 sm:gap-4"
+    >
       {AVAILABLE_TILES.map((tile, index) => {
         const tileDisabled = isTileDisabled(tile);
         const tileSelected = isTileSelected(tile);
