@@ -80,12 +80,12 @@ export function ResultDisplay({
         <p className="mb-3 text-sm text-white/60">
           {isWon ? t('result.correct') : t('result.answer')}
         </p>
-        <div className="flex flex-wrap justify-center gap-2">
+        <div className="flex flex-nowrap justify-center gap-1.5 sm:gap-2">
           {answer.map((tile, index) => (
             <TileChip
               key={index}
               tileId={tile.id}
-              className="h-14 w-14 rounded-2xl shadow-md"
+              className="h-11 w-11 rounded-xl shadow-md sm:h-14 sm:w-14 sm:rounded-2xl"
             />
           ))}
         </div>

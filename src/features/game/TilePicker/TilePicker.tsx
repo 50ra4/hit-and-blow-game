@@ -50,7 +50,14 @@ export const TilePicker = memo(function TilePicker({
         return true;
       return false;
     },
-    [disabled, maxLength, allowDuplicates, selected, activeSlotIndex, activeSlotTile],
+    [
+      disabled,
+      maxLength,
+      allowDuplicates,
+      selected,
+      activeSlotIndex,
+      activeSlotTile,
+    ],
   );
 
   const isTileSelected = useCallback(
@@ -84,7 +91,10 @@ export const TilePicker = memo(function TilePicker({
   );
 
   return (
-    <div ref={containerRef} className="grid grid-cols-4 gap-3 sm:gap-4">
+    <div
+      ref={containerRef}
+      className="grid grid-cols-4 justify-items-center gap-3 sm:gap-4"
+    >
       {AVAILABLE_TILES.map((tile, index) => {
         const tileDisabled = isTileDisabled(tile);
         const tileSelected = isTileSelected(tile);
@@ -99,14 +109,14 @@ export const TilePicker = memo(function TilePicker({
             onClick={() => handleSelect(tile)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             onAnimationEnd={() => setAnimatingTileId(null)}
-            className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl overflow-hidden shadow-md transition-all duration-300 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 sm:h-16 sm:w-16 ${
+            className={`inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl shadow-md transition-all duration-300 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 sm:h-14 sm:w-14 sm:rounded-2xl ${
               tileDisabled
                 ? 'cursor-not-allowed bg-gray-600 text-gray-400 opacity-30'
                 : 'cursor-pointer hover:-translate-y-1 hover:scale-105 hover:shadow-lg active:scale-95'
             } ${tileSelected ? 'ring-4 ring-white/60' : ''} ${animatingTileId === tile.id ? 'hab-tile-bounce' : ''}`}
           >
             {tileDisabled ? (
-              <TileIcon tileId={tile.id} className="h-8 w-8 sm:h-9 sm:w-9" />
+              <TileIcon tileId={tile.id} className="h-6 w-6 sm:h-8 sm:w-8" />
             ) : (
               <TileChip tileId={tile.id} className="h-full w-full" />
             )}
