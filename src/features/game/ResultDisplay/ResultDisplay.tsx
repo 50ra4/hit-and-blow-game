@@ -85,7 +85,7 @@ export function ResultDisplay({
             <TileChip
               key={index}
               tileId={tile.id}
-              className="h-11 w-11 rounded-2xl shadow-md sm:h-14 sm:w-14"
+              className="h-11 w-11 rounded-xl shadow-md sm:h-14 sm:w-14 sm:rounded-2xl"
             />
           ))}
         </div>

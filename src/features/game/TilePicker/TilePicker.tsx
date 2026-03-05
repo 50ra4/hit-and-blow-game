@@ -106,7 +106,7 @@ export const TilePicker = memo(function TilePicker({
             onClick={() => handleSelect(tile)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             onAnimationEnd={() => setAnimatingTileId(null)}
-            className={`inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl shadow-md transition-all duration-300 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 sm:h-14 sm:w-14 ${
+            className={`inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl shadow-md transition-all duration-300 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 sm:h-14 sm:w-14 sm:rounded-2xl ${
               tileDisabled
                 ? 'cursor-not-allowed bg-gray-600 text-gray-400 opacity-30'
                 : 'cursor-pointer hover:-translate-y-1 hover:scale-105 hover:shadow-lg active:scale-95'

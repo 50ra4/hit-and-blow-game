@@ -44,7 +44,7 @@ export function GameInputArea({
             <button
               key={index}
               onClick={() => onSlotTap(index)}
-              className={`inline-flex h-11 w-11 cursor-pointer items-center justify-center overflow-hidden rounded-2xl shadow-md transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 active:scale-95 sm:h-14 sm:w-14 ${
+              className={`inline-flex h-11 w-11 cursor-pointer items-center justify-center overflow-hidden rounded-xl shadow-md transition-all duration-200 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 active:scale-95 sm:h-14 sm:w-14 sm:rounded-2xl ${
                 isActive ? 'hab-slot-pulse ring-2 ring-indigo-400' : ''
               } ${
                 tile
