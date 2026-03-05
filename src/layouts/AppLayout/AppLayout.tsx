@@ -183,6 +183,24 @@ export function AppLayout() {
               </Button>
             </div>
           </div>
+
+          {/* 利用規約・プライバシーポリシー */}
+          <div className="flex justify-center gap-4 border-t border-white/10 pt-4">
+            <Link
+              to="/terms"
+              onClick={handleCloseSettings}
+              className="text-xs text-white/50 underline hover:text-white/80"
+            >
+              {t('nav.terms')}
+            </Link>
+            <Link
+              to="/privacy"
+              onClick={handleCloseSettings}
+              className="text-xs text-white/50 underline hover:text-white/80"
+            >
+              {t('nav.privacy')}
+            </Link>
+          </div>
         </div>
       </Modal>
     </div>
