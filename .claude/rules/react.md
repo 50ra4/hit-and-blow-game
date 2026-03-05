@@ -1,5 +1,6 @@
 ---
-globs: src/**/*.tsx
+paths:
+  - src/**/*.tsx
 ---
 
 # React コーディング規約

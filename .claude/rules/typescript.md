@@ -1,5 +1,7 @@
 ---
-globs: src/**/*.ts, src/**/*.tsx
+paths:
+  - src/**/*.ts
+  - src/**/*.tsx
 ---
 
 # TypeScript コーディング規約

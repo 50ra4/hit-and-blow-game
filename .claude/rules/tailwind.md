@@ -1,5 +1,7 @@
 ---
-globs: src/**/*.tsx, src/**/*.css
+paths:
+  - src/**/*.tsx
+  - src/**/*.css
 ---
 
 # Tailwind CSS コーディング規約

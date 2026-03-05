@@ -1,5 +1,6 @@
 ---
-globs: src/**/*.test.*
+paths:
+  - src/**/*.test.*
 ---
 
 # テストコーディング規約
