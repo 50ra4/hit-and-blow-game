@@ -4,7 +4,7 @@ export default function PrivacyPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8 hab-fade-in-up">
+    <div className="hab-fade-in-up mx-auto max-w-2xl px-4 py-8">
       <h1 className="mb-8 text-2xl font-bold text-white">
         {t('privacy.title')}
       </h1>
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
             以下のデータをLocalStorageに保存します。
           </p>
           <ul className="mt-2 list-inside list-disc space-y-1 text-sm">
-            <li>ゲーム統計（プレイ回数・勝率・最短クリア回数など）</li>
+            <li>ゲーム統計（プレイ回数・勝率・最短推測回数など）</li>
             <li>設定情報（言語・テーマ・サウンド）</li>
             <li>デイリーチャレンジのプレイ状況</li>
           </ul>
