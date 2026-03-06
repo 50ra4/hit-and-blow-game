@@ -47,7 +47,8 @@ const getDayCellClass = (
   day: Date,
   record: DailyRecord | undefined,
 ): string => {
-  if (record) return record.isWon ? 'bg-green-500 text-white' : 'bg-red-500 text-white';
+  if (record)
+    return record.isWon ? 'bg-green-500 text-white' : 'bg-red-500 text-white';
   if (isToday(day)) return 'bg-white/10 border border-white/40 text-white/70';
   return 'bg-white/10 text-white/40';
 };
@@ -62,11 +63,6 @@ export function StatsPanel({ stats }: StatsPanelProps) {
     stats.totalWins === 0
       ? t('stats.noData')
       : stats.averageAttempts.toFixed(1);
-
-  const bestAttemptsText =
-    stats.bestAttempts === null
-      ? t('stats.noData')
-      : String(stats.bestAttempts);
 
   const hasNoStats = stats.totalPlays === 0;
 
@@ -85,9 +81,9 @@ export function StatsPanel({ stats }: StatsPanelProps) {
   });
 
   // 曜日ヘッダーラベルを生成
-  const weekdayLabels = days.slice(0, 7).map((day) =>
-    t(`stats.weekday.${getDay(day)}`),
-  );
+  const weekdayLabels = days
+    .slice(0, 7)
+    .map((day) => t(`stats.weekday.${getDay(day)}`));
 
   return (
     <div className="space-y-8">
@@ -130,14 +126,6 @@ export function StatsPanel({ stats }: StatsPanelProps) {
             </div>
             <div className="mt-1 text-xs text-white/60">
               {t('stats.avgAttempts')}
-            </div>
-          </div>
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
-            <div className="text-2xl font-bold text-white">
-              {bestAttemptsText}
-            </div>
-            <div className="mt-1 text-xs text-white/60">
-              {t('stats.bestAttempts')}
             </div>
           </div>
         </div>
