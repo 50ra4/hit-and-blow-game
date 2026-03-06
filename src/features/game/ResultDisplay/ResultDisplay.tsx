@@ -107,7 +107,10 @@ export function ResultDisplay({
             isHistoryOpen ? 'mt-3 max-h-screen' : 'max-h-0'
           }`}
         >
-          <GuessHistory guesses={guesses} />
+          <GuessHistory
+            guesses={guesses}
+            allowDuplicates={GAME_MODES[mode].allowDuplicates}
+          />
         </div>
       </div>
 

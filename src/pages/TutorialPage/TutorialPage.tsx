@@ -200,7 +200,10 @@ export default function TutorialPage() {
               {t('tutorial.step4HintBlowDesc')}
             </div>
           )}
-          <GameBoard guesses={guesses} />
+          <GameBoard
+            guesses={guesses}
+            allowDuplicates={modeConfig.allowDuplicates}
+          />
           {!isGameOver && (
             <GameInputArea
               currentGuess={currentGuess}
@@ -219,7 +222,7 @@ export default function TutorialPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8 hab-fade-in-up">
+    <div className="hab-fade-in-up mx-auto max-w-2xl px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-lg font-bold text-white">{t('tutorial.title')}</h1>
         <button

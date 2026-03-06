@@ -70,7 +70,7 @@ export default function FreeGamePage() {
   };
 
   return (
-    <div className="bg-gradient-dark-1 flex h-screen flex-col hab-fade-in-up">
+    <div className="bg-gradient-dark-1 hab-fade-in-up flex h-screen flex-col">
       <GameHeader
         modeName={modeName}
         playType={PLAY_TYPE_IDS.FREE}
@@ -100,7 +100,10 @@ export default function FreeGamePage() {
                   attempts={attempts}
                   maxAttempts={maxAttempts}
                 />
-                <GameBoard guesses={guesses} />
+                <GameBoard
+                  guesses={guesses}
+                  allowDuplicates={modeConfig.allowDuplicates}
+                />
               </div>
               <GameInputArea
                 currentGuess={currentGuess}
