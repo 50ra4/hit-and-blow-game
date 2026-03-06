@@ -36,7 +36,16 @@
     "infoDuplicatesOn": "Yes",
     "infoDuplicatesOff": "No",
     "attemptsUnit": "turns",
-    "guessHistoryLabel": "Previous Guesses"
+    "guessHistoryLabel": "Previous Guesses",
+    "rulesHelpLabel": "Check Rules",
+    "rulesHelpTitle": "Hit & Blow Rules",
+    "rulesHelpHitTitle": "Hit",
+    "rulesHelpHitDesc": "Correct symbol at the correct position",
+    "rulesHelpBlowTitle": "Blow",
+    "rulesHelpBlowDesc": "Correct symbol but wrong position",
+    "rulesHelpDuplicateNote": "With Duplicates",
+    "rulesHelpDuplicateDesc": "When the same symbol appears multiple times, hits and blows are counted based on the number of occurrences.",
+    "rulesHelpDuplicateExample": "E.g., if the answer is ★◆◆ and you guess ◆◆◆: 2 hits, 0 blows (◆ only appears twice in the answer)"
   },
   "result": {
     "win": "You Win!",

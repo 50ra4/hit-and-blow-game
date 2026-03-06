@@ -3,8 +3,9 @@ import { GuessHistory } from '@/features/game/GuessHistory/GuessHistory';
 
 type GameBoardProps = {
   guesses: Guess[];
+  allowDuplicates: boolean;
 };
 
-export function GameBoard({ guesses }: GameBoardProps) {
-  return <GuessHistory guesses={guesses} />;
+export function GameBoard({ guesses, allowDuplicates }: GameBoardProps) {
+  return <GuessHistory guesses={guesses} allowDuplicates={allowDuplicates} />;
 }

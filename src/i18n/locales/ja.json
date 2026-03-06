@@ -36,7 +36,16 @@
     "infoDuplicatesOn": "あり",
     "infoDuplicatesOff": "なし",
     "attemptsUnit": "回",
-    "guessHistoryLabel": "これまでの推測"
+    "guessHistoryLabel": "これまでの推測",
+    "rulesHelpLabel": "ルールを確認",
+    "rulesHelpTitle": "ヒット・ブローのルール",
+    "rulesHelpHitTitle": "ヒット",
+    "rulesHelpHitDesc": "位置も種類も正解",
+    "rulesHelpBlowTitle": "ブロー",
+    "rulesHelpBlowDesc": "種類は合っているが位置が違う",
+    "rulesHelpDuplicateNote": "重複ありの場合",
+    "rulesHelpDuplicateDesc": "同じ種類のタイルが複数あるとき、ヒット・ブローはそれぞれの出現回数を考慮して計算されます。",
+    "rulesHelpDuplicateExample": "例：正解が ★◆◆ のとき、◆◆◆ と入力すると 2ヒット・0ブロー（◆は答えに2個しかないため）"
   },
   "result": {
     "win": "クリア！",
