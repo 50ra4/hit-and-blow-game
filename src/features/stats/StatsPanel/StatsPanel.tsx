@@ -167,6 +167,12 @@ export function StatsPanel({ stats }: StatsPanelProps) {
                         ? t('stats.noData')
                         : modeStat.averageAttempts.toFixed(1)}
                     </span>
+                    <span>
+                      {t('stats.bestAttempts')}:{' '}
+                      {modeStat.bestAttempts === null
+                        ? t('stats.noData')
+                        : modeStat.bestAttempts}
+                    </span>
                   </div>
                   <div>
                     <div className="mb-1 flex justify-between">
